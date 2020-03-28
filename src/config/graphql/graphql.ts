@@ -6,6 +6,7 @@ import { fromHeaderOrQuerystring, verifyJWT } from '../jwt';
 import { prisma } from '../prisma-client';
 import { AuthDirective, UpperCaseDirective } from './directives/auth.directive';
 import { subjectsTypeDef } from '../../subjects/subjects.schema';
+import { subjectResolvers } from '../../subjects/subjects.resolvers';
 
 const grades = [
     'Primary 1',
@@ -51,7 +52,7 @@ directive @upper on FIELD_DEFINITION
 const apolloServer = new ApolloServer({
     typeDefs: [basicTypeDef, subjectsTypeDef, userTypeDef],
     // mocks,
-    resolvers: [userResolvers],
+    resolvers: [userResolvers, subjectResolvers],
     context: ({ req }) => {
 
         // JWT authentication

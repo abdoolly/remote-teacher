@@ -1,15 +1,15 @@
-import { AuthenticationError, UserInputError } from "apollo-server-express";
+import { AuthenticationError, UserInputError, } from "apollo-server-express";
 import * as _ from 'ramda';
 import { signJWT } from "../config/jwt";
-import { convertToResolverPipes, GQLResolver } from "../utils/general-utils";
-import { CreateStudentArgs, CreateTeacherArgs, LoginArgs } from "./users.interfaces";
+import { pipeP } from "../utils/functional-utils";
+import { checkPhoneUnique, convertToResolverPipes, GQLResolver } from "../utils/general-utils";
+import { CreateStudentArgs, CreateTeacherArgs, LoginArgs, GetTeachersArgs } from "./users.interfaces";
 import { addUserType } from "./users.utils";
 
 const login: GQLResolver<LoginArgs> = async ({
     args: { phone, password },
     context: { prisma }
 }) => {
-
     const user = await prisma.user({ phone });
     if (!user)
         throw new AuthenticationError('Wrong phone or password');
@@ -38,19 +38,43 @@ const registerUser = async ({
     }
 };
 
-const registerTeacher: GQLResolver<CreateTeacherArgs> = _.pipe(
-    addUserType('TEACHER'),
-    registerUser
-);
+const registerTeacher: GQLResolver<CreateTeacherArgs> = _.pipe(addUserType('TEACHER'), registerUser);
 
-const registerStudent: GQLResolver<CreateStudentArgs> = _.pipe(
-    addUserType('STUDENT'),
-    registerUser
-);
+const registerStudent: GQLResolver<CreateStudentArgs> = _.pipe(addUserType('STUDENT'), registerUser);
+
+const getTeachers: GQLResolver<GetTeachersArgs> = async ({
+    args: { firstTen, grade, name },
+    context: { prisma }
+}) => {
+    let searchFor = {};
+
+    if (grade) {
+        searchFor['grade'] = grade;
+    }
+
+    if (name) {
+        searchFor['fullName_contains'] = name;
+    }
+
+    return await prisma.users({
+        first: firstTen ? 10 : undefined,
+        where: {
+            userType: 'TEACHER',
+            ...searchFor,
+        }
+    });
+};
+
+const getTeacher: GQLResolver<{ id: string }> = async ({ args: { id }, context: { prisma } }) => {
+    return prisma.user({ _id: id });
+}
 
 const userResolvers = convertToResolverPipes({
-    Query: { login },
-    Mutation: { registerTeacher, registerStudent }
+    Query: { login, getTeachers, getTeacher },
+    Mutation: {
+        registerTeacher: pipeP([checkPhoneUnique, registerTeacher]),
+        registerStudent: pipeP([checkPhoneUnique, registerStudent]),
+    }
 });
 
 export default userResolvers;

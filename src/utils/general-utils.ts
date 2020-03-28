@@ -1,7 +1,7 @@
 import { ForbiddenError, ValidationError } from 'apollo-server-express';
 import * as _ from 'ramda';
 import { Prisma, User } from '../config/prisma-client';
-import { PipeInterface, pipeP } from './functional-utils';
+import { PipeInterface, pipeP, tapP } from './functional-utils';
 
 export interface GraphQlContext {
     prisma: Prisma;
@@ -37,7 +37,7 @@ const makeResolverArgs = (root, args, context): ResolverArgs<any> => ({ root, ar
  * @param  {...any} fns 
  */
 export const resolverPipe = (...fns: any[]): any => {
-    return (root, args, context) => pipeP(...fns)(makeResolverArgs(root, args, context));
+    return (root, args, context) => pipeP([...fns])(makeResolverArgs(root, args, context));
 };
 
 /**
@@ -67,7 +67,7 @@ const resolverPiper = (toIterateOn) => {
 /**
  * @description authentication middleware
  */
-const shouldBeAuthenticated: GQLResolver<{}> = _.tap(({ context }) => {
+export const isAuthenticated: GQLResolver<{}> = _.tap(({ context }) => {
     if (!context.user)
         throw new ForbiddenError('You are not authenticated');
 });
@@ -77,18 +77,22 @@ const shouldBeAuthenticated: GQLResolver<{}> = _.tap(({ context }) => {
  * @description graphql middleware that will make sure that a certain field is unique
  * @param param0 
  */
-const shouldBeUnique = (pathLensInArgs: _.Lens, modelName: string | 'user', fieldName: string) =>
-    _.tap(async ({
+const _SBU = (modelName: string | 'user', pathLensInArgs: _.Lens, dbFieldName: string) =>
+    tapP(async ({
         args,
         context: { prisma }
     }: ResolverArgs<any>) => {
         const fieldToCheck = _.view(pathLensInArgs, args);
-
-        const found = await prisma[modelName]({ [fieldName]: fieldToCheck });
+        const found = await prisma[modelName]({ [dbFieldName]: fieldToCheck });
         if (found) {
-            new ValidationError(`${fieldName} already exists`);
+            throw new ValidationError(`${dbFieldName} already exists`);
         }
     })
+// curried version of the above function just made it in another line for more readability 
+export const shouldBeUnique = _.curry(_SBU);
+export const checkPhoneUnique = shouldBeUnique('user', _.lensPath(['data', 'phone']), 'phone');
+
+
 
 
 

@@ -1,0 +1,6 @@
+type Subject @embedded {
+  _id: ID! @id
+  name: String!
+  photoUrl: String
+  grade: String
+}

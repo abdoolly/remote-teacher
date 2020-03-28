@@ -5,6 +5,7 @@ import { userTypeDef } from '../../users/users.schema';
 import { fromHeaderOrQuerystring, verifyJWT } from '../jwt';
 import { prisma } from '../prisma-client';
 import { AuthDirective, UpperCaseDirective } from './directives/auth.directive';
+import { subjectsTypeDef } from '../../subjects/subjects.schema';
 
 const grades = [
     'Primary 1',
@@ -48,7 +49,7 @@ directive @upper on FIELD_DEFINITION
 
 // apollo server here
 const apolloServer = new ApolloServer({
-    typeDefs: [basicTypeDef, userTypeDef],
+    typeDefs: [basicTypeDef, subjectsTypeDef, userTypeDef],
     // mocks,
     resolvers: [userResolvers],
     context: ({ req }) => {

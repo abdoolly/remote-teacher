@@ -43,7 +43,6 @@ type Query {
     login(phone: String!, password: String): LoginResult!
     getTeachers(firstTen: Boolean,grade: String, name: String): [User]!
     getTeacher(id: ID!) : User
-    getSubjects(grade: String) : [Subject]!
 }
 
 type Mutation {

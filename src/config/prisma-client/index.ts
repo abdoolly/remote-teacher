@@ -16,6 +16,7 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
+  subject: (where?: SubjectWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
 
@@ -38,6 +39,25 @@ export interface Prisma {
    * Queries
    */
 
+  subject: (where: SubjectWhereUniqueInput) => SubjectNullablePromise;
+  subjects: (args?: {
+    where?: SubjectWhereInput;
+    orderBy?: SubjectOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Subject>;
+  subjectsConnection: (args?: {
+    where?: SubjectWhereInput;
+    orderBy?: SubjectOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => SubjectConnectionPromise;
   user: (where: UserWhereUniqueInput) => UserNullablePromise;
   users: (args?: {
     where?: UserWhereInput;
@@ -63,6 +83,22 @@ export interface Prisma {
    * Mutations
    */
 
+  createSubject: (data: SubjectCreateInput) => SubjectPromise;
+  updateSubject: (args: {
+    data: SubjectUpdateInput;
+    where: SubjectWhereUniqueInput;
+  }) => SubjectPromise;
+  updateManySubjects: (args: {
+    data: SubjectUpdateManyMutationInput;
+    where?: SubjectWhereInput;
+  }) => BatchPayloadPromise;
+  upsertSubject: (args: {
+    where: SubjectWhereUniqueInput;
+    create: SubjectCreateInput;
+    update: SubjectUpdateInput;
+  }) => SubjectPromise;
+  deleteSubject: (where: SubjectWhereUniqueInput) => SubjectPromise;
+  deleteManySubjects: (where?: SubjectWhereInput) => BatchPayloadPromise;
   createUser: (data: UserCreateInput) => UserPromise;
   updateUser: (args: {
     data: UserUpdateInput;
@@ -88,6 +124,9 @@ export interface Prisma {
 }
 
 export interface Subscription {
+  subject: (
+    where?: SubjectSubscriptionWhereInput
+  ) => SubjectSubscriptionPayloadSubscription;
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
@@ -100,6 +139,18 @@ export interface ClientConstructor<T> {
 /**
  * Types
  */
+
+export type SubjectOrderByInput =
+  | "_id_ASC"
+  | "_id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "ar_name_ASC"
+  | "ar_name_DESC"
+  | "photoUrl_ASC"
+  | "photoUrl_DESC"
+  | "grade_ASC"
+  | "grade_DESC";
 
 export type UserType = "TEACHER" | "STUDENT";
 
@@ -122,6 +173,84 @@ export type UserOrderByInput =
   | "updatedAt_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
+
+export type SubjectWhereUniqueInput = AtLeastOne<{
+  _id: Maybe<ID_Input>;
+}>;
+
+export interface SubjectWhereInput {
+  _id?: Maybe<ID_Input>;
+  _id_not?: Maybe<ID_Input>;
+  _id_in?: Maybe<ID_Input[] | ID_Input>;
+  _id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  _id_lt?: Maybe<ID_Input>;
+  _id_lte?: Maybe<ID_Input>;
+  _id_gt?: Maybe<ID_Input>;
+  _id_gte?: Maybe<ID_Input>;
+  _id_contains?: Maybe<ID_Input>;
+  _id_not_contains?: Maybe<ID_Input>;
+  _id_starts_with?: Maybe<ID_Input>;
+  _id_not_starts_with?: Maybe<ID_Input>;
+  _id_ends_with?: Maybe<ID_Input>;
+  _id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  ar_name?: Maybe<String>;
+  ar_name_not?: Maybe<String>;
+  ar_name_in?: Maybe<String[] | String>;
+  ar_name_not_in?: Maybe<String[] | String>;
+  ar_name_lt?: Maybe<String>;
+  ar_name_lte?: Maybe<String>;
+  ar_name_gt?: Maybe<String>;
+  ar_name_gte?: Maybe<String>;
+  ar_name_contains?: Maybe<String>;
+  ar_name_not_contains?: Maybe<String>;
+  ar_name_starts_with?: Maybe<String>;
+  ar_name_not_starts_with?: Maybe<String>;
+  ar_name_ends_with?: Maybe<String>;
+  ar_name_not_ends_with?: Maybe<String>;
+  photoUrl?: Maybe<String>;
+  photoUrl_not?: Maybe<String>;
+  photoUrl_in?: Maybe<String[] | String>;
+  photoUrl_not_in?: Maybe<String[] | String>;
+  photoUrl_lt?: Maybe<String>;
+  photoUrl_lte?: Maybe<String>;
+  photoUrl_gt?: Maybe<String>;
+  photoUrl_gte?: Maybe<String>;
+  photoUrl_contains?: Maybe<String>;
+  photoUrl_not_contains?: Maybe<String>;
+  photoUrl_starts_with?: Maybe<String>;
+  photoUrl_not_starts_with?: Maybe<String>;
+  photoUrl_ends_with?: Maybe<String>;
+  photoUrl_not_ends_with?: Maybe<String>;
+  grade?: Maybe<String>;
+  grade_not?: Maybe<String>;
+  grade_in?: Maybe<String[] | String>;
+  grade_not_in?: Maybe<String[] | String>;
+  grade_lt?: Maybe<String>;
+  grade_lte?: Maybe<String>;
+  grade_gt?: Maybe<String>;
+  grade_gte?: Maybe<String>;
+  grade_contains?: Maybe<String>;
+  grade_not_contains?: Maybe<String>;
+  grade_starts_with?: Maybe<String>;
+  grade_not_starts_with?: Maybe<String>;
+  grade_ends_with?: Maybe<String>;
+  grade_not_ends_with?: Maybe<String>;
+  AND?: Maybe<SubjectWhereInput[] | SubjectWhereInput>;
+}
 
 export type UserWhereUniqueInput = AtLeastOne<{
   _id: Maybe<ID_Input>;
@@ -204,8 +333,6 @@ export interface UserWhereInput {
   grade_ends_with?: Maybe<String>;
   grade_not_ends_with?: Maybe<String>;
   subjects_some?: Maybe<SubjectWhereInput>;
-  subjects_every?: Maybe<SubjectRestrictedWhereInput>;
-  subjects_none?: Maybe<SubjectRestrictedWhereInput>;
   createdAt?: Maybe<DateTimeInput>;
   createdAt_not?: Maybe<DateTimeInput>;
   createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -225,124 +352,26 @@ export interface UserWhereInput {
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
-export interface SubjectWhereInput {
+export interface SubjectCreateInput {
   _id?: Maybe<ID_Input>;
-  _id_not?: Maybe<ID_Input>;
-  _id_in?: Maybe<ID_Input[] | ID_Input>;
-  _id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  _id_lt?: Maybe<ID_Input>;
-  _id_lte?: Maybe<ID_Input>;
-  _id_gt?: Maybe<ID_Input>;
-  _id_gte?: Maybe<ID_Input>;
-  _id_contains?: Maybe<ID_Input>;
-  _id_not_contains?: Maybe<ID_Input>;
-  _id_starts_with?: Maybe<ID_Input>;
-  _id_not_starts_with?: Maybe<ID_Input>;
-  _id_ends_with?: Maybe<ID_Input>;
-  _id_not_ends_with?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
+  name: String;
+  ar_name?: Maybe<String>;
   photoUrl?: Maybe<String>;
-  photoUrl_not?: Maybe<String>;
-  photoUrl_in?: Maybe<String[] | String>;
-  photoUrl_not_in?: Maybe<String[] | String>;
-  photoUrl_lt?: Maybe<String>;
-  photoUrl_lte?: Maybe<String>;
-  photoUrl_gt?: Maybe<String>;
-  photoUrl_gte?: Maybe<String>;
-  photoUrl_contains?: Maybe<String>;
-  photoUrl_not_contains?: Maybe<String>;
-  photoUrl_starts_with?: Maybe<String>;
-  photoUrl_not_starts_with?: Maybe<String>;
-  photoUrl_ends_with?: Maybe<String>;
-  photoUrl_not_ends_with?: Maybe<String>;
   grade?: Maybe<String>;
-  grade_not?: Maybe<String>;
-  grade_in?: Maybe<String[] | String>;
-  grade_not_in?: Maybe<String[] | String>;
-  grade_lt?: Maybe<String>;
-  grade_lte?: Maybe<String>;
-  grade_gt?: Maybe<String>;
-  grade_gte?: Maybe<String>;
-  grade_contains?: Maybe<String>;
-  grade_not_contains?: Maybe<String>;
-  grade_starts_with?: Maybe<String>;
-  grade_not_starts_with?: Maybe<String>;
-  grade_ends_with?: Maybe<String>;
-  grade_not_ends_with?: Maybe<String>;
-  AND?: Maybe<SubjectWhereInput[] | SubjectWhereInput>;
 }
 
-export interface SubjectRestrictedWhereInput {
-  _id?: Maybe<ID_Input>;
-  _id_not?: Maybe<ID_Input>;
-  _id_in?: Maybe<ID_Input[] | ID_Input>;
-  _id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  _id_lt?: Maybe<ID_Input>;
-  _id_lte?: Maybe<ID_Input>;
-  _id_gt?: Maybe<ID_Input>;
-  _id_gte?: Maybe<ID_Input>;
-  _id_contains?: Maybe<ID_Input>;
-  _id_not_contains?: Maybe<ID_Input>;
-  _id_starts_with?: Maybe<ID_Input>;
-  _id_not_starts_with?: Maybe<ID_Input>;
-  _id_ends_with?: Maybe<ID_Input>;
-  _id_not_ends_with?: Maybe<ID_Input>;
+export interface SubjectUpdateInput {
   name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
+  ar_name?: Maybe<String>;
   photoUrl?: Maybe<String>;
-  photoUrl_not?: Maybe<String>;
-  photoUrl_in?: Maybe<String[] | String>;
-  photoUrl_not_in?: Maybe<String[] | String>;
-  photoUrl_lt?: Maybe<String>;
-  photoUrl_lte?: Maybe<String>;
-  photoUrl_gt?: Maybe<String>;
-  photoUrl_gte?: Maybe<String>;
-  photoUrl_contains?: Maybe<String>;
-  photoUrl_not_contains?: Maybe<String>;
-  photoUrl_starts_with?: Maybe<String>;
-  photoUrl_not_starts_with?: Maybe<String>;
-  photoUrl_ends_with?: Maybe<String>;
-  photoUrl_not_ends_with?: Maybe<String>;
   grade?: Maybe<String>;
-  grade_not?: Maybe<String>;
-  grade_in?: Maybe<String[] | String>;
-  grade_not_in?: Maybe<String[] | String>;
-  grade_lt?: Maybe<String>;
-  grade_lte?: Maybe<String>;
-  grade_gt?: Maybe<String>;
-  grade_gte?: Maybe<String>;
-  grade_contains?: Maybe<String>;
-  grade_not_contains?: Maybe<String>;
-  grade_starts_with?: Maybe<String>;
-  grade_not_starts_with?: Maybe<String>;
-  grade_ends_with?: Maybe<String>;
-  grade_not_ends_with?: Maybe<String>;
-  AND?: Maybe<SubjectRestrictedWhereInput[] | SubjectRestrictedWhereInput>;
+}
+
+export interface SubjectUpdateManyMutationInput {
+  name?: Maybe<String>;
+  ar_name?: Maybe<String>;
+  photoUrl?: Maybe<String>;
+  grade?: Maybe<String>;
 }
 
 export interface UserCreateInput {
@@ -357,13 +386,7 @@ export interface UserCreateInput {
 
 export interface SubjectCreateManyInput {
   create?: Maybe<SubjectCreateInput[] | SubjectCreateInput>;
-}
-
-export interface SubjectCreateInput {
-  _id?: Maybe<ID_Input>;
-  name: String;
-  photoUrl?: Maybe<String>;
-  grade?: Maybe<String>;
+  connect?: Maybe<SubjectWhereUniqueInput[] | SubjectWhereUniqueInput>;
 }
 
 export interface UserUpdateInput {
@@ -386,6 +409,9 @@ export interface SubjectUpdateManyInput {
     | SubjectUpsertWithWhereUniqueNestedInput
   >;
   delete?: Maybe<SubjectWhereUniqueInput[] | SubjectWhereUniqueInput>;
+  connect?: Maybe<SubjectWhereUniqueInput[] | SubjectWhereUniqueInput>;
+  set?: Maybe<SubjectWhereUniqueInput[] | SubjectWhereUniqueInput>;
+  disconnect?: Maybe<SubjectWhereUniqueInput[] | SubjectWhereUniqueInput>;
   deleteMany?: Maybe<SubjectScalarWhereInput[] | SubjectScalarWhereInput>;
   updateMany?: Maybe<
     | SubjectUpdateManyWithWhereNestedInput[]
@@ -398,12 +424,9 @@ export interface SubjectUpdateWithWhereUniqueNestedInput {
   data: SubjectUpdateDataInput;
 }
 
-export type SubjectWhereUniqueInput = AtLeastOne<{
-  _id: Maybe<ID_Input>;
-}>;
-
 export interface SubjectUpdateDataInput {
   name?: Maybe<String>;
+  ar_name?: Maybe<String>;
   photoUrl?: Maybe<String>;
   grade?: Maybe<String>;
 }
@@ -443,6 +466,20 @@ export interface SubjectScalarWhereInput {
   name_not_starts_with?: Maybe<String>;
   name_ends_with?: Maybe<String>;
   name_not_ends_with?: Maybe<String>;
+  ar_name?: Maybe<String>;
+  ar_name_not?: Maybe<String>;
+  ar_name_in?: Maybe<String[] | String>;
+  ar_name_not_in?: Maybe<String[] | String>;
+  ar_name_lt?: Maybe<String>;
+  ar_name_lte?: Maybe<String>;
+  ar_name_gt?: Maybe<String>;
+  ar_name_gte?: Maybe<String>;
+  ar_name_contains?: Maybe<String>;
+  ar_name_not_contains?: Maybe<String>;
+  ar_name_starts_with?: Maybe<String>;
+  ar_name_not_starts_with?: Maybe<String>;
+  ar_name_ends_with?: Maybe<String>;
+  ar_name_not_ends_with?: Maybe<String>;
   photoUrl?: Maybe<String>;
   photoUrl_not?: Maybe<String>;
   photoUrl_in?: Maybe<String[] | String>;
@@ -483,6 +520,7 @@ export interface SubjectUpdateManyWithWhereNestedInput {
 
 export interface SubjectUpdateManyDataInput {
   name?: Maybe<String>;
+  ar_name?: Maybe<String>;
   photoUrl?: Maybe<String>;
   grade?: Maybe<String>;
 }
@@ -493,6 +531,15 @@ export interface UserUpdateManyMutationInput {
   userType?: Maybe<UserType>;
   password?: Maybe<String>;
   grade?: Maybe<String>;
+}
+
+export interface SubjectSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<SubjectWhereInput>;
+  AND?: Maybe<SubjectSubscriptionWhereInput[] | SubjectSubscriptionWhereInput>;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -508,61 +555,10 @@ export interface NodeNode {
   id: ID_Output;
 }
 
-export interface User {
-  _id: ID_Output;
-  fullName?: String;
-  phone: String;
-  userType?: UserType;
-  password?: String;
-  grade?: String;
-  subjects?: <T = FragmentableArray<Subject>>() => T;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface UserPromise extends Promise<User>, Fragmentable {
-  _id: () => Promise<ID_Output>;
-  fullName: () => Promise<String>;
-  phone: () => Promise<String>;
-  userType: () => Promise<UserType>;
-  password: () => Promise<String>;
-  grade: () => Promise<String>;
-  subjects: <T = FragmentableArray<Subject>>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface UserSubscription
-  extends Promise<AsyncIterator<User>>,
-    Fragmentable {
-  _id: () => Promise<AsyncIterator<ID_Output>>;
-  fullName: () => Promise<AsyncIterator<String>>;
-  phone: () => Promise<AsyncIterator<String>>;
-  userType: () => Promise<AsyncIterator<UserType>>;
-  password: () => Promise<AsyncIterator<String>>;
-  grade: () => Promise<AsyncIterator<String>>;
-  subjects: <T = Promise<AsyncIterator<SubjectSubscription>>>() => T;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface UserNullablePromise
-  extends Promise<User | null>,
-    Fragmentable {
-  _id: () => Promise<ID_Output>;
-  fullName: () => Promise<String>;
-  phone: () => Promise<String>;
-  userType: () => Promise<UserType>;
-  password: () => Promise<String>;
-  grade: () => Promise<String>;
-  subjects: <T = FragmentableArray<Subject>>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
 export interface Subject {
   _id: ID_Output;
   name: String;
+  ar_name?: String;
   photoUrl?: String;
   grade?: String;
 }
@@ -570,6 +566,7 @@ export interface Subject {
 export interface SubjectPromise extends Promise<Subject>, Fragmentable {
   _id: () => Promise<ID_Output>;
   name: () => Promise<String>;
+  ar_name: () => Promise<String>;
   photoUrl: () => Promise<String>;
   grade: () => Promise<String>;
 }
@@ -579,6 +576,7 @@ export interface SubjectSubscription
     Fragmentable {
   _id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
+  ar_name: () => Promise<AsyncIterator<String>>;
   photoUrl: () => Promise<AsyncIterator<String>>;
   grade: () => Promise<AsyncIterator<String>>;
 }
@@ -588,29 +586,30 @@ export interface SubjectNullablePromise
     Fragmentable {
   _id: () => Promise<ID_Output>;
   name: () => Promise<String>;
+  ar_name: () => Promise<String>;
   photoUrl: () => Promise<String>;
   grade: () => Promise<String>;
 }
 
-export interface UserConnection {
+export interface SubjectConnection {
   pageInfo: PageInfo;
-  edges: UserEdge[];
+  edges: SubjectEdge[];
 }
 
-export interface UserConnectionPromise
-  extends Promise<UserConnection>,
+export interface SubjectConnectionPromise
+  extends Promise<SubjectConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<UserEdge>>() => T;
-  aggregate: <T = AggregateUserPromise>() => T;
+  edges: <T = FragmentableArray<SubjectEdge>>() => T;
+  aggregate: <T = AggregateSubjectPromise>() => T;
 }
 
-export interface UserConnectionSubscription
-  extends Promise<AsyncIterator<UserConnection>>,
+export interface SubjectConnectionSubscription
+  extends Promise<AsyncIterator<SubjectConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateUserSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<SubjectEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateSubjectSubscription>() => T;
 }
 
 export interface PageInfo {
@@ -634,6 +633,135 @@ export interface PageInfoSubscription
   hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
   startCursor: () => Promise<AsyncIterator<String>>;
   endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface SubjectEdge {
+  node: Subject;
+  cursor: String;
+}
+
+export interface SubjectEdgePromise extends Promise<SubjectEdge>, Fragmentable {
+  node: <T = SubjectPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface SubjectEdgeSubscription
+  extends Promise<AsyncIterator<SubjectEdge>>,
+    Fragmentable {
+  node: <T = SubjectSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateSubject {
+  count: Int;
+}
+
+export interface AggregateSubjectPromise
+  extends Promise<AggregateSubject>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateSubjectSubscription
+  extends Promise<AsyncIterator<AggregateSubject>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface User {
+  _id: ID_Output;
+  fullName?: String;
+  phone: String;
+  userType?: UserType;
+  password?: String;
+  grade?: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface UserPromise extends Promise<User>, Fragmentable {
+  _id: () => Promise<ID_Output>;
+  fullName: () => Promise<String>;
+  phone: () => Promise<String>;
+  userType: () => Promise<UserType>;
+  password: () => Promise<String>;
+  grade: () => Promise<String>;
+  subjects: <T = FragmentableArray<Subject>>(args?: {
+    where?: SubjectWhereInput;
+    orderBy?: SubjectOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface UserSubscription
+  extends Promise<AsyncIterator<User>>,
+    Fragmentable {
+  _id: () => Promise<AsyncIterator<ID_Output>>;
+  fullName: () => Promise<AsyncIterator<String>>;
+  phone: () => Promise<AsyncIterator<String>>;
+  userType: () => Promise<AsyncIterator<UserType>>;
+  password: () => Promise<AsyncIterator<String>>;
+  grade: () => Promise<AsyncIterator<String>>;
+  subjects: <T = Promise<AsyncIterator<SubjectSubscription>>>(args?: {
+    where?: SubjectWhereInput;
+    orderBy?: SubjectOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface UserNullablePromise
+  extends Promise<User | null>,
+    Fragmentable {
+  _id: () => Promise<ID_Output>;
+  fullName: () => Promise<String>;
+  phone: () => Promise<String>;
+  userType: () => Promise<UserType>;
+  password: () => Promise<String>;
+  grade: () => Promise<String>;
+  subjects: <T = FragmentableArray<Subject>>(args?: {
+    where?: SubjectWhereInput;
+    orderBy?: SubjectOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface UserConnection {
+  pageInfo: PageInfo;
+  edges: UserEdge[];
+}
+
+export interface UserConnectionPromise
+  extends Promise<UserConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<UserEdge>>() => T;
+  aggregate: <T = AggregateUserPromise>() => T;
+}
+
+export interface UserConnectionSubscription
+  extends Promise<AsyncIterator<UserConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateUserSubscription>() => T;
 }
 
 export interface UserEdge {
@@ -683,6 +811,59 @@ export interface BatchPayloadSubscription
   extends Promise<AsyncIterator<BatchPayload>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface SubjectSubscriptionPayload {
+  mutation: MutationType;
+  node: Subject;
+  updatedFields: String[];
+  previousValues: SubjectPreviousValues;
+}
+
+export interface SubjectSubscriptionPayloadPromise
+  extends Promise<SubjectSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = SubjectPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = SubjectPreviousValuesPromise>() => T;
+}
+
+export interface SubjectSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<SubjectSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = SubjectSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = SubjectPreviousValuesSubscription>() => T;
+}
+
+export interface SubjectPreviousValues {
+  _id: ID_Output;
+  name: String;
+  ar_name?: String;
+  photoUrl?: String;
+  grade?: String;
+}
+
+export interface SubjectPreviousValuesPromise
+  extends Promise<SubjectPreviousValues>,
+    Fragmentable {
+  _id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  ar_name: () => Promise<String>;
+  photoUrl: () => Promise<String>;
+  grade: () => Promise<String>;
+}
+
+export interface SubjectPreviousValuesSubscription
+  extends Promise<AsyncIterator<SubjectPreviousValues>>,
+    Fragmentable {
+  _id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  ar_name: () => Promise<AsyncIterator<String>>;
+  photoUrl: () => Promise<AsyncIterator<String>>;
+  grade: () => Promise<AsyncIterator<String>>;
 }
 
 export interface UserSubscriptionPayload {
@@ -759,16 +940,6 @@ The `String` scalar type represents textual data, represented as UTF-8 character
 export type String = string;
 
 /*
-DateTime scalar input type, allowing Date
-*/
-export type DateTimeInput = Date | string;
-
-/*
-DateTime scalar output type, which is always a string
-*/
-export type DateTimeOutput = string;
-
-/*
 The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
 */
 export type Int = number;
@@ -777,6 +948,16 @@ export type Int = number;
 The `Boolean` scalar type represents `true` or `false`.
 */
 export type Boolean = boolean;
+
+/*
+DateTime scalar input type, allowing Date
+*/
+export type DateTimeInput = Date | string;
+
+/*
+DateTime scalar output type, which is always a string
+*/
+export type DateTimeOutput = string;
 
 export type Long = string;
 
@@ -791,7 +972,7 @@ export const models: Model[] = [
   },
   {
     name: "Subject",
-    embedded: true
+    embedded: false
   },
   {
     name: "User",

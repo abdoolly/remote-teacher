@@ -2,7 +2,11 @@
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-export const typeDefs = /* GraphQL */ `type AggregateUser {
+export const typeDefs = /* GraphQL */ `type AggregateSubject {
+  count: Int!
+}
+
+type AggregateUser {
   count: Int!
 }
 
@@ -15,6 +19,12 @@ scalar DateTime
 scalar Long
 
 type Mutation {
+  createSubject(data: SubjectCreateInput!): Subject!
+  updateSubject(data: SubjectUpdateInput!, where: SubjectWhereUniqueInput!): Subject
+  updateManySubjects(data: SubjectUpdateManyMutationInput!, where: SubjectWhereInput): BatchPayload!
+  upsertSubject(where: SubjectWhereUniqueInput!, create: SubjectCreateInput!, update: SubjectUpdateInput!): Subject!
+  deleteSubject(where: SubjectWhereUniqueInput!): Subject
+  deleteManySubjects(where: SubjectWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -41,6 +51,9 @@ type PageInfo {
 }
 
 type Query {
+  subject(where: SubjectWhereUniqueInput!): Subject
+  subjects(where: SubjectWhereInput, orderBy: SubjectOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Subject]!
+  subjectsConnection(where: SubjectWhereInput, orderBy: SubjectOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SubjectConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -50,79 +63,54 @@ type Query {
 type Subject {
   _id: ID!
   name: String!
+  ar_name: String
   photoUrl: String
   grade: String
+}
+
+type SubjectConnection {
+  pageInfo: PageInfo!
+  edges: [SubjectEdge]!
+  aggregate: AggregateSubject!
 }
 
 input SubjectCreateInput {
   _id: ID
   name: String!
+  ar_name: String
   photoUrl: String
   grade: String
 }
 
 input SubjectCreateManyInput {
   create: [SubjectCreateInput!]
+  connect: [SubjectWhereUniqueInput!]
 }
 
-input SubjectRestrictedWhereInput {
-  _id: ID
-  _id_not: ID
-  _id_in: [ID!]
-  _id_not_in: [ID!]
-  _id_lt: ID
-  _id_lte: ID
-  _id_gt: ID
-  _id_gte: ID
-  _id_contains: ID
-  _id_not_contains: ID
-  _id_starts_with: ID
-  _id_not_starts_with: ID
-  _id_ends_with: ID
-  _id_not_ends_with: ID
-  name: String
-  name_not: String
-  name_in: [String!]
-  name_not_in: [String!]
-  name_lt: String
-  name_lte: String
-  name_gt: String
-  name_gte: String
-  name_contains: String
-  name_not_contains: String
-  name_starts_with: String
-  name_not_starts_with: String
-  name_ends_with: String
-  name_not_ends_with: String
+type SubjectEdge {
+  node: Subject!
+  cursor: String!
+}
+
+enum SubjectOrderByInput {
+  _id_ASC
+  _id_DESC
+  name_ASC
+  name_DESC
+  ar_name_ASC
+  ar_name_DESC
+  photoUrl_ASC
+  photoUrl_DESC
+  grade_ASC
+  grade_DESC
+}
+
+type SubjectPreviousValues {
+  _id: ID!
+  name: String!
+  ar_name: String
   photoUrl: String
-  photoUrl_not: String
-  photoUrl_in: [String!]
-  photoUrl_not_in: [String!]
-  photoUrl_lt: String
-  photoUrl_lte: String
-  photoUrl_gt: String
-  photoUrl_gte: String
-  photoUrl_contains: String
-  photoUrl_not_contains: String
-  photoUrl_starts_with: String
-  photoUrl_not_starts_with: String
-  photoUrl_ends_with: String
-  photoUrl_not_ends_with: String
   grade: String
-  grade_not: String
-  grade_in: [String!]
-  grade_not_in: [String!]
-  grade_lt: String
-  grade_lte: String
-  grade_gt: String
-  grade_gte: String
-  grade_contains: String
-  grade_not_contains: String
-  grade_starts_with: String
-  grade_not_starts_with: String
-  grade_ends_with: String
-  grade_not_ends_with: String
-  AND: [SubjectRestrictedWhereInput!]
 }
 
 input SubjectScalarWhereInput {
@@ -154,6 +142,20 @@ input SubjectScalarWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
+  ar_name: String
+  ar_name_not: String
+  ar_name_in: [String!]
+  ar_name_not_in: [String!]
+  ar_name_lt: String
+  ar_name_lte: String
+  ar_name_gt: String
+  ar_name_gte: String
+  ar_name_contains: String
+  ar_name_not_contains: String
+  ar_name_starts_with: String
+  ar_name_not_starts_with: String
+  ar_name_ends_with: String
+  ar_name_not_ends_with: String
   photoUrl: String
   photoUrl_not: String
   photoUrl_in: [String!]
@@ -187,14 +189,39 @@ input SubjectScalarWhereInput {
   NOT: [SubjectScalarWhereInput!]
 }
 
+type SubjectSubscriptionPayload {
+  mutation: MutationType!
+  node: Subject
+  updatedFields: [String!]
+  previousValues: SubjectPreviousValues
+}
+
+input SubjectSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: SubjectWhereInput
+  AND: [SubjectSubscriptionWhereInput!]
+}
+
 input SubjectUpdateDataInput {
   name: String
+  ar_name: String
+  photoUrl: String
+  grade: String
+}
+
+input SubjectUpdateInput {
+  name: String
+  ar_name: String
   photoUrl: String
   grade: String
 }
 
 input SubjectUpdateManyDataInput {
   name: String
+  ar_name: String
   photoUrl: String
   grade: String
 }
@@ -204,8 +231,18 @@ input SubjectUpdateManyInput {
   update: [SubjectUpdateWithWhereUniqueNestedInput!]
   upsert: [SubjectUpsertWithWhereUniqueNestedInput!]
   delete: [SubjectWhereUniqueInput!]
+  connect: [SubjectWhereUniqueInput!]
+  set: [SubjectWhereUniqueInput!]
+  disconnect: [SubjectWhereUniqueInput!]
   deleteMany: [SubjectScalarWhereInput!]
   updateMany: [SubjectUpdateManyWithWhereNestedInput!]
+}
+
+input SubjectUpdateManyMutationInput {
+  name: String
+  ar_name: String
+  photoUrl: String
+  grade: String
 }
 
 input SubjectUpdateManyWithWhereNestedInput {
@@ -253,6 +290,20 @@ input SubjectWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
+  ar_name: String
+  ar_name_not: String
+  ar_name_in: [String!]
+  ar_name_not_in: [String!]
+  ar_name_lt: String
+  ar_name_lte: String
+  ar_name_gt: String
+  ar_name_gte: String
+  ar_name_contains: String
+  ar_name_not_contains: String
+  ar_name_starts_with: String
+  ar_name_not_starts_with: String
+  ar_name_ends_with: String
+  ar_name_not_ends_with: String
   photoUrl: String
   photoUrl_not: String
   photoUrl_in: [String!]
@@ -289,6 +340,7 @@ input SubjectWhereUniqueInput {
 }
 
 type Subscription {
+  subject(where: SubjectSubscriptionWhereInput): SubjectSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
@@ -299,7 +351,7 @@ type User {
   userType: UserType
   password: String
   grade: String
-  subjects: [Subject!]
+  subjects(where: SubjectWhereInput, orderBy: SubjectOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Subject!]
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -469,8 +521,6 @@ input UserWhereInput {
   grade_ends_with: String
   grade_not_ends_with: String
   subjects_some: SubjectWhereInput
-  subjects_every: SubjectRestrictedWhereInput
-  subjects_none: SubjectRestrictedWhereInput
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]

@@ -15,3 +15,9 @@ export interface CreateTeacherArgs {
 }
 
 export type CreateStudentArgs = CreateTeacherArgs;
+
+export interface GetTeachersArgs {
+    firstTen?: Boolean;
+    grade?: string;
+    name?: string;
+}

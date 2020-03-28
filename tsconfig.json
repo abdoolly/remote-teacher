@@ -6,8 +6,8 @@
       "es2016",
       "esnext.asynciterable"
     ],
-    "declaration": true,
-    "declarationMap": true,
+    "declaration": false,
+    "declarationMap": false,
     "sourceMap": true,
     "outDir": "./build",
     "rootDir": "./src",

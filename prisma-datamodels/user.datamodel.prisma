@@ -3,9 +3,10 @@ enum UserType {
     STUDENT
 }
 
-type Subject @embedded {
+type Subject @db(name:"subjects") {
   _id: ID! @id
   name: String!
+  ar_name: String
   photoUrl: String
   grade: String
 }
@@ -17,7 +18,7 @@ type User @db(name: "users") {
   userType: UserType
   password: String
   grade: String
-  subjects: [Subject]
+  subjects: [Subject] @relation(link: INLINE)
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }

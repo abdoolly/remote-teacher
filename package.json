@@ -5,7 +5,10 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "nodemon ./build/bin/www",
-    "watch": "tsc --watch"
+    "watch": "tsc --watch",
+    "prisma": "docker-compose -f ./docker-composes/prisma-compose.yaml up -d",
+    "prisma:stop": "docker-compose -f ./docker-composes/prisma-compose.yaml stop",
+    "deploy:prisma": "prisma deploy && prisma generate"
   },
   "dependencies": {
     "apollo-server": "^2.11.0",
@@ -13,14 +16,24 @@
     "casual": "^1.6.2",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
+    "dotenv": "^8.2.0",
     "express": "~4.16.1",
+    "express-jwt": "^5.3.1",
+    "graphql": "^14.6.0",
+    "jsonwebtoken": "^8.5.1",
     "morgan": "~1.9.1",
+    "prisma": "^1.34.10",
+    "prisma-client-lib": "^1.34.10",
     "ramda": "^0.27.0"
   },
   "devDependencies": {
+    "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.3",
+    "@types/express-jwt": "^0.0.42",
+    "@types/jsonwebtoken": "^8.3.8",
     "@types/morgan": "^1.9.0",
     "@types/node": "^12.12.31",
+    "@types/passport-jwt": "^3.0.3",
     "@types/ramda": "^0.27.0",
     "nodemon": "^2.0.2",
     "typescript": "^3.8.3"

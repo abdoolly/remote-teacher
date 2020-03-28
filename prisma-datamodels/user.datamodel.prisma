@@ -1,0 +1,23 @@
+enum UserType {
+    TEACHER
+    STUDENT
+}
+
+type Subject @embedded {
+  _id: ID! @id
+  name: String!
+  photoUrl: String
+  grade: String
+}
+
+type User @db(name: "users") {
+  _id: ID! @id
+  fullName: String
+  phone: String! @unique
+  userType: UserType
+  password: String
+  grade: String
+  subjects: [Subject]
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

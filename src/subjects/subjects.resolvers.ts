@@ -2,10 +2,14 @@ import { GQLResolver, convertToResolverPipes } from "../utils/general-utils";
 
 
 const getSubjects: GQLResolver<{ grade?: string }> = async ({
-    args: { grade },
+    args = {},
     context: { prisma }
 }) => {
-    return await prisma.subjects({ where: { grade: grade || undefined } });
+    return await prisma.subjects({
+        where: {
+            grade: args && args.grade ? args.grade : undefined
+        }
+    });
 };
 
 const getGrades: GQLResolver<{}> = async () => {
@@ -25,10 +29,10 @@ const getGrades: GQLResolver<{}> = async () => {
     ];
 }
 
-export const subjectResolvers = {
+export const subjectResolvers = convertToResolverPipes({
     Query: {
         getSubjects,
         getGrades
     },
     Mutation: {}
-};
+});

@@ -6,12 +6,6 @@ enum UserType {
     STUDENT
 }
 
-type Subject {
-    name: String!
-    photoUrl: String
-    grade: String 
-}
-
 type User {
     _id: ID!
     fullName: String! 

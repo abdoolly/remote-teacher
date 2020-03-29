@@ -1,6 +1,7 @@
-type Subject @embedded {
+type Subject @db(name:"subjects") {
   _id: ID! @id
   name: String!
+  ar_name: String
   photoUrl: String
   grade: String
 }

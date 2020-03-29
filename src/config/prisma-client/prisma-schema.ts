@@ -2,7 +2,11 @@
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-export const typeDefs = /* GraphQL */ `type AggregateSubject {
+export const typeDefs = /* GraphQL */ `type AggregateClassroom {
+  count: Int!
+}
+
+type AggregateSubject {
   count: Int!
 }
 
@@ -14,11 +18,372 @@ type BatchPayload {
   count: Long!
 }
 
+type Classroom {
+  _id: ID!
+  teacher: User
+  students(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  subject: Subject
+  scheduale: [classroomDate!]
+}
+
+type ClassroomConnection {
+  pageInfo: PageInfo!
+  edges: [ClassroomEdge]!
+  aggregate: AggregateClassroom!
+}
+
+input ClassroomCreateInput {
+  _id: ID
+  teacher: UserCreateOneInput
+  students: UserCreateManyInput
+  subject: SubjectCreateOneInput
+  scheduale: classroomDateCreateManyInput
+}
+
+input ClassroomCreateManyInput {
+  create: [ClassroomCreateInput!]
+  connect: [ClassroomWhereUniqueInput!]
+}
+
+type classroomDate {
+  _id: ID!
+  startTime: DateTime
+  endTime: DateTime
+  date: DateTime
+  durationInMin: Int
+}
+
+input classroomDateCreateInput {
+  _id: ID
+  startTime: DateTime
+  endTime: DateTime
+  date: DateTime
+  durationInMin: Int
+}
+
+input classroomDateCreateManyInput {
+  create: [classroomDateCreateInput!]
+}
+
+input classroomDateRestrictedWhereInput {
+  _id: ID
+  _id_not: ID
+  _id_in: [ID!]
+  _id_not_in: [ID!]
+  _id_lt: ID
+  _id_lte: ID
+  _id_gt: ID
+  _id_gte: ID
+  _id_contains: ID
+  _id_not_contains: ID
+  _id_starts_with: ID
+  _id_not_starts_with: ID
+  _id_ends_with: ID
+  _id_not_ends_with: ID
+  startTime: DateTime
+  startTime_not: DateTime
+  startTime_in: [DateTime!]
+  startTime_not_in: [DateTime!]
+  startTime_lt: DateTime
+  startTime_lte: DateTime
+  startTime_gt: DateTime
+  startTime_gte: DateTime
+  endTime: DateTime
+  endTime_not: DateTime
+  endTime_in: [DateTime!]
+  endTime_not_in: [DateTime!]
+  endTime_lt: DateTime
+  endTime_lte: DateTime
+  endTime_gt: DateTime
+  endTime_gte: DateTime
+  date: DateTime
+  date_not: DateTime
+  date_in: [DateTime!]
+  date_not_in: [DateTime!]
+  date_lt: DateTime
+  date_lte: DateTime
+  date_gt: DateTime
+  date_gte: DateTime
+  durationInMin: Int
+  durationInMin_not: Int
+  durationInMin_in: [Int!]
+  durationInMin_not_in: [Int!]
+  durationInMin_lt: Int
+  durationInMin_lte: Int
+  durationInMin_gt: Int
+  durationInMin_gte: Int
+  AND: [classroomDateRestrictedWhereInput!]
+}
+
+input classroomDateScalarWhereInput {
+  _id: ID
+  _id_not: ID
+  _id_in: [ID!]
+  _id_not_in: [ID!]
+  _id_lt: ID
+  _id_lte: ID
+  _id_gt: ID
+  _id_gte: ID
+  _id_contains: ID
+  _id_not_contains: ID
+  _id_starts_with: ID
+  _id_not_starts_with: ID
+  _id_ends_with: ID
+  _id_not_ends_with: ID
+  startTime: DateTime
+  startTime_not: DateTime
+  startTime_in: [DateTime!]
+  startTime_not_in: [DateTime!]
+  startTime_lt: DateTime
+  startTime_lte: DateTime
+  startTime_gt: DateTime
+  startTime_gte: DateTime
+  endTime: DateTime
+  endTime_not: DateTime
+  endTime_in: [DateTime!]
+  endTime_not_in: [DateTime!]
+  endTime_lt: DateTime
+  endTime_lte: DateTime
+  endTime_gt: DateTime
+  endTime_gte: DateTime
+  date: DateTime
+  date_not: DateTime
+  date_in: [DateTime!]
+  date_not_in: [DateTime!]
+  date_lt: DateTime
+  date_lte: DateTime
+  date_gt: DateTime
+  date_gte: DateTime
+  durationInMin: Int
+  durationInMin_not: Int
+  durationInMin_in: [Int!]
+  durationInMin_not_in: [Int!]
+  durationInMin_lt: Int
+  durationInMin_lte: Int
+  durationInMin_gt: Int
+  durationInMin_gte: Int
+  AND: [classroomDateScalarWhereInput!]
+  OR: [classroomDateScalarWhereInput!]
+  NOT: [classroomDateScalarWhereInput!]
+}
+
+input classroomDateUpdateDataInput {
+  startTime: DateTime
+  endTime: DateTime
+  date: DateTime
+  durationInMin: Int
+}
+
+input classroomDateUpdateManyDataInput {
+  startTime: DateTime
+  endTime: DateTime
+  date: DateTime
+  durationInMin: Int
+}
+
+input classroomDateUpdateManyInput {
+  create: [classroomDateCreateInput!]
+  update: [classroomDateUpdateWithWhereUniqueNestedInput!]
+  upsert: [classroomDateUpsertWithWhereUniqueNestedInput!]
+  delete: [classroomDateWhereUniqueInput!]
+  deleteMany: [classroomDateScalarWhereInput!]
+  updateMany: [classroomDateUpdateManyWithWhereNestedInput!]
+}
+
+input classroomDateUpdateManyWithWhereNestedInput {
+  where: classroomDateScalarWhereInput!
+  data: classroomDateUpdateManyDataInput!
+}
+
+input classroomDateUpdateWithWhereUniqueNestedInput {
+  where: classroomDateWhereUniqueInput!
+  data: classroomDateUpdateDataInput!
+}
+
+input classroomDateUpsertWithWhereUniqueNestedInput {
+  where: classroomDateWhereUniqueInput!
+  update: classroomDateUpdateDataInput!
+  create: classroomDateCreateInput!
+}
+
+input classroomDateWhereInput {
+  _id: ID
+  _id_not: ID
+  _id_in: [ID!]
+  _id_not_in: [ID!]
+  _id_lt: ID
+  _id_lte: ID
+  _id_gt: ID
+  _id_gte: ID
+  _id_contains: ID
+  _id_not_contains: ID
+  _id_starts_with: ID
+  _id_not_starts_with: ID
+  _id_ends_with: ID
+  _id_not_ends_with: ID
+  startTime: DateTime
+  startTime_not: DateTime
+  startTime_in: [DateTime!]
+  startTime_not_in: [DateTime!]
+  startTime_lt: DateTime
+  startTime_lte: DateTime
+  startTime_gt: DateTime
+  startTime_gte: DateTime
+  endTime: DateTime
+  endTime_not: DateTime
+  endTime_in: [DateTime!]
+  endTime_not_in: [DateTime!]
+  endTime_lt: DateTime
+  endTime_lte: DateTime
+  endTime_gt: DateTime
+  endTime_gte: DateTime
+  date: DateTime
+  date_not: DateTime
+  date_in: [DateTime!]
+  date_not_in: [DateTime!]
+  date_lt: DateTime
+  date_lte: DateTime
+  date_gt: DateTime
+  date_gte: DateTime
+  durationInMin: Int
+  durationInMin_not: Int
+  durationInMin_in: [Int!]
+  durationInMin_not_in: [Int!]
+  durationInMin_lt: Int
+  durationInMin_lte: Int
+  durationInMin_gt: Int
+  durationInMin_gte: Int
+  AND: [classroomDateWhereInput!]
+}
+
+input classroomDateWhereUniqueInput {
+  _id: ID
+}
+
+type ClassroomEdge {
+  node: Classroom!
+  cursor: String!
+}
+
+enum ClassroomOrderByInput {
+  _id_ASC
+  _id_DESC
+}
+
+type ClassroomPreviousValues {
+  _id: ID!
+}
+
+input ClassroomScalarWhereInput {
+  _id: ID
+  _id_not: ID
+  _id_in: [ID!]
+  _id_not_in: [ID!]
+  _id_lt: ID
+  _id_lte: ID
+  _id_gt: ID
+  _id_gte: ID
+  _id_contains: ID
+  _id_not_contains: ID
+  _id_starts_with: ID
+  _id_not_starts_with: ID
+  _id_ends_with: ID
+  _id_not_ends_with: ID
+  AND: [ClassroomScalarWhereInput!]
+  OR: [ClassroomScalarWhereInput!]
+  NOT: [ClassroomScalarWhereInput!]
+}
+
+type ClassroomSubscriptionPayload {
+  mutation: MutationType!
+  node: Classroom
+  updatedFields: [String!]
+  previousValues: ClassroomPreviousValues
+}
+
+input ClassroomSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ClassroomWhereInput
+  AND: [ClassroomSubscriptionWhereInput!]
+}
+
+input ClassroomUpdateDataInput {
+  teacher: UserUpdateOneInput
+  students: UserUpdateManyInput
+  subject: SubjectUpdateOneInput
+  scheduale: classroomDateUpdateManyInput
+}
+
+input ClassroomUpdateInput {
+  teacher: UserUpdateOneInput
+  students: UserUpdateManyInput
+  subject: SubjectUpdateOneInput
+  scheduale: classroomDateUpdateManyInput
+}
+
+input ClassroomUpdateManyInput {
+  create: [ClassroomCreateInput!]
+  update: [ClassroomUpdateWithWhereUniqueNestedInput!]
+  upsert: [ClassroomUpsertWithWhereUniqueNestedInput!]
+  delete: [ClassroomWhereUniqueInput!]
+  connect: [ClassroomWhereUniqueInput!]
+  set: [ClassroomWhereUniqueInput!]
+  disconnect: [ClassroomWhereUniqueInput!]
+  deleteMany: [ClassroomScalarWhereInput!]
+}
+
+input ClassroomUpdateWithWhereUniqueNestedInput {
+  where: ClassroomWhereUniqueInput!
+  data: ClassroomUpdateDataInput!
+}
+
+input ClassroomUpsertWithWhereUniqueNestedInput {
+  where: ClassroomWhereUniqueInput!
+  update: ClassroomUpdateDataInput!
+  create: ClassroomCreateInput!
+}
+
+input ClassroomWhereInput {
+  _id: ID
+  _id_not: ID
+  _id_in: [ID!]
+  _id_not_in: [ID!]
+  _id_lt: ID
+  _id_lte: ID
+  _id_gt: ID
+  _id_gte: ID
+  _id_contains: ID
+  _id_not_contains: ID
+  _id_starts_with: ID
+  _id_not_starts_with: ID
+  _id_ends_with: ID
+  _id_not_ends_with: ID
+  teacher: UserWhereInput
+  students_some: UserWhereInput
+  subject: SubjectWhereInput
+  scheduale_some: classroomDateWhereInput
+  scheduale_every: classroomDateRestrictedWhereInput
+  scheduale_none: classroomDateRestrictedWhereInput
+  AND: [ClassroomWhereInput!]
+}
+
+input ClassroomWhereUniqueInput {
+  _id: ID
+}
+
 scalar DateTime
 
 scalar Long
 
 type Mutation {
+  createClassroom(data: ClassroomCreateInput!): Classroom!
+  updateClassroom(data: ClassroomUpdateInput!, where: ClassroomWhereUniqueInput!): Classroom
+  upsertClassroom(where: ClassroomWhereUniqueInput!, create: ClassroomCreateInput!, update: ClassroomUpdateInput!): Classroom!
+  deleteClassroom(where: ClassroomWhereUniqueInput!): Classroom
+  deleteManyClassrooms(where: ClassroomWhereInput): BatchPayload!
   createSubject(data: SubjectCreateInput!): Subject!
   updateSubject(data: SubjectUpdateInput!, where: SubjectWhereUniqueInput!): Subject
   updateManySubjects(data: SubjectUpdateManyMutationInput!, where: SubjectWhereInput): BatchPayload!
@@ -51,6 +416,9 @@ type PageInfo {
 }
 
 type Query {
+  classroom(where: ClassroomWhereUniqueInput!): Classroom
+  classrooms(where: ClassroomWhereInput, orderBy: ClassroomOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Classroom]!
+  classroomsConnection(where: ClassroomWhereInput, orderBy: ClassroomOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ClassroomConnection!
   subject(where: SubjectWhereUniqueInput!): Subject
   subjects(where: SubjectWhereInput, orderBy: SubjectOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Subject]!
   subjectsConnection(where: SubjectWhereInput, orderBy: SubjectOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SubjectConnection!
@@ -85,6 +453,11 @@ input SubjectCreateInput {
 input SubjectCreateManyInput {
   create: [SubjectCreateInput!]
   connect: [SubjectWhereUniqueInput!]
+}
+
+input SubjectCreateOneInput {
+  create: SubjectCreateInput
+  connect: SubjectWhereUniqueInput
 }
 
 type SubjectEdge {
@@ -250,9 +623,23 @@ input SubjectUpdateManyWithWhereNestedInput {
   data: SubjectUpdateManyDataInput!
 }
 
+input SubjectUpdateOneInput {
+  create: SubjectCreateInput
+  update: SubjectUpdateDataInput
+  upsert: SubjectUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: SubjectWhereUniqueInput
+}
+
 input SubjectUpdateWithWhereUniqueNestedInput {
   where: SubjectWhereUniqueInput!
   data: SubjectUpdateDataInput!
+}
+
+input SubjectUpsertNestedInput {
+  update: SubjectUpdateDataInput!
+  create: SubjectCreateInput!
 }
 
 input SubjectUpsertWithWhereUniqueNestedInput {
@@ -340,6 +727,7 @@ input SubjectWhereUniqueInput {
 }
 
 type Subscription {
+  classroom(where: ClassroomSubscriptionWhereInput): ClassroomSubscriptionPayload
   subject(where: SubjectSubscriptionWhereInput): SubjectSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
@@ -352,6 +740,7 @@ type User {
   password: String
   grade: String
   subjects(where: SubjectWhereInput, orderBy: SubjectOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Subject!]
+  studentClassrooms(where: ClassroomWhereInput, orderBy: ClassroomOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Classroom!]
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -370,6 +759,17 @@ input UserCreateInput {
   password: String
   grade: String
   subjects: SubjectCreateManyInput
+  studentClassrooms: ClassroomCreateManyInput
+}
+
+input UserCreateManyInput {
+  create: [UserCreateInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
 }
 
 type UserEdge {
@@ -407,6 +807,102 @@ type UserPreviousValues {
   updatedAt: DateTime!
 }
 
+input UserScalarWhereInput {
+  _id: ID
+  _id_not: ID
+  _id_in: [ID!]
+  _id_not_in: [ID!]
+  _id_lt: ID
+  _id_lte: ID
+  _id_gt: ID
+  _id_gte: ID
+  _id_contains: ID
+  _id_not_contains: ID
+  _id_starts_with: ID
+  _id_not_starts_with: ID
+  _id_ends_with: ID
+  _id_not_ends_with: ID
+  fullName: String
+  fullName_not: String
+  fullName_in: [String!]
+  fullName_not_in: [String!]
+  fullName_lt: String
+  fullName_lte: String
+  fullName_gt: String
+  fullName_gte: String
+  fullName_contains: String
+  fullName_not_contains: String
+  fullName_starts_with: String
+  fullName_not_starts_with: String
+  fullName_ends_with: String
+  fullName_not_ends_with: String
+  phone: String
+  phone_not: String
+  phone_in: [String!]
+  phone_not_in: [String!]
+  phone_lt: String
+  phone_lte: String
+  phone_gt: String
+  phone_gte: String
+  phone_contains: String
+  phone_not_contains: String
+  phone_starts_with: String
+  phone_not_starts_with: String
+  phone_ends_with: String
+  phone_not_ends_with: String
+  userType: UserType
+  userType_not: UserType
+  userType_in: [UserType!]
+  userType_not_in: [UserType!]
+  password: String
+  password_not: String
+  password_in: [String!]
+  password_not_in: [String!]
+  password_lt: String
+  password_lte: String
+  password_gt: String
+  password_gte: String
+  password_contains: String
+  password_not_contains: String
+  password_starts_with: String
+  password_not_starts_with: String
+  password_ends_with: String
+  password_not_ends_with: String
+  grade: String
+  grade_not: String
+  grade_in: [String!]
+  grade_not_in: [String!]
+  grade_lt: String
+  grade_lte: String
+  grade_gt: String
+  grade_gte: String
+  grade_contains: String
+  grade_not_contains: String
+  grade_starts_with: String
+  grade_not_starts_with: String
+  grade_ends_with: String
+  grade_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  AND: [UserScalarWhereInput!]
+  OR: [UserScalarWhereInput!]
+  NOT: [UserScalarWhereInput!]
+}
+
 type UserSubscriptionPayload {
   mutation: MutationType!
   node: User
@@ -428,6 +924,16 @@ enum UserType {
   STUDENT
 }
 
+input UserUpdateDataInput {
+  fullName: String
+  phone: String
+  userType: UserType
+  password: String
+  grade: String
+  subjects: SubjectUpdateManyInput
+  studentClassrooms: ClassroomUpdateManyInput
+}
+
 input UserUpdateInput {
   fullName: String
   phone: String
@@ -435,6 +941,27 @@ input UserUpdateInput {
   password: String
   grade: String
   subjects: SubjectUpdateManyInput
+  studentClassrooms: ClassroomUpdateManyInput
+}
+
+input UserUpdateManyDataInput {
+  fullName: String
+  phone: String
+  userType: UserType
+  password: String
+  grade: String
+}
+
+input UserUpdateManyInput {
+  create: [UserCreateInput!]
+  update: [UserUpdateWithWhereUniqueNestedInput!]
+  upsert: [UserUpsertWithWhereUniqueNestedInput!]
+  delete: [UserWhereUniqueInput!]
+  connect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  deleteMany: [UserScalarWhereInput!]
+  updateMany: [UserUpdateManyWithWhereNestedInput!]
 }
 
 input UserUpdateManyMutationInput {
@@ -443,6 +970,36 @@ input UserUpdateManyMutationInput {
   userType: UserType
   password: String
   grade: String
+}
+
+input UserUpdateManyWithWhereNestedInput {
+  where: UserScalarWhereInput!
+  data: UserUpdateManyDataInput!
+}
+
+input UserUpdateOneInput {
+  create: UserCreateInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateWithWhereUniqueNestedInput {
+  where: UserWhereUniqueInput!
+  data: UserUpdateDataInput!
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
+}
+
+input UserUpsertWithWhereUniqueNestedInput {
+  where: UserWhereUniqueInput!
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserWhereInput {
@@ -521,6 +1078,7 @@ input UserWhereInput {
   grade_ends_with: String
   grade_not_ends_with: String
   subjects_some: SubjectWhereInput
+  studentClassrooms_some: ClassroomWhereInput
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]

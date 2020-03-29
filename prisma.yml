@@ -1,5 +1,7 @@
 endpoint: http://localhost:4466
 datamodel: 
+  - ./prisma-datamodels/subject.datamodel.prisma
+  - ./prisma-datamodels/classroom.datamodel.prisma
   - ./prisma-datamodels/user.datamodel.prisma
 databaseType: document
 generate:

@@ -1,0 +1,15 @@
+type classroomDate @embedded {
+    _id: ID! @id
+    startTime: DateTime
+    endTime: DateTime
+    date: DateTime
+    durationInMin: Int
+}
+
+type Classroom @db(name:"classrooms") {
+    _id: ID! @id
+    teacher: User @relation(name: "ClassroomTeacher", link: INLINE)
+    students: [User] @relation(name: "ClassroomStudents", link: INLINE)
+    subject: Subject @relation(link: INLINE)
+    scheduale: [classroomDate]
+}

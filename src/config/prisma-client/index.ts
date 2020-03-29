@@ -16,6 +16,7 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
+  classroom: (where?: ClassroomWhereInput) => Promise<boolean>;
   subject: (where?: SubjectWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
@@ -39,6 +40,25 @@ export interface Prisma {
    * Queries
    */
 
+  classroom: (where: ClassroomWhereUniqueInput) => ClassroomNullablePromise;
+  classrooms: (args?: {
+    where?: ClassroomWhereInput;
+    orderBy?: ClassroomOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Classroom>;
+  classroomsConnection: (args?: {
+    where?: ClassroomWhereInput;
+    orderBy?: ClassroomOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => ClassroomConnectionPromise;
   subject: (where: SubjectWhereUniqueInput) => SubjectNullablePromise;
   subjects: (args?: {
     where?: SubjectWhereInput;
@@ -83,6 +103,18 @@ export interface Prisma {
    * Mutations
    */
 
+  createClassroom: (data: ClassroomCreateInput) => ClassroomPromise;
+  updateClassroom: (args: {
+    data: ClassroomUpdateInput;
+    where: ClassroomWhereUniqueInput;
+  }) => ClassroomPromise;
+  upsertClassroom: (args: {
+    where: ClassroomWhereUniqueInput;
+    create: ClassroomCreateInput;
+    update: ClassroomUpdateInput;
+  }) => ClassroomPromise;
+  deleteClassroom: (where: ClassroomWhereUniqueInput) => ClassroomPromise;
+  deleteManyClassrooms: (where?: ClassroomWhereInput) => BatchPayloadPromise;
   createSubject: (data: SubjectCreateInput) => SubjectPromise;
   updateSubject: (args: {
     data: SubjectUpdateInput;
@@ -124,6 +156,9 @@ export interface Prisma {
 }
 
 export interface Subscription {
+  classroom: (
+    where?: ClassroomSubscriptionWhereInput
+  ) => ClassroomSubscriptionPayloadSubscription;
   subject: (
     where?: SubjectSubscriptionWhereInput
   ) => SubjectSubscriptionPayloadSubscription;
@@ -140,6 +175,8 @@ export interface ClientConstructor<T> {
  * Types
  */
 
+export type UserType = "TEACHER" | "STUDENT";
+
 export type SubjectOrderByInput =
   | "_id_ASC"
   | "_id_DESC"
@@ -152,7 +189,7 @@ export type SubjectOrderByInput =
   | "grade_ASC"
   | "grade_DESC";
 
-export type UserType = "TEACHER" | "STUDENT";
+export type ClassroomOrderByInput = "_id_ASC" | "_id_DESC";
 
 export type UserOrderByInput =
   | "_id_ASC"
@@ -174,7 +211,7 @@ export type UserOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export type SubjectWhereUniqueInput = AtLeastOne<{
+export type ClassroomWhereUniqueInput = AtLeastOne<{
   _id: Maybe<ID_Input>;
 }>;
 
@@ -252,10 +289,29 @@ export interface SubjectWhereInput {
   AND?: Maybe<SubjectWhereInput[] | SubjectWhereInput>;
 }
 
-export type UserWhereUniqueInput = AtLeastOne<{
-  _id: Maybe<ID_Input>;
-  phone?: Maybe<String>;
-}>;
+export interface ClassroomWhereInput {
+  _id?: Maybe<ID_Input>;
+  _id_not?: Maybe<ID_Input>;
+  _id_in?: Maybe<ID_Input[] | ID_Input>;
+  _id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  _id_lt?: Maybe<ID_Input>;
+  _id_lte?: Maybe<ID_Input>;
+  _id_gt?: Maybe<ID_Input>;
+  _id_gte?: Maybe<ID_Input>;
+  _id_contains?: Maybe<ID_Input>;
+  _id_not_contains?: Maybe<ID_Input>;
+  _id_starts_with?: Maybe<ID_Input>;
+  _id_not_starts_with?: Maybe<ID_Input>;
+  _id_ends_with?: Maybe<ID_Input>;
+  _id_not_ends_with?: Maybe<ID_Input>;
+  teacher?: Maybe<UserWhereInput>;
+  students_some?: Maybe<UserWhereInput>;
+  subject?: Maybe<SubjectWhereInput>;
+  scheduale_some?: Maybe<classroomDateWhereInput>;
+  scheduale_every?: Maybe<classroomDateRestrictedWhereInput>;
+  scheduale_none?: Maybe<classroomDateRestrictedWhereInput>;
+  AND?: Maybe<ClassroomWhereInput[] | ClassroomWhereInput>;
+}
 
 export interface UserWhereInput {
   _id?: Maybe<ID_Input>;
@@ -333,6 +389,7 @@ export interface UserWhereInput {
   grade_ends_with?: Maybe<String>;
   grade_not_ends_with?: Maybe<String>;
   subjects_some?: Maybe<SubjectWhereInput>;
+  studentClassrooms_some?: Maybe<ClassroomWhereInput>;
   createdAt?: Maybe<DateTimeInput>;
   createdAt_not?: Maybe<DateTimeInput>;
   createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -352,26 +409,128 @@ export interface UserWhereInput {
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
-export interface SubjectCreateInput {
+export interface classroomDateWhereInput {
   _id?: Maybe<ID_Input>;
-  name: String;
-  ar_name?: Maybe<String>;
-  photoUrl?: Maybe<String>;
-  grade?: Maybe<String>;
+  _id_not?: Maybe<ID_Input>;
+  _id_in?: Maybe<ID_Input[] | ID_Input>;
+  _id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  _id_lt?: Maybe<ID_Input>;
+  _id_lte?: Maybe<ID_Input>;
+  _id_gt?: Maybe<ID_Input>;
+  _id_gte?: Maybe<ID_Input>;
+  _id_contains?: Maybe<ID_Input>;
+  _id_not_contains?: Maybe<ID_Input>;
+  _id_starts_with?: Maybe<ID_Input>;
+  _id_not_starts_with?: Maybe<ID_Input>;
+  _id_ends_with?: Maybe<ID_Input>;
+  _id_not_ends_with?: Maybe<ID_Input>;
+  startTime?: Maybe<DateTimeInput>;
+  startTime_not?: Maybe<DateTimeInput>;
+  startTime_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  startTime_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  startTime_lt?: Maybe<DateTimeInput>;
+  startTime_lte?: Maybe<DateTimeInput>;
+  startTime_gt?: Maybe<DateTimeInput>;
+  startTime_gte?: Maybe<DateTimeInput>;
+  endTime?: Maybe<DateTimeInput>;
+  endTime_not?: Maybe<DateTimeInput>;
+  endTime_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  endTime_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  endTime_lt?: Maybe<DateTimeInput>;
+  endTime_lte?: Maybe<DateTimeInput>;
+  endTime_gt?: Maybe<DateTimeInput>;
+  endTime_gte?: Maybe<DateTimeInput>;
+  date?: Maybe<DateTimeInput>;
+  date_not?: Maybe<DateTimeInput>;
+  date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  date_lt?: Maybe<DateTimeInput>;
+  date_lte?: Maybe<DateTimeInput>;
+  date_gt?: Maybe<DateTimeInput>;
+  date_gte?: Maybe<DateTimeInput>;
+  durationInMin?: Maybe<Int>;
+  durationInMin_not?: Maybe<Int>;
+  durationInMin_in?: Maybe<Int[] | Int>;
+  durationInMin_not_in?: Maybe<Int[] | Int>;
+  durationInMin_lt?: Maybe<Int>;
+  durationInMin_lte?: Maybe<Int>;
+  durationInMin_gt?: Maybe<Int>;
+  durationInMin_gte?: Maybe<Int>;
+  AND?: Maybe<classroomDateWhereInput[] | classroomDateWhereInput>;
 }
 
-export interface SubjectUpdateInput {
-  name?: Maybe<String>;
-  ar_name?: Maybe<String>;
-  photoUrl?: Maybe<String>;
-  grade?: Maybe<String>;
+export interface classroomDateRestrictedWhereInput {
+  _id?: Maybe<ID_Input>;
+  _id_not?: Maybe<ID_Input>;
+  _id_in?: Maybe<ID_Input[] | ID_Input>;
+  _id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  _id_lt?: Maybe<ID_Input>;
+  _id_lte?: Maybe<ID_Input>;
+  _id_gt?: Maybe<ID_Input>;
+  _id_gte?: Maybe<ID_Input>;
+  _id_contains?: Maybe<ID_Input>;
+  _id_not_contains?: Maybe<ID_Input>;
+  _id_starts_with?: Maybe<ID_Input>;
+  _id_not_starts_with?: Maybe<ID_Input>;
+  _id_ends_with?: Maybe<ID_Input>;
+  _id_not_ends_with?: Maybe<ID_Input>;
+  startTime?: Maybe<DateTimeInput>;
+  startTime_not?: Maybe<DateTimeInput>;
+  startTime_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  startTime_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  startTime_lt?: Maybe<DateTimeInput>;
+  startTime_lte?: Maybe<DateTimeInput>;
+  startTime_gt?: Maybe<DateTimeInput>;
+  startTime_gte?: Maybe<DateTimeInput>;
+  endTime?: Maybe<DateTimeInput>;
+  endTime_not?: Maybe<DateTimeInput>;
+  endTime_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  endTime_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  endTime_lt?: Maybe<DateTimeInput>;
+  endTime_lte?: Maybe<DateTimeInput>;
+  endTime_gt?: Maybe<DateTimeInput>;
+  endTime_gte?: Maybe<DateTimeInput>;
+  date?: Maybe<DateTimeInput>;
+  date_not?: Maybe<DateTimeInput>;
+  date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  date_lt?: Maybe<DateTimeInput>;
+  date_lte?: Maybe<DateTimeInput>;
+  date_gt?: Maybe<DateTimeInput>;
+  date_gte?: Maybe<DateTimeInput>;
+  durationInMin?: Maybe<Int>;
+  durationInMin_not?: Maybe<Int>;
+  durationInMin_in?: Maybe<Int[] | Int>;
+  durationInMin_not_in?: Maybe<Int[] | Int>;
+  durationInMin_lt?: Maybe<Int>;
+  durationInMin_lte?: Maybe<Int>;
+  durationInMin_gt?: Maybe<Int>;
+  durationInMin_gte?: Maybe<Int>;
+  AND?: Maybe<
+    classroomDateRestrictedWhereInput[] | classroomDateRestrictedWhereInput
+  >;
 }
 
-export interface SubjectUpdateManyMutationInput {
-  name?: Maybe<String>;
-  ar_name?: Maybe<String>;
-  photoUrl?: Maybe<String>;
-  grade?: Maybe<String>;
+export type SubjectWhereUniqueInput = AtLeastOne<{
+  _id: Maybe<ID_Input>;
+}>;
+
+export type UserWhereUniqueInput = AtLeastOne<{
+  _id: Maybe<ID_Input>;
+  phone?: Maybe<String>;
+}>;
+
+export interface ClassroomCreateInput {
+  _id?: Maybe<ID_Input>;
+  teacher?: Maybe<UserCreateOneInput>;
+  students?: Maybe<UserCreateManyInput>;
+  subject?: Maybe<SubjectCreateOneInput>;
+  scheduale?: Maybe<classroomDateCreateManyInput>;
+}
+
+export interface UserCreateOneInput {
+  create?: Maybe<UserCreateInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
 }
 
 export interface UserCreateInput {
@@ -382,6 +541,7 @@ export interface UserCreateInput {
   password?: Maybe<String>;
   grade?: Maybe<String>;
   subjects?: Maybe<SubjectCreateManyInput>;
+  studentClassrooms?: Maybe<ClassroomCreateManyInput>;
 }
 
 export interface SubjectCreateManyInput {
@@ -389,13 +549,65 @@ export interface SubjectCreateManyInput {
   connect?: Maybe<SubjectWhereUniqueInput[] | SubjectWhereUniqueInput>;
 }
 
-export interface UserUpdateInput {
+export interface SubjectCreateInput {
+  _id?: Maybe<ID_Input>;
+  name: String;
+  ar_name?: Maybe<String>;
+  photoUrl?: Maybe<String>;
+  grade?: Maybe<String>;
+}
+
+export interface ClassroomCreateManyInput {
+  create?: Maybe<ClassroomCreateInput[] | ClassroomCreateInput>;
+  connect?: Maybe<ClassroomWhereUniqueInput[] | ClassroomWhereUniqueInput>;
+}
+
+export interface UserCreateManyInput {
+  create?: Maybe<UserCreateInput[] | UserCreateInput>;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+}
+
+export interface SubjectCreateOneInput {
+  create?: Maybe<SubjectCreateInput>;
+  connect?: Maybe<SubjectWhereUniqueInput>;
+}
+
+export interface classroomDateCreateManyInput {
+  create?: Maybe<classroomDateCreateInput[] | classroomDateCreateInput>;
+}
+
+export interface classroomDateCreateInput {
+  _id?: Maybe<ID_Input>;
+  startTime?: Maybe<DateTimeInput>;
+  endTime?: Maybe<DateTimeInput>;
+  date?: Maybe<DateTimeInput>;
+  durationInMin?: Maybe<Int>;
+}
+
+export interface ClassroomUpdateInput {
+  teacher?: Maybe<UserUpdateOneInput>;
+  students?: Maybe<UserUpdateManyInput>;
+  subject?: Maybe<SubjectUpdateOneInput>;
+  scheduale?: Maybe<classroomDateUpdateManyInput>;
+}
+
+export interface UserUpdateOneInput {
+  create?: Maybe<UserCreateInput>;
+  update?: Maybe<UserUpdateDataInput>;
+  upsert?: Maybe<UserUpsertNestedInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateDataInput {
   fullName?: Maybe<String>;
   phone?: Maybe<String>;
   userType?: Maybe<UserType>;
   password?: Maybe<String>;
   grade?: Maybe<String>;
   subjects?: Maybe<SubjectUpdateManyInput>;
+  studentClassrooms?: Maybe<ClassroomUpdateManyInput>;
 }
 
 export interface SubjectUpdateManyInput {
@@ -525,12 +737,369 @@ export interface SubjectUpdateManyDataInput {
   grade?: Maybe<String>;
 }
 
+export interface ClassroomUpdateManyInput {
+  create?: Maybe<ClassroomCreateInput[] | ClassroomCreateInput>;
+  update?: Maybe<
+    | ClassroomUpdateWithWhereUniqueNestedInput[]
+    | ClassroomUpdateWithWhereUniqueNestedInput
+  >;
+  upsert?: Maybe<
+    | ClassroomUpsertWithWhereUniqueNestedInput[]
+    | ClassroomUpsertWithWhereUniqueNestedInput
+  >;
+  delete?: Maybe<ClassroomWhereUniqueInput[] | ClassroomWhereUniqueInput>;
+  connect?: Maybe<ClassroomWhereUniqueInput[] | ClassroomWhereUniqueInput>;
+  set?: Maybe<ClassroomWhereUniqueInput[] | ClassroomWhereUniqueInput>;
+  disconnect?: Maybe<ClassroomWhereUniqueInput[] | ClassroomWhereUniqueInput>;
+  deleteMany?: Maybe<ClassroomScalarWhereInput[] | ClassroomScalarWhereInput>;
+}
+
+export interface ClassroomUpdateWithWhereUniqueNestedInput {
+  where: ClassroomWhereUniqueInput;
+  data: ClassroomUpdateDataInput;
+}
+
+export interface ClassroomUpdateDataInput {
+  teacher?: Maybe<UserUpdateOneInput>;
+  students?: Maybe<UserUpdateManyInput>;
+  subject?: Maybe<SubjectUpdateOneInput>;
+  scheduale?: Maybe<classroomDateUpdateManyInput>;
+}
+
+export interface UserUpdateManyInput {
+  create?: Maybe<UserCreateInput[] | UserCreateInput>;
+  update?: Maybe<
+    | UserUpdateWithWhereUniqueNestedInput[]
+    | UserUpdateWithWhereUniqueNestedInput
+  >;
+  upsert?: Maybe<
+    | UserUpsertWithWhereUniqueNestedInput[]
+    | UserUpsertWithWhereUniqueNestedInput
+  >;
+  delete?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  set?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  disconnect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  deleteMany?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  updateMany?: Maybe<
+    UserUpdateManyWithWhereNestedInput[] | UserUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface UserUpdateWithWhereUniqueNestedInput {
+  where: UserWhereUniqueInput;
+  data: UserUpdateDataInput;
+}
+
+export interface UserUpsertWithWhereUniqueNestedInput {
+  where: UserWhereUniqueInput;
+  update: UserUpdateDataInput;
+  create: UserCreateInput;
+}
+
+export interface UserScalarWhereInput {
+  _id?: Maybe<ID_Input>;
+  _id_not?: Maybe<ID_Input>;
+  _id_in?: Maybe<ID_Input[] | ID_Input>;
+  _id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  _id_lt?: Maybe<ID_Input>;
+  _id_lte?: Maybe<ID_Input>;
+  _id_gt?: Maybe<ID_Input>;
+  _id_gte?: Maybe<ID_Input>;
+  _id_contains?: Maybe<ID_Input>;
+  _id_not_contains?: Maybe<ID_Input>;
+  _id_starts_with?: Maybe<ID_Input>;
+  _id_not_starts_with?: Maybe<ID_Input>;
+  _id_ends_with?: Maybe<ID_Input>;
+  _id_not_ends_with?: Maybe<ID_Input>;
+  fullName?: Maybe<String>;
+  fullName_not?: Maybe<String>;
+  fullName_in?: Maybe<String[] | String>;
+  fullName_not_in?: Maybe<String[] | String>;
+  fullName_lt?: Maybe<String>;
+  fullName_lte?: Maybe<String>;
+  fullName_gt?: Maybe<String>;
+  fullName_gte?: Maybe<String>;
+  fullName_contains?: Maybe<String>;
+  fullName_not_contains?: Maybe<String>;
+  fullName_starts_with?: Maybe<String>;
+  fullName_not_starts_with?: Maybe<String>;
+  fullName_ends_with?: Maybe<String>;
+  fullName_not_ends_with?: Maybe<String>;
+  phone?: Maybe<String>;
+  phone_not?: Maybe<String>;
+  phone_in?: Maybe<String[] | String>;
+  phone_not_in?: Maybe<String[] | String>;
+  phone_lt?: Maybe<String>;
+  phone_lte?: Maybe<String>;
+  phone_gt?: Maybe<String>;
+  phone_gte?: Maybe<String>;
+  phone_contains?: Maybe<String>;
+  phone_not_contains?: Maybe<String>;
+  phone_starts_with?: Maybe<String>;
+  phone_not_starts_with?: Maybe<String>;
+  phone_ends_with?: Maybe<String>;
+  phone_not_ends_with?: Maybe<String>;
+  userType?: Maybe<UserType>;
+  userType_not?: Maybe<UserType>;
+  userType_in?: Maybe<UserType[] | UserType>;
+  userType_not_in?: Maybe<UserType[] | UserType>;
+  password?: Maybe<String>;
+  password_not?: Maybe<String>;
+  password_in?: Maybe<String[] | String>;
+  password_not_in?: Maybe<String[] | String>;
+  password_lt?: Maybe<String>;
+  password_lte?: Maybe<String>;
+  password_gt?: Maybe<String>;
+  password_gte?: Maybe<String>;
+  password_contains?: Maybe<String>;
+  password_not_contains?: Maybe<String>;
+  password_starts_with?: Maybe<String>;
+  password_not_starts_with?: Maybe<String>;
+  password_ends_with?: Maybe<String>;
+  password_not_ends_with?: Maybe<String>;
+  grade?: Maybe<String>;
+  grade_not?: Maybe<String>;
+  grade_in?: Maybe<String[] | String>;
+  grade_not_in?: Maybe<String[] | String>;
+  grade_lt?: Maybe<String>;
+  grade_lte?: Maybe<String>;
+  grade_gt?: Maybe<String>;
+  grade_gte?: Maybe<String>;
+  grade_contains?: Maybe<String>;
+  grade_not_contains?: Maybe<String>;
+  grade_starts_with?: Maybe<String>;
+  grade_not_starts_with?: Maybe<String>;
+  grade_ends_with?: Maybe<String>;
+  grade_not_ends_with?: Maybe<String>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  OR?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  NOT?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+}
+
+export interface UserUpdateManyWithWhereNestedInput {
+  where: UserScalarWhereInput;
+  data: UserUpdateManyDataInput;
+}
+
+export interface UserUpdateManyDataInput {
+  fullName?: Maybe<String>;
+  phone?: Maybe<String>;
+  userType?: Maybe<UserType>;
+  password?: Maybe<String>;
+  grade?: Maybe<String>;
+}
+
+export interface SubjectUpdateOneInput {
+  create?: Maybe<SubjectCreateInput>;
+  update?: Maybe<SubjectUpdateDataInput>;
+  upsert?: Maybe<SubjectUpsertNestedInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<SubjectWhereUniqueInput>;
+}
+
+export interface SubjectUpsertNestedInput {
+  update: SubjectUpdateDataInput;
+  create: SubjectCreateInput;
+}
+
+export interface classroomDateUpdateManyInput {
+  create?: Maybe<classroomDateCreateInput[] | classroomDateCreateInput>;
+  update?: Maybe<
+    | classroomDateUpdateWithWhereUniqueNestedInput[]
+    | classroomDateUpdateWithWhereUniqueNestedInput
+  >;
+  upsert?: Maybe<
+    | classroomDateUpsertWithWhereUniqueNestedInput[]
+    | classroomDateUpsertWithWhereUniqueNestedInput
+  >;
+  delete?: Maybe<
+    classroomDateWhereUniqueInput[] | classroomDateWhereUniqueInput
+  >;
+  deleteMany?: Maybe<
+    classroomDateScalarWhereInput[] | classroomDateScalarWhereInput
+  >;
+  updateMany?: Maybe<
+    | classroomDateUpdateManyWithWhereNestedInput[]
+    | classroomDateUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface classroomDateUpdateWithWhereUniqueNestedInput {
+  where: classroomDateWhereUniqueInput;
+  data: classroomDateUpdateDataInput;
+}
+
+export type classroomDateWhereUniqueInput = AtLeastOne<{
+  _id: Maybe<ID_Input>;
+}>;
+
+export interface classroomDateUpdateDataInput {
+  startTime?: Maybe<DateTimeInput>;
+  endTime?: Maybe<DateTimeInput>;
+  date?: Maybe<DateTimeInput>;
+  durationInMin?: Maybe<Int>;
+}
+
+export interface classroomDateUpsertWithWhereUniqueNestedInput {
+  where: classroomDateWhereUniqueInput;
+  update: classroomDateUpdateDataInput;
+  create: classroomDateCreateInput;
+}
+
+export interface classroomDateScalarWhereInput {
+  _id?: Maybe<ID_Input>;
+  _id_not?: Maybe<ID_Input>;
+  _id_in?: Maybe<ID_Input[] | ID_Input>;
+  _id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  _id_lt?: Maybe<ID_Input>;
+  _id_lte?: Maybe<ID_Input>;
+  _id_gt?: Maybe<ID_Input>;
+  _id_gte?: Maybe<ID_Input>;
+  _id_contains?: Maybe<ID_Input>;
+  _id_not_contains?: Maybe<ID_Input>;
+  _id_starts_with?: Maybe<ID_Input>;
+  _id_not_starts_with?: Maybe<ID_Input>;
+  _id_ends_with?: Maybe<ID_Input>;
+  _id_not_ends_with?: Maybe<ID_Input>;
+  startTime?: Maybe<DateTimeInput>;
+  startTime_not?: Maybe<DateTimeInput>;
+  startTime_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  startTime_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  startTime_lt?: Maybe<DateTimeInput>;
+  startTime_lte?: Maybe<DateTimeInput>;
+  startTime_gt?: Maybe<DateTimeInput>;
+  startTime_gte?: Maybe<DateTimeInput>;
+  endTime?: Maybe<DateTimeInput>;
+  endTime_not?: Maybe<DateTimeInput>;
+  endTime_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  endTime_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  endTime_lt?: Maybe<DateTimeInput>;
+  endTime_lte?: Maybe<DateTimeInput>;
+  endTime_gt?: Maybe<DateTimeInput>;
+  endTime_gte?: Maybe<DateTimeInput>;
+  date?: Maybe<DateTimeInput>;
+  date_not?: Maybe<DateTimeInput>;
+  date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  date_lt?: Maybe<DateTimeInput>;
+  date_lte?: Maybe<DateTimeInput>;
+  date_gt?: Maybe<DateTimeInput>;
+  date_gte?: Maybe<DateTimeInput>;
+  durationInMin?: Maybe<Int>;
+  durationInMin_not?: Maybe<Int>;
+  durationInMin_in?: Maybe<Int[] | Int>;
+  durationInMin_not_in?: Maybe<Int[] | Int>;
+  durationInMin_lt?: Maybe<Int>;
+  durationInMin_lte?: Maybe<Int>;
+  durationInMin_gt?: Maybe<Int>;
+  durationInMin_gte?: Maybe<Int>;
+  AND?: Maybe<classroomDateScalarWhereInput[] | classroomDateScalarWhereInput>;
+  OR?: Maybe<classroomDateScalarWhereInput[] | classroomDateScalarWhereInput>;
+  NOT?: Maybe<classroomDateScalarWhereInput[] | classroomDateScalarWhereInput>;
+}
+
+export interface classroomDateUpdateManyWithWhereNestedInput {
+  where: classroomDateScalarWhereInput;
+  data: classroomDateUpdateManyDataInput;
+}
+
+export interface classroomDateUpdateManyDataInput {
+  startTime?: Maybe<DateTimeInput>;
+  endTime?: Maybe<DateTimeInput>;
+  date?: Maybe<DateTimeInput>;
+  durationInMin?: Maybe<Int>;
+}
+
+export interface ClassroomUpsertWithWhereUniqueNestedInput {
+  where: ClassroomWhereUniqueInput;
+  update: ClassroomUpdateDataInput;
+  create: ClassroomCreateInput;
+}
+
+export interface ClassroomScalarWhereInput {
+  _id?: Maybe<ID_Input>;
+  _id_not?: Maybe<ID_Input>;
+  _id_in?: Maybe<ID_Input[] | ID_Input>;
+  _id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  _id_lt?: Maybe<ID_Input>;
+  _id_lte?: Maybe<ID_Input>;
+  _id_gt?: Maybe<ID_Input>;
+  _id_gte?: Maybe<ID_Input>;
+  _id_contains?: Maybe<ID_Input>;
+  _id_not_contains?: Maybe<ID_Input>;
+  _id_starts_with?: Maybe<ID_Input>;
+  _id_not_starts_with?: Maybe<ID_Input>;
+  _id_ends_with?: Maybe<ID_Input>;
+  _id_not_ends_with?: Maybe<ID_Input>;
+  AND?: Maybe<ClassroomScalarWhereInput[] | ClassroomScalarWhereInput>;
+  OR?: Maybe<ClassroomScalarWhereInput[] | ClassroomScalarWhereInput>;
+  NOT?: Maybe<ClassroomScalarWhereInput[] | ClassroomScalarWhereInput>;
+}
+
+export interface UserUpsertNestedInput {
+  update: UserUpdateDataInput;
+  create: UserCreateInput;
+}
+
+export interface SubjectUpdateInput {
+  name?: Maybe<String>;
+  ar_name?: Maybe<String>;
+  photoUrl?: Maybe<String>;
+  grade?: Maybe<String>;
+}
+
+export interface SubjectUpdateManyMutationInput {
+  name?: Maybe<String>;
+  ar_name?: Maybe<String>;
+  photoUrl?: Maybe<String>;
+  grade?: Maybe<String>;
+}
+
+export interface UserUpdateInput {
+  fullName?: Maybe<String>;
+  phone?: Maybe<String>;
+  userType?: Maybe<UserType>;
+  password?: Maybe<String>;
+  grade?: Maybe<String>;
+  subjects?: Maybe<SubjectUpdateManyInput>;
+  studentClassrooms?: Maybe<ClassroomUpdateManyInput>;
+}
+
 export interface UserUpdateManyMutationInput {
   fullName?: Maybe<String>;
   phone?: Maybe<String>;
   userType?: Maybe<UserType>;
   password?: Maybe<String>;
   grade?: Maybe<String>;
+}
+
+export interface ClassroomSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<ClassroomWhereInput>;
+  AND?: Maybe<
+    ClassroomSubscriptionWhereInput[] | ClassroomSubscriptionWhereInput
+  >;
 }
 
 export interface SubjectSubscriptionWhereInput {
@@ -553,6 +1122,167 @@ export interface UserSubscriptionWhereInput {
 
 export interface NodeNode {
   id: ID_Output;
+}
+
+export interface Classroom {
+  _id: ID_Output;
+  scheduale?: <T = FragmentableArray<classroomDate>>() => T;
+}
+
+export interface ClassroomPromise extends Promise<Classroom>, Fragmentable {
+  _id: () => Promise<ID_Output>;
+  teacher: <T = UserPromise>() => T;
+  students: <T = FragmentableArray<User>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  subject: <T = SubjectPromise>() => T;
+  scheduale: <T = FragmentableArray<classroomDate>>() => T;
+}
+
+export interface ClassroomSubscription
+  extends Promise<AsyncIterator<Classroom>>,
+    Fragmentable {
+  _id: () => Promise<AsyncIterator<ID_Output>>;
+  teacher: <T = UserSubscription>() => T;
+  students: <T = Promise<AsyncIterator<UserSubscription>>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  subject: <T = SubjectSubscription>() => T;
+  scheduale: <T = Promise<AsyncIterator<classroomDateSubscription>>>() => T;
+}
+
+export interface ClassroomNullablePromise
+  extends Promise<Classroom | null>,
+    Fragmentable {
+  _id: () => Promise<ID_Output>;
+  teacher: <T = UserPromise>() => T;
+  students: <T = FragmentableArray<User>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  subject: <T = SubjectPromise>() => T;
+  scheduale: <T = FragmentableArray<classroomDate>>() => T;
+}
+
+export interface User {
+  _id: ID_Output;
+  fullName?: String;
+  phone: String;
+  userType?: UserType;
+  password?: String;
+  grade?: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface UserPromise extends Promise<User>, Fragmentable {
+  _id: () => Promise<ID_Output>;
+  fullName: () => Promise<String>;
+  phone: () => Promise<String>;
+  userType: () => Promise<UserType>;
+  password: () => Promise<String>;
+  grade: () => Promise<String>;
+  subjects: <T = FragmentableArray<Subject>>(args?: {
+    where?: SubjectWhereInput;
+    orderBy?: SubjectOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  studentClassrooms: <T = FragmentableArray<Classroom>>(args?: {
+    where?: ClassroomWhereInput;
+    orderBy?: ClassroomOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface UserSubscription
+  extends Promise<AsyncIterator<User>>,
+    Fragmentable {
+  _id: () => Promise<AsyncIterator<ID_Output>>;
+  fullName: () => Promise<AsyncIterator<String>>;
+  phone: () => Promise<AsyncIterator<String>>;
+  userType: () => Promise<AsyncIterator<UserType>>;
+  password: () => Promise<AsyncIterator<String>>;
+  grade: () => Promise<AsyncIterator<String>>;
+  subjects: <T = Promise<AsyncIterator<SubjectSubscription>>>(args?: {
+    where?: SubjectWhereInput;
+    orderBy?: SubjectOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  studentClassrooms: <
+    T = Promise<AsyncIterator<ClassroomSubscription>>
+  >(args?: {
+    where?: ClassroomWhereInput;
+    orderBy?: ClassroomOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface UserNullablePromise
+  extends Promise<User | null>,
+    Fragmentable {
+  _id: () => Promise<ID_Output>;
+  fullName: () => Promise<String>;
+  phone: () => Promise<String>;
+  userType: () => Promise<UserType>;
+  password: () => Promise<String>;
+  grade: () => Promise<String>;
+  subjects: <T = FragmentableArray<Subject>>(args?: {
+    where?: SubjectWhereInput;
+    orderBy?: SubjectOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  studentClassrooms: <T = FragmentableArray<Classroom>>(args?: {
+    where?: ClassroomWhereInput;
+    orderBy?: ClassroomOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
 }
 
 export interface Subject {
@@ -591,25 +1321,63 @@ export interface SubjectNullablePromise
   grade: () => Promise<String>;
 }
 
-export interface SubjectConnection {
-  pageInfo: PageInfo;
-  edges: SubjectEdge[];
+export interface classroomDate {
+  _id: ID_Output;
+  startTime?: DateTimeOutput;
+  endTime?: DateTimeOutput;
+  date?: DateTimeOutput;
+  durationInMin?: Int;
 }
 
-export interface SubjectConnectionPromise
-  extends Promise<SubjectConnection>,
+export interface classroomDatePromise
+  extends Promise<classroomDate>,
+    Fragmentable {
+  _id: () => Promise<ID_Output>;
+  startTime: () => Promise<DateTimeOutput>;
+  endTime: () => Promise<DateTimeOutput>;
+  date: () => Promise<DateTimeOutput>;
+  durationInMin: () => Promise<Int>;
+}
+
+export interface classroomDateSubscription
+  extends Promise<AsyncIterator<classroomDate>>,
+    Fragmentable {
+  _id: () => Promise<AsyncIterator<ID_Output>>;
+  startTime: () => Promise<AsyncIterator<DateTimeOutput>>;
+  endTime: () => Promise<AsyncIterator<DateTimeOutput>>;
+  date: () => Promise<AsyncIterator<DateTimeOutput>>;
+  durationInMin: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface classroomDateNullablePromise
+  extends Promise<classroomDate | null>,
+    Fragmentable {
+  _id: () => Promise<ID_Output>;
+  startTime: () => Promise<DateTimeOutput>;
+  endTime: () => Promise<DateTimeOutput>;
+  date: () => Promise<DateTimeOutput>;
+  durationInMin: () => Promise<Int>;
+}
+
+export interface ClassroomConnection {
+  pageInfo: PageInfo;
+  edges: ClassroomEdge[];
+}
+
+export interface ClassroomConnectionPromise
+  extends Promise<ClassroomConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<SubjectEdge>>() => T;
-  aggregate: <T = AggregateSubjectPromise>() => T;
+  edges: <T = FragmentableArray<ClassroomEdge>>() => T;
+  aggregate: <T = AggregateClassroomPromise>() => T;
 }
 
-export interface SubjectConnectionSubscription
-  extends Promise<AsyncIterator<SubjectConnection>>,
+export interface ClassroomConnectionSubscription
+  extends Promise<AsyncIterator<ClassroomConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<SubjectEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateSubjectSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ClassroomEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateClassroomSubscription>() => T;
 }
 
 export interface PageInfo {
@@ -633,6 +1401,62 @@ export interface PageInfoSubscription
   hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
   startCursor: () => Promise<AsyncIterator<String>>;
   endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface ClassroomEdge {
+  node: Classroom;
+  cursor: String;
+}
+
+export interface ClassroomEdgePromise
+  extends Promise<ClassroomEdge>,
+    Fragmentable {
+  node: <T = ClassroomPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ClassroomEdgeSubscription
+  extends Promise<AsyncIterator<ClassroomEdge>>,
+    Fragmentable {
+  node: <T = ClassroomSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateClassroom {
+  count: Int;
+}
+
+export interface AggregateClassroomPromise
+  extends Promise<AggregateClassroom>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateClassroomSubscription
+  extends Promise<AsyncIterator<AggregateClassroom>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface SubjectConnection {
+  pageInfo: PageInfo;
+  edges: SubjectEdge[];
+}
+
+export interface SubjectConnectionPromise
+  extends Promise<SubjectConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<SubjectEdge>>() => T;
+  aggregate: <T = AggregateSubjectPromise>() => T;
+}
+
+export interface SubjectConnectionSubscription
+  extends Promise<AsyncIterator<SubjectConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<SubjectEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateSubjectSubscription>() => T;
 }
 
 export interface SubjectEdge {
@@ -666,81 +1490,6 @@ export interface AggregateSubjectSubscription
   extends Promise<AsyncIterator<AggregateSubject>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface User {
-  _id: ID_Output;
-  fullName?: String;
-  phone: String;
-  userType?: UserType;
-  password?: String;
-  grade?: String;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface UserPromise extends Promise<User>, Fragmentable {
-  _id: () => Promise<ID_Output>;
-  fullName: () => Promise<String>;
-  phone: () => Promise<String>;
-  userType: () => Promise<UserType>;
-  password: () => Promise<String>;
-  grade: () => Promise<String>;
-  subjects: <T = FragmentableArray<Subject>>(args?: {
-    where?: SubjectWhereInput;
-    orderBy?: SubjectOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface UserSubscription
-  extends Promise<AsyncIterator<User>>,
-    Fragmentable {
-  _id: () => Promise<AsyncIterator<ID_Output>>;
-  fullName: () => Promise<AsyncIterator<String>>;
-  phone: () => Promise<AsyncIterator<String>>;
-  userType: () => Promise<AsyncIterator<UserType>>;
-  password: () => Promise<AsyncIterator<String>>;
-  grade: () => Promise<AsyncIterator<String>>;
-  subjects: <T = Promise<AsyncIterator<SubjectSubscription>>>(args?: {
-    where?: SubjectWhereInput;
-    orderBy?: SubjectOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface UserNullablePromise
-  extends Promise<User | null>,
-    Fragmentable {
-  _id: () => Promise<ID_Output>;
-  fullName: () => Promise<String>;
-  phone: () => Promise<String>;
-  userType: () => Promise<UserType>;
-  password: () => Promise<String>;
-  grade: () => Promise<String>;
-  subjects: <T = FragmentableArray<Subject>>(args?: {
-    where?: SubjectWhereInput;
-    orderBy?: SubjectOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
 }
 
 export interface UserConnection {
@@ -811,6 +1560,47 @@ export interface BatchPayloadSubscription
   extends Promise<AsyncIterator<BatchPayload>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface ClassroomSubscriptionPayload {
+  mutation: MutationType;
+  node: Classroom;
+  updatedFields: String[];
+  previousValues: ClassroomPreviousValues;
+}
+
+export interface ClassroomSubscriptionPayloadPromise
+  extends Promise<ClassroomSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = ClassroomPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = ClassroomPreviousValuesPromise>() => T;
+}
+
+export interface ClassroomSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<ClassroomSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = ClassroomSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = ClassroomPreviousValuesSubscription>() => T;
+}
+
+export interface ClassroomPreviousValues {
+  _id: ID_Output;
+}
+
+export interface ClassroomPreviousValuesPromise
+  extends Promise<ClassroomPreviousValues>,
+    Fragmentable {
+  _id: () => Promise<ID_Output>;
+}
+
+export interface ClassroomPreviousValuesSubscription
+  extends Promise<AsyncIterator<ClassroomPreviousValues>>,
+    Fragmentable {
+  _id: () => Promise<AsyncIterator<ID_Output>>;
 }
 
 export interface SubjectSubscriptionPayload {
@@ -945,11 +1735,6 @@ The `Int` scalar type represents non-fractional signed whole numeric values. Int
 export type Int = number;
 
 /*
-The `Boolean` scalar type represents `true` or `false`.
-*/
-export type Boolean = boolean;
-
-/*
 DateTime scalar input type, allowing Date
 */
 export type DateTimeInput = Date | string;
@@ -959,6 +1744,11 @@ DateTime scalar output type, which is always a string
 */
 export type DateTimeOutput = string;
 
+/*
+The `Boolean` scalar type represents `true` or `false`.
+*/
+export type Boolean = boolean;
+
 export type Long = string;
 
 /**
@@ -967,11 +1757,19 @@ export type Long = string;
 
 export const models: Model[] = [
   {
-    name: "UserType",
+    name: "Subject",
     embedded: false
   },
   {
-    name: "Subject",
+    name: "classroomDate",
+    embedded: true
+  },
+  {
+    name: "Classroom",
+    embedded: false
+  },
+  {
+    name: "UserType",
     embedded: false
   },
   {

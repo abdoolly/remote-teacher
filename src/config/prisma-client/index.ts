@@ -108,6 +108,10 @@ export interface Prisma {
     data: ClassroomUpdateInput;
     where: ClassroomWhereUniqueInput;
   }) => ClassroomPromise;
+  updateManyClassrooms: (args: {
+    data: ClassroomUpdateManyMutationInput;
+    where?: ClassroomWhereInput;
+  }) => BatchPayloadPromise;
   upsertClassroom: (args: {
     where: ClassroomWhereUniqueInput;
     create: ClassroomCreateInput;
@@ -189,7 +193,11 @@ export type SubjectOrderByInput =
   | "grade_ASC"
   | "grade_DESC";
 
-export type ClassroomOrderByInput = "_id_ASC" | "_id_DESC";
+export type ClassroomOrderByInput =
+  | "_id_ASC"
+  | "_id_DESC"
+  | "cost_ASC"
+  | "cost_DESC";
 
 export type UserOrderByInput =
   | "_id_ASC"
@@ -310,6 +318,14 @@ export interface ClassroomWhereInput {
   scheduale_some?: Maybe<classroomDateWhereInput>;
   scheduale_every?: Maybe<classroomDateRestrictedWhereInput>;
   scheduale_none?: Maybe<classroomDateRestrictedWhereInput>;
+  cost?: Maybe<Float>;
+  cost_not?: Maybe<Float>;
+  cost_in?: Maybe<Float[] | Float>;
+  cost_not_in?: Maybe<Float[] | Float>;
+  cost_lt?: Maybe<Float>;
+  cost_lte?: Maybe<Float>;
+  cost_gt?: Maybe<Float>;
+  cost_gte?: Maybe<Float>;
   AND?: Maybe<ClassroomWhereInput[] | ClassroomWhereInput>;
 }
 
@@ -526,6 +542,7 @@ export interface ClassroomCreateInput {
   students?: Maybe<UserCreateManyInput>;
   subject?: Maybe<SubjectCreateOneInput>;
   scheduale?: Maybe<classroomDateCreateManyInput>;
+  cost?: Maybe<Float>;
 }
 
 export interface UserCreateOneInput {
@@ -589,6 +606,7 @@ export interface ClassroomUpdateInput {
   students?: Maybe<UserUpdateManyInput>;
   subject?: Maybe<SubjectUpdateOneInput>;
   scheduale?: Maybe<classroomDateUpdateManyInput>;
+  cost?: Maybe<Float>;
 }
 
 export interface UserUpdateOneInput {
@@ -752,6 +770,10 @@ export interface ClassroomUpdateManyInput {
   set?: Maybe<ClassroomWhereUniqueInput[] | ClassroomWhereUniqueInput>;
   disconnect?: Maybe<ClassroomWhereUniqueInput[] | ClassroomWhereUniqueInput>;
   deleteMany?: Maybe<ClassroomScalarWhereInput[] | ClassroomScalarWhereInput>;
+  updateMany?: Maybe<
+    | ClassroomUpdateManyWithWhereNestedInput[]
+    | ClassroomUpdateManyWithWhereNestedInput
+  >;
 }
 
 export interface ClassroomUpdateWithWhereUniqueNestedInput {
@@ -764,6 +786,7 @@ export interface ClassroomUpdateDataInput {
   students?: Maybe<UserUpdateManyInput>;
   subject?: Maybe<SubjectUpdateOneInput>;
   scheduale?: Maybe<classroomDateUpdateManyInput>;
+  cost?: Maybe<Float>;
 }
 
 export interface UserUpdateManyInput {
@@ -1049,14 +1072,35 @@ export interface ClassroomScalarWhereInput {
   _id_not_starts_with?: Maybe<ID_Input>;
   _id_ends_with?: Maybe<ID_Input>;
   _id_not_ends_with?: Maybe<ID_Input>;
+  cost?: Maybe<Float>;
+  cost_not?: Maybe<Float>;
+  cost_in?: Maybe<Float[] | Float>;
+  cost_not_in?: Maybe<Float[] | Float>;
+  cost_lt?: Maybe<Float>;
+  cost_lte?: Maybe<Float>;
+  cost_gt?: Maybe<Float>;
+  cost_gte?: Maybe<Float>;
   AND?: Maybe<ClassroomScalarWhereInput[] | ClassroomScalarWhereInput>;
   OR?: Maybe<ClassroomScalarWhereInput[] | ClassroomScalarWhereInput>;
   NOT?: Maybe<ClassroomScalarWhereInput[] | ClassroomScalarWhereInput>;
 }
 
+export interface ClassroomUpdateManyWithWhereNestedInput {
+  where: ClassroomScalarWhereInput;
+  data: ClassroomUpdateManyDataInput;
+}
+
+export interface ClassroomUpdateManyDataInput {
+  cost?: Maybe<Float>;
+}
+
 export interface UserUpsertNestedInput {
   update: UserUpdateDataInput;
   create: UserCreateInput;
+}
+
+export interface ClassroomUpdateManyMutationInput {
+  cost?: Maybe<Float>;
 }
 
 export interface SubjectUpdateInput {
@@ -1127,6 +1171,7 @@ export interface NodeNode {
 export interface Classroom {
   _id: ID_Output;
   scheduale?: <T = FragmentableArray<classroomDate>>() => T;
+  cost?: Float;
 }
 
 export interface ClassroomPromise extends Promise<Classroom>, Fragmentable {
@@ -1143,6 +1188,7 @@ export interface ClassroomPromise extends Promise<Classroom>, Fragmentable {
   }) => T;
   subject: <T = SubjectPromise>() => T;
   scheduale: <T = FragmentableArray<classroomDate>>() => T;
+  cost: () => Promise<Float>;
 }
 
 export interface ClassroomSubscription
@@ -1161,6 +1207,7 @@ export interface ClassroomSubscription
   }) => T;
   subject: <T = SubjectSubscription>() => T;
   scheduale: <T = Promise<AsyncIterator<classroomDateSubscription>>>() => T;
+  cost: () => Promise<AsyncIterator<Float>>;
 }
 
 export interface ClassroomNullablePromise
@@ -1179,6 +1226,7 @@ export interface ClassroomNullablePromise
   }) => T;
   subject: <T = SubjectPromise>() => T;
   scheduale: <T = FragmentableArray<classroomDate>>() => T;
+  cost: () => Promise<Float>;
 }
 
 export interface User {
@@ -1589,18 +1637,21 @@ export interface ClassroomSubscriptionPayloadSubscription
 
 export interface ClassroomPreviousValues {
   _id: ID_Output;
+  cost?: Float;
 }
 
 export interface ClassroomPreviousValuesPromise
   extends Promise<ClassroomPreviousValues>,
     Fragmentable {
   _id: () => Promise<ID_Output>;
+  cost: () => Promise<Float>;
 }
 
 export interface ClassroomPreviousValuesSubscription
   extends Promise<AsyncIterator<ClassroomPreviousValues>>,
     Fragmentable {
   _id: () => Promise<AsyncIterator<ID_Output>>;
+  cost: () => Promise<AsyncIterator<Float>>;
 }
 
 export interface SubjectSubscriptionPayload {
@@ -1743,6 +1794,11 @@ export type DateTimeInput = Date | string;
 DateTime scalar output type, which is always a string
 */
 export type DateTimeOutput = string;
+
+/*
+The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).
+*/
+export type Float = number;
 
 /*
 The `Boolean` scalar type represents `true` or `false`.

@@ -24,6 +24,7 @@ type Classroom {
   students(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   subject: Subject
   scheduale: [classroomDate!]
+  cost: Float
 }
 
 type ClassroomConnection {
@@ -38,6 +39,7 @@ input ClassroomCreateInput {
   students: UserCreateManyInput
   subject: SubjectCreateOneInput
   scheduale: classroomDateCreateManyInput
+  cost: Float
 }
 
 input ClassroomCreateManyInput {
@@ -268,10 +270,13 @@ type ClassroomEdge {
 enum ClassroomOrderByInput {
   _id_ASC
   _id_DESC
+  cost_ASC
+  cost_DESC
 }
 
 type ClassroomPreviousValues {
   _id: ID!
+  cost: Float
 }
 
 input ClassroomScalarWhereInput {
@@ -289,6 +294,14 @@ input ClassroomScalarWhereInput {
   _id_not_starts_with: ID
   _id_ends_with: ID
   _id_not_ends_with: ID
+  cost: Float
+  cost_not: Float
+  cost_in: [Float!]
+  cost_not_in: [Float!]
+  cost_lt: Float
+  cost_lte: Float
+  cost_gt: Float
+  cost_gte: Float
   AND: [ClassroomScalarWhereInput!]
   OR: [ClassroomScalarWhereInput!]
   NOT: [ClassroomScalarWhereInput!]
@@ -315,6 +328,7 @@ input ClassroomUpdateDataInput {
   students: UserUpdateManyInput
   subject: SubjectUpdateOneInput
   scheduale: classroomDateUpdateManyInput
+  cost: Float
 }
 
 input ClassroomUpdateInput {
@@ -322,6 +336,11 @@ input ClassroomUpdateInput {
   students: UserUpdateManyInput
   subject: SubjectUpdateOneInput
   scheduale: classroomDateUpdateManyInput
+  cost: Float
+}
+
+input ClassroomUpdateManyDataInput {
+  cost: Float
 }
 
 input ClassroomUpdateManyInput {
@@ -333,6 +352,16 @@ input ClassroomUpdateManyInput {
   set: [ClassroomWhereUniqueInput!]
   disconnect: [ClassroomWhereUniqueInput!]
   deleteMany: [ClassroomScalarWhereInput!]
+  updateMany: [ClassroomUpdateManyWithWhereNestedInput!]
+}
+
+input ClassroomUpdateManyMutationInput {
+  cost: Float
+}
+
+input ClassroomUpdateManyWithWhereNestedInput {
+  where: ClassroomScalarWhereInput!
+  data: ClassroomUpdateManyDataInput!
 }
 
 input ClassroomUpdateWithWhereUniqueNestedInput {
@@ -367,6 +396,14 @@ input ClassroomWhereInput {
   scheduale_some: classroomDateWhereInput
   scheduale_every: classroomDateRestrictedWhereInput
   scheduale_none: classroomDateRestrictedWhereInput
+  cost: Float
+  cost_not: Float
+  cost_in: [Float!]
+  cost_not_in: [Float!]
+  cost_lt: Float
+  cost_lte: Float
+  cost_gt: Float
+  cost_gte: Float
   AND: [ClassroomWhereInput!]
 }
 
@@ -381,6 +418,7 @@ scalar Long
 type Mutation {
   createClassroom(data: ClassroomCreateInput!): Classroom!
   updateClassroom(data: ClassroomUpdateInput!, where: ClassroomWhereUniqueInput!): Classroom
+  updateManyClassrooms(data: ClassroomUpdateManyMutationInput!, where: ClassroomWhereInput): BatchPayload!
   upsertClassroom(where: ClassroomWhereUniqueInput!, create: ClassroomCreateInput!, update: ClassroomUpdateInput!): Classroom!
   deleteClassroom(where: ClassroomWhereUniqueInput!): Classroom
   deleteManyClassrooms(where: ClassroomWhereInput): BatchPayload!

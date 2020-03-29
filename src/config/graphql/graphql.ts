@@ -1,12 +1,14 @@
 import { ApolloServer, gql } from 'apollo-server-express';
 import casual from 'casual';
+import { DateTimeResolver, EmailAddressResolver, ObjectIDResolver, URLResolver } from 'graphql-scalars';
+import { classroomsTypeDef } from '../../classrooms/classrooms.schema';
+import { subjectResolvers } from '../../subjects/subjects.resolvers';
+import { subjectsTypeDef } from '../../subjects/subjects.schema';
 import userResolvers from '../../users/users.resolvers';
 import { userTypeDef } from '../../users/users.schema';
 import { fromHeaderOrQuerystring, verifyJWT } from '../jwt';
 import { prisma } from '../prisma-client';
-import { AuthDirective, UpperCaseDirective } from './directives/auth.directive';
-import { subjectsTypeDef } from '../../subjects/subjects.schema';
-import { subjectResolvers } from '../../subjects/subjects.resolvers';
+import { UpperCaseDirective } from './directives/auth.directive';
 
 const grades = [
     'Primary 1',
@@ -43,16 +45,31 @@ const mocks = {
     })
 };
 
-
 const basicTypeDef = gql`
 directive @upper on FIELD_DEFINITION
+
+scalar DateTime
+scalar EmailAddress
+scalar URL
+scalar ObjectID
 `;
+
+const scalarResolvers = {
+    DateTime: DateTimeResolver,
+    EmailAddress: EmailAddressResolver,
+    URL: URLResolver,
+    ObjectID: ObjectIDResolver
+};
 
 // apollo server here
 const apolloServer = new ApolloServer({
-    typeDefs: [basicTypeDef, subjectsTypeDef, userTypeDef],
+    typeDefs: [basicTypeDef, subjectsTypeDef, userTypeDef, classroomsTypeDef],
     // mocks,
-    resolvers: [userResolvers, subjectResolvers],
+    resolvers: [
+        userResolvers,
+        subjectResolvers,
+        scalarResolvers,
+    ],
     context: ({ req }) => {
 
         // JWT authentication

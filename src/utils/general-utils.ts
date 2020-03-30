@@ -2,16 +2,34 @@ import { ForbiddenError, ValidationError } from 'apollo-server-express';
 import * as _ from 'ramda';
 import { Prisma, User } from '../config/prisma-client';
 import { PipeInterface, pipeP, tapP } from './functional-utils';
+import { FieldNode, GraphQLOutputType, GraphQLObjectType, GraphQLSchema, FragmentDefinitionNode, OperationDefinitionNode } from 'graphql';
+import { Path } from 'graphql/jsutils/Path';
 
 export interface GraphQlContext {
     prisma: Prisma;
     user: User
 }
 
+export type ObjMap<T> = { [key: string]: T };
+
+export type GraphQLResolveInfo<T> = {
+    fieldName: string,
+    fieldNodes: FieldNode[],
+    returnType: GraphQLOutputType,
+    parentType: GraphQLObjectType,
+    path: Path,
+    schema: GraphQLSchema,
+    fragments: ObjMap<FragmentDefinitionNode>,
+    rootValue: any,
+    operation: OperationDefinitionNode,
+    variableValues: GQLResolver<T>,
+};
+
 export interface ResolverArgs<T> {
     root: any;
     args: T;
     context: GraphQlContext;
+    info: GraphQLResolveInfo<T>;
 }
 
 /**
@@ -30,24 +48,25 @@ const pipe: PipeInterface = _.pipe as any;
  * @param args 
  * @param context 
  */
-const makeResolverArgs = (root, args, context): ResolverArgs<any> => ({ root, args, context });
+const makeResolverArgs = (root, args, context, info): ResolverArgs<any> => ({ root, args, context, info });
 
 /**
  * @description special pipe function for resolvers
  * @param  {...any} fns 
  */
 export const resolverPipe = (...fns: any[]): any => {
-    return (root, args, context) => pipeP([...fns])(makeResolverArgs(root, args, context));
+    return (root, args, context, info) => pipeP([...fns])(makeResolverArgs(root, args, context, info));
 };
 
 /**
  * @description let the resolver functions get their arguments as objects instead of arguments
  * @param {*} param0 
  */
-export const convertToResolverPipes = ({ Query = {}, Mutation = {} }) => {
+export const convertToResolverPipes = ({ Query = {}, Mutation = {}, ...otherResolvers }) => {
     return {
         Query: resolverPiper(Query),
-        Mutation: resolverPiper(Mutation)
+        Mutation: resolverPiper(Mutation),
+        ...otherResolvers
     }
 }
 

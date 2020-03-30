@@ -2,7 +2,7 @@ import { AuthenticationError, UserInputError, } from "apollo-server-express";
 import * as _ from 'ramda';
 import { signJWT } from "../config/jwt";
 import { pipeP } from "../utils/functional-utils";
-import { checkPhoneUnique, convertToResolverPipes, GQLResolver } from "../utils/general-utils";
+import { checkPhoneUnique, convertToResolverPipes, GQLResolver, resolverPipe } from "../utils/general-utils";
 import { CreateStudentArgs, CreateTeacherArgs, LoginArgs, GetTeachersArgs } from "./users.interfaces";
 import { addUserType } from "./users.utils";
 
@@ -69,11 +69,27 @@ const getTeacher: GQLResolver<{ id: string }> = async ({ args: { id }, context: 
     return prisma.user({ _id: id });
 }
 
+const subjects: GQLResolver<any> = ({ root, context: { prisma } }) => {
+    return prisma.user({ _id: root._id }).subjects();
+};
+
+const studentClassrooms: GQLResolver<any> = ({ root, context: { prisma } }) => {
+    return prisma.user({ _id: root._id }).studentClassrooms();
+};
+
 const userResolvers = convertToResolverPipes({
-    Query: { login, getTeachers, getTeacher },
+    Query: {
+        login,
+        getTeachers,
+        getTeacher
+    },
     Mutation: {
         registerTeacher: pipeP([checkPhoneUnique, registerTeacher]),
         registerStudent: pipeP([checkPhoneUnique, registerStudent]),
+    },
+    User: {
+        subjects: resolverPipe(subjects),
+        studentClassrooms: resolverPipe(studentClassrooms)
     }
 });
 

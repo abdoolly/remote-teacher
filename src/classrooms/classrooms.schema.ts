@@ -58,9 +58,9 @@ type Classroom {
 }
 
 extend type Query {
-    getClassrooms(first:Int, teacher: ID, subject: ID): [Classroom]!
-    getClassroom(classroom: ID,teacher: ID): Classroom
-    getStudentClassrooms(student: ID): Classroom
+    getClassrooms(teacher: ID, first:Int, subject: ID,grade: String): [Classroom]!
+    getClassroom(classroom: ID!): Classroom!
+    getStudentClassrooms: [Classroom]!
 }
 
 extend type Mutation {

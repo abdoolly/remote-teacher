@@ -9,6 +9,7 @@ import { userTypeDef } from '../../users/users.schema';
 import { fromHeaderOrQuerystring, verifyJWT } from '../jwt';
 import { prisma } from '../prisma-client';
 import { UpperCaseDirective } from './directives/auth.directive';
+import { classroomResolvers } from '../../classrooms/classrooms.resolvers';
 
 const grades = [
     'Primary 1',
@@ -69,6 +70,7 @@ const apolloServer = new ApolloServer({
         userResolvers,
         subjectResolvers,
         scalarResolvers,
+        classroomResolvers,
     ],
     context: ({ req }) => {
 
@@ -93,7 +95,8 @@ const apolloServer = new ApolloServer({
             console.log('\x1b[41m', err.extensions.exception.stacktrace.join('\n'));
 
         return err;
-    }
+    },
+    tracing: process.env.NODE_ENV === 'development' ? true : false
 });
 
 export default apolloServer;

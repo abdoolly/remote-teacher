@@ -14,6 +14,9 @@ type User {
     password: String
     grade: String
     subjects: [Subject]
+    studentClassrooms: [Classroom]
+    createdAt: DateTime! 
+    updatedAt: DateTime! 
 }
 
 type RegisterOutput {

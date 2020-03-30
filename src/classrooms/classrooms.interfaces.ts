@@ -22,7 +22,7 @@ export type ClassroomUpdateInput = {
     teacher?: Maybe<Scalars["ID"]>;
     students?: Maybe<ClassroomUpdateStudents>;
     subject?: Maybe<Scalars["ID"]>;
-    scheduale?: Maybe<ClassroomDateUpdateManyInput>;
+    schedule?: Maybe<ClassroomDateUpdateManyInput>;
     cost?: Maybe<Scalars["Float"]>;
 };
 
@@ -43,7 +43,7 @@ export type CreateClassroomInput = {
     students?: Maybe<Array<Scalars["ID"]>>;
     subject?: Maybe<Scalars["ID"]>;
     cost?: Maybe<Scalars["Float"]>;
-    scheduale?: Maybe<Array<CreateClassroomDate>>;
+    schedule?: Maybe<Array<CreateClassroomDate>>;
 };
 
 export type MutationCreateClassroomArgs = {
@@ -56,8 +56,7 @@ export type MutationUpdateClassroomArgs = {
 };
 
 export type MutationAddStudentInClassroomArgs = {
-    student?: Maybe<Scalars["ID"]>;
-    classroom?: Maybe<Scalars["ID"]>;
+    classroom: Maybe<Scalars["ID"]>;
 };
 
 export type QueryGetClassroomsArgs = {

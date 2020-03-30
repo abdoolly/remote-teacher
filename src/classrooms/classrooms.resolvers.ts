@@ -1,7 +1,7 @@
 import { UserInputError } from 'apollo-server';
 import { prisma } from "../config/prisma-client";
 import { pipeP } from "../utils/functional-utils";
-import { convertToResolverPipes, GQLResolver, isAuthenticated, resolverPipe } from "../utils/general-utils";
+import { convertToResolverPipes, GQLResolver, isAuthenticated, resolverPipe, toIdsObject } from "../utils/general-utils";
 import * as i from "./classrooms.interfaces";
 
 const getClassrooms: GQLResolver<i.QueryGetClassroomsArgs> = ({
@@ -49,15 +49,11 @@ const getStudentClassrooms: GQLResolver<i.QueryGetStudentClassroomsArgs> = async
     return studentClassrooms || [];
 };
 
-const createClassroom: GQLResolver<i.MutationCreateClassroomArgs> = async ({
+const createClassroom: GQLResolver<i.MutationCreateClassroomArgs> = ({
     args: { data },
     context: { prisma, user }
 }) => {
-
-    console.log('createClassroom', data);
-    console.log('user', user);
-
-    const classroom = await prisma.createClassroom({
+    return prisma.createClassroom({
         teacher: { connect: { _id: user._id } },
         cost: data.cost,
         students: data.students && data.students.length ? {
@@ -66,38 +62,63 @@ const createClassroom: GQLResolver<i.MutationCreateClassroomArgs> = async ({
         subject: {
             connect: { _id: data.subject }
         },
-        scheduale: data.scheduale ? {
+        schedule: data.schedule ? {
             create: [
-                ...data.scheduale.map(
+                ...data.schedule.map(
                     ({ date, durationInMin, endTime, startTime }) =>
                         ({ date, durationInMin, endTime, startTime }))
             ]
         } : undefined
     });
-
-    console.log('classroom', classroom);
-
-    return classroom;
 };
 
-const updateClassroom: GQLResolver<i.MutationUpdateClassroomArgs> = async () => { };
+const updateClassroom: GQLResolver<i.MutationUpdateClassroomArgs> = async ({
+    args: { data, classroom } = {},
+    context: { prisma }
+}) => {
+    // handling if user send both options at the same time 
+    if (data?.schedule?.add && data?.schedule?.set)
+        throw new UserInputError('you should send either schedule.add or schedule.set not both');
 
-const addStudentInClassroom: GQLResolver<i.MutationAddStudentInClassroomArgs> = async () => { };
+    if (data?.schedule?.set) {
+        await prisma.updateClassroom({
+            data: { schedule: { deleteMany: {} } },
+            where: { _id: classroom }
+        })
+    }
 
-const students: GQLResolver<any> = function ({ root }) {
-    console.log('arguments for students', root);
-    return prisma.classroom({ _id: root._id }).students();
+    return prisma.updateClassroom({
+        data: {
+            teacher: data?.teacher ? { connect: { _id: data?.teacher } } : undefined,
+            cost: data?.cost,
+            subject: data?.subject ? { connect: { _id: data?.subject } } : undefined,
+            students: data?.students ? {
+                connect: toIdsObject(data?.students?.add),
+                set: toIdsObject(data?.students?.set)
+            } : undefined,
+            schedule: { create: data?.schedule?.add || data?.schedule?.set }
+        },
+        where: { _id: classroom }
+    });
 };
 
-const subject: GQLResolver<any> = function ({ root }) {
-    console.log('arguments for subject', arguments);
-    return prisma.classroom({ _id: root._id }).subject();
-}
+const addStudentInClassroom: GQLResolver<i.MutationAddStudentInClassroomArgs> = ({
+    args: { classroom } = {},
+    context: { prisma, user }
+}) =>
+    prisma.updateClassroom({
+        data: { students: { connect: { _id: user._id } } },
+        where: { _id: classroom }
+    });
 
-const teacher: GQLResolver<any> = ({ root, context: { prisma }, info }) => {
-    console.log('info', info);
-    return prisma.classroom({ _id: root._id }).teacher();
-}
+const students: GQLResolver<any> = ({ root, context: { prisma } }) =>
+    prisma.classroom({ _id: root._id }).students();
+
+const subject: GQLResolver<any> = ({ root, context: { prisma } }) =>
+    prisma.classroom({ _id: root._id }).subject();
+
+const teacher: GQLResolver<any> = ({ root, context: { prisma } }) =>
+    prisma.classroom({ _id: root._id }).teacher();
 
 export const classroomResolvers = convertToResolverPipes({
     Query: {
@@ -107,8 +128,8 @@ export const classroomResolvers = convertToResolverPipes({
     },
     Mutation: {
         createClassroom: pipeP([isAuthenticated, createClassroom]),
-        updateClassroom,
-        addStudentInClassroom,
+        updateClassroom: pipeP([isAuthenticated, updateClassroom]),
+        addStudentInClassroom: pipeP([isAuthenticated, addStudentInClassroom]),
     },
     Classroom: {
         students: resolverPipe(students),

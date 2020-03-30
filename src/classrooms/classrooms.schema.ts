@@ -13,7 +13,7 @@ input CreateClassroomInput {
     students: [ID!]
     subject: ID
     cost: Float
-    scheduale: [CreateClassroomDate!]
+    schedule: [CreateClassroomDate!]
 }
 
 input ClassroomUpdateStudents {
@@ -36,7 +36,7 @@ input ClassroomUpdateInput {
     teacher: ID
     students: ClassroomUpdateStudents
     subject: ID
-    scheduale: classroomDateUpdateManyInput
+    schedule: classroomDateUpdateManyInput
     cost: Float
 }
 
@@ -54,7 +54,7 @@ type Classroom {
     students: [User]!
     subject: Subject
     cost: Float
-    scheduale: [classroomDate]!
+    schedule: [classroomDate]!
 }
 
 extend type Query {
@@ -66,6 +66,6 @@ extend type Query {
 extend type Mutation {
     createClassroom(data: CreateClassroomInput!): Classroom!
     updateClassroom(data: ClassroomUpdateInput!, classroom: ID): Classroom
-    addStudentInClassroom(student: ID, classroom: ID): Boolean
+    addStudentInClassroom(classroom: ID!): Boolean
 }
 `;

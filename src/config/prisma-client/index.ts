@@ -315,9 +315,9 @@ export interface ClassroomWhereInput {
   teacher?: Maybe<UserWhereInput>;
   students_some?: Maybe<UserWhereInput>;
   subject?: Maybe<SubjectWhereInput>;
-  scheduale_some?: Maybe<classroomDateWhereInput>;
-  scheduale_every?: Maybe<classroomDateRestrictedWhereInput>;
-  scheduale_none?: Maybe<classroomDateRestrictedWhereInput>;
+  schedule_some?: Maybe<classroomDateWhereInput>;
+  schedule_every?: Maybe<classroomDateRestrictedWhereInput>;
+  schedule_none?: Maybe<classroomDateRestrictedWhereInput>;
   cost?: Maybe<Float>;
   cost_not?: Maybe<Float>;
   cost_in?: Maybe<Float[] | Float>;
@@ -541,7 +541,7 @@ export interface ClassroomCreateInput {
   teacher?: Maybe<UserCreateOneInput>;
   students?: Maybe<UserCreateManyInput>;
   subject?: Maybe<SubjectCreateOneInput>;
-  scheduale?: Maybe<classroomDateCreateManyInput>;
+  schedule?: Maybe<classroomDateCreateManyInput>;
   cost?: Maybe<Float>;
 }
 
@@ -605,7 +605,7 @@ export interface ClassroomUpdateInput {
   teacher?: Maybe<UserUpdateOneInput>;
   students?: Maybe<UserUpdateManyInput>;
   subject?: Maybe<SubjectUpdateOneInput>;
-  scheduale?: Maybe<classroomDateUpdateManyInput>;
+  schedule?: Maybe<classroomDateUpdateManyInput>;
   cost?: Maybe<Float>;
 }
 
@@ -785,7 +785,7 @@ export interface ClassroomUpdateDataInput {
   teacher?: Maybe<UserUpdateOneInput>;
   students?: Maybe<UserUpdateManyInput>;
   subject?: Maybe<SubjectUpdateOneInput>;
-  scheduale?: Maybe<classroomDateUpdateManyInput>;
+  schedule?: Maybe<classroomDateUpdateManyInput>;
   cost?: Maybe<Float>;
 }
 
@@ -1170,7 +1170,7 @@ export interface NodeNode {
 
 export interface Classroom {
   _id: ID_Output;
-  scheduale?: <T = FragmentableArray<classroomDate>>() => T;
+  schedule?: <T = FragmentableArray<classroomDate>>() => T;
   cost?: Float;
 }
 
@@ -1187,7 +1187,7 @@ export interface ClassroomPromise extends Promise<Classroom>, Fragmentable {
     last?: Int;
   }) => T;
   subject: <T = SubjectPromise>() => T;
-  scheduale: <T = FragmentableArray<classroomDate>>() => T;
+  schedule: <T = FragmentableArray<classroomDate>>() => T;
   cost: () => Promise<Float>;
 }
 
@@ -1206,7 +1206,7 @@ export interface ClassroomSubscription
     last?: Int;
   }) => T;
   subject: <T = SubjectSubscription>() => T;
-  scheduale: <T = Promise<AsyncIterator<classroomDateSubscription>>>() => T;
+  schedule: <T = Promise<AsyncIterator<classroomDateSubscription>>>() => T;
   cost: () => Promise<AsyncIterator<Float>>;
 }
 
@@ -1225,7 +1225,7 @@ export interface ClassroomNullablePromise
     last?: Int;
   }) => T;
   subject: <T = SubjectPromise>() => T;
-  scheduale: <T = FragmentableArray<classroomDate>>() => T;
+  schedule: <T = FragmentableArray<classroomDate>>() => T;
   cost: () => Promise<Float>;
 }
 

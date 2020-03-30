@@ -11,6 +11,6 @@ type Classroom @db(name:"classrooms") {
     teacher: User @relation(name: "ClassroomTeacher", link: INLINE)
     students: [User] @relation(name: "ClassroomStudents", link: INLINE)
     subject: Subject @relation(link: INLINE)
-    scheduale: [classroomDate]
+    schedule: [classroomDate]
     cost: Float
 }

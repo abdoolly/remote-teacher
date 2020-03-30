@@ -113,9 +113,4 @@ export const checkPhoneUnique = shouldBeUnique('user', _.lensPath(['data', 'phon
 
 
 
-
-
-/**
- * - authentication directive
- * - unique validation directive
- */
+export const toIdsObject = (arrIds?: any) => arrIds ? arrIds.map((_id) => ({ _id })) : undefined;

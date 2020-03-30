@@ -23,7 +23,7 @@ type Classroom {
   teacher: User
   students(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   subject: Subject
-  scheduale: [classroomDate!]
+  schedule: [classroomDate!]
   cost: Float
 }
 
@@ -38,7 +38,7 @@ input ClassroomCreateInput {
   teacher: UserCreateOneInput
   students: UserCreateManyInput
   subject: SubjectCreateOneInput
-  scheduale: classroomDateCreateManyInput
+  schedule: classroomDateCreateManyInput
   cost: Float
 }
 
@@ -327,7 +327,7 @@ input ClassroomUpdateDataInput {
   teacher: UserUpdateOneInput
   students: UserUpdateManyInput
   subject: SubjectUpdateOneInput
-  scheduale: classroomDateUpdateManyInput
+  schedule: classroomDateUpdateManyInput
   cost: Float
 }
 
@@ -335,7 +335,7 @@ input ClassroomUpdateInput {
   teacher: UserUpdateOneInput
   students: UserUpdateManyInput
   subject: SubjectUpdateOneInput
-  scheduale: classroomDateUpdateManyInput
+  schedule: classroomDateUpdateManyInput
   cost: Float
 }
 
@@ -393,9 +393,9 @@ input ClassroomWhereInput {
   teacher: UserWhereInput
   students_some: UserWhereInput
   subject: SubjectWhereInput
-  scheduale_some: classroomDateWhereInput
-  scheduale_every: classroomDateRestrictedWhereInput
-  scheduale_none: classroomDateRestrictedWhereInput
+  schedule_some: classroomDateWhereInput
+  schedule_every: classroomDateRestrictedWhereInput
+  schedule_none: classroomDateRestrictedWhereInput
   cost: Float
   cost_not: Float
   cost_in: [Float!]

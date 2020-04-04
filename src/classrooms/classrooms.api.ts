@@ -38,6 +38,11 @@ export const streamClassroomVideo = async (req: Request, res: Response) => {
     }
 }
 
+/**
+ * @description helper function that gets the schedule video information using only the schedule id
+ * @param scheduleId 
+ * @param userId 
+ */
 const getVideoUrlByScheduleId = async (scheduleId: string, userId: string) => {
     let classrooms = await prisma.classrooms({
         where: {

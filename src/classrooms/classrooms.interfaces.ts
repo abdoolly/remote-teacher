@@ -36,6 +36,8 @@ export type CreateClassroomDate = {
     endTime: Scalars["DateTime"];
     date?: Maybe<Scalars["DateTime"]>;
     durationInMin?: Maybe<Scalars["Int"]>;
+    videoUrl?: Maybe<Scalars["String"]>;
+    encoding?: Maybe<Scalars["String"]>;
 };
 
 export type CreateClassroomInput = {
@@ -71,15 +73,12 @@ export type QueryGetClassroomArgs = {
 };
 
 export type QueryGetStudentClassroomsArgs = {
+    today?: Maybe<Scalars["Boolean"]>;
 };
 
-
-
-
-
-
-
-
+export type getClassroomStreamUrlArgs = {
+    scheduleId: Scalars["String"]
+};
 
 
 

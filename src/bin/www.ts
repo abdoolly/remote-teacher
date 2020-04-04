@@ -6,7 +6,8 @@
 
 import app from '../app';
 var debug = require('debug')('remote-teacher:server');
-var http = require('http');
+import http from 'http';
+import apolloServer from '../config/graphql/graphql';
 
 /**
  * Get port from environment and store in Express.
@@ -20,12 +21,16 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+apolloServer.installSubscriptionHandlers(server);
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+server.listen({ port }, () => {
+  console.log(`server ready at http://localhost:${port}${apolloServer.graphqlPath}`)
+  console.log(`Subscriptions ready at ws://localhost:${port}${apolloServer.subscriptionsPath}`)
+});
 server.on('error', onError);
 server.on('listening', onListening);
 
@@ -85,6 +90,6 @@ function onListening() {
   var addr = server.address();
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
-    : 'port ' + addr.port;
+    : 'port ' + addr?.port;
   debug('Listening on ' + bind);
 }

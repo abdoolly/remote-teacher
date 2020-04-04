@@ -25,3 +25,5 @@ export const tapP = _.curry(async (fn: any, args: any) => {
 
     return args;
 });
+
+export const debug = _.curry((label = '', value = '') => console.log(label, value));

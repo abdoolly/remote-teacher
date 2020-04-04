@@ -1,15 +1,27 @@
+import { PubSub } from 'apollo-server';
 import { ApolloServer, gql } from 'apollo-server-express';
 import casual from 'casual';
-import { DateTimeResolver, EmailAddressResolver, ObjectIDResolver, URLResolver } from 'graphql-scalars';
+import {
+    DateTimeResolver,
+    EmailAddressResolver,
+    ObjectIDResolver, URLResolver
+} from 'graphql-scalars';
+import { classroomResolvers } from '../../classrooms/classrooms.resolvers';
 import { classroomsTypeDef } from '../../classrooms/classrooms.schema';
 import { subjectResolvers } from '../../subjects/subjects.resolvers';
 import { subjectsTypeDef } from '../../subjects/subjects.schema';
+import { streamResolvers } from '../../test-stream/stream.resolvers';
+import { streamTypeDef } from '../../test-stream/stream.schema';
 import userResolvers from '../../users/users.resolvers';
 import { userTypeDef } from '../../users/users.schema';
 import { fromHeaderOrQuerystring, verifyJWT } from '../jwt';
 import { prisma } from '../prisma-client';
 import { UpperCaseDirective } from './directives/auth.directive';
-import { classroomResolvers } from '../../classrooms/classrooms.resolvers';
+import { classroomVideotypeDefs } from '../../classroom-video/classroom-video.schema';
+import { classroomVideoResolvers } from '../../classroom-video/classroom-video.resolvers';
+import { DateFormatDirective } from './directives/date.directive';
+
+export const pubsub = new PubSub();
 
 const grades = [
     'Primary 1',
@@ -49,10 +61,20 @@ const mocks = {
 const basicTypeDef = gql`
 directive @upper on FIELD_DEFINITION
 
+directive @date(
+    format: String = "YYYY-M-D"
+) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
+
 scalar DateTime
 scalar EmailAddress
 scalar URL
 scalar ObjectID
+
+type File {
+    filename: String!
+    mimetype: String!
+    encoding: String!
+}
 `;
 
 const scalarResolvers = {
@@ -64,15 +86,27 @@ const scalarResolvers = {
 
 // apollo server here
 const apolloServer = new ApolloServer({
-    typeDefs: [basicTypeDef, subjectsTypeDef, userTypeDef, classroomsTypeDef],
+    typeDefs: [
+        basicTypeDef,
+        subjectsTypeDef,
+        userTypeDef,
+        classroomsTypeDef,
+        streamTypeDef,
+        classroomVideotypeDefs
+    ],
     // mocks,
     resolvers: [
         userResolvers,
         subjectResolvers,
         scalarResolvers,
         classroomResolvers,
+        streamResolvers,
+        // classroomVideoResolvers
     ],
-    context: ({ req }) => {
+    context: ({ req, res }) => {
+        if (!req) {
+            return { prisma, res }
+        }
 
         // JWT authentication
         let user;
@@ -82,12 +116,14 @@ const apolloServer = new ApolloServer({
 
         return {
             prisma,
-            user
+            user,
+            res
         };
     },
     schemaDirectives: {
         // auth: AuthDirective,
-        upper: UpperCaseDirective
+        upper: UpperCaseDirective,
+        date: DateFormatDirective
     },
     formatError: (err) => {
         console.log('\x1b[41m', 'Error:', err.message);
@@ -96,7 +132,10 @@ const apolloServer = new ApolloServer({
 
         return err;
     },
-    tracing: process.env.NODE_ENV === 'development' ? true : false
+    tracing: process.env.NODE_ENV === 'development' ? true : false,
+    subscriptions: {
+        path: '/subscriptions'
+    }
 });
 
 export default apolloServer;

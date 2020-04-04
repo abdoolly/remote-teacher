@@ -1,9 +1,16 @@
+type Video @embedded {
+    url: String!
+    type: String!
+}
+
 type classroomDate @embedded {
     _id: ID! @id
     startTime: DateTime
     endTime: DateTime
     date: DateTime
     durationInMin: Int
+    videoUrl: String
+    encoding: String
 }
 
 type Classroom @db(name:"classrooms") {

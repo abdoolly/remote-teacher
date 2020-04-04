@@ -1,4 +1,5 @@
 import { GQLResolver, convertToResolverPipes } from "../utils/general-utils";
+import { CreateSubjectArgs } from "./subjects.interface";
 
 
 const getSubjects: GQLResolver<{ grade?: string }> = async ({
@@ -29,10 +30,15 @@ const getGrades: GQLResolver<{}> = async () => {
     ];
 }
 
+const createSubject: GQLResolver<{ subject: CreateSubjectArgs }> = ({ args, context: { prisma }
+}) => prisma.createSubject(args.subject);
+
 export const subjectResolvers = convertToResolverPipes({
     Query: {
         getSubjects,
         getGrades
     },
-    Mutation: {}
+    Mutation: {
+        createSubject
+    }
 });

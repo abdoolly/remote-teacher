@@ -53,6 +53,8 @@ type classroomDate {
   endTime: DateTime
   date: DateTime
   durationInMin: Int
+  videoUrl: String
+  encoding: String
 }
 
 input classroomDateCreateInput {
@@ -61,6 +63,8 @@ input classroomDateCreateInput {
   endTime: DateTime
   date: DateTime
   durationInMin: Int
+  videoUrl: String
+  encoding: String
 }
 
 input classroomDateCreateManyInput {
@@ -114,6 +118,34 @@ input classroomDateRestrictedWhereInput {
   durationInMin_lte: Int
   durationInMin_gt: Int
   durationInMin_gte: Int
+  videoUrl: String
+  videoUrl_not: String
+  videoUrl_in: [String!]
+  videoUrl_not_in: [String!]
+  videoUrl_lt: String
+  videoUrl_lte: String
+  videoUrl_gt: String
+  videoUrl_gte: String
+  videoUrl_contains: String
+  videoUrl_not_contains: String
+  videoUrl_starts_with: String
+  videoUrl_not_starts_with: String
+  videoUrl_ends_with: String
+  videoUrl_not_ends_with: String
+  encoding: String
+  encoding_not: String
+  encoding_in: [String!]
+  encoding_not_in: [String!]
+  encoding_lt: String
+  encoding_lte: String
+  encoding_gt: String
+  encoding_gte: String
+  encoding_contains: String
+  encoding_not_contains: String
+  encoding_starts_with: String
+  encoding_not_starts_with: String
+  encoding_ends_with: String
+  encoding_not_ends_with: String
   AND: [classroomDateRestrictedWhereInput!]
 }
 
@@ -164,6 +196,34 @@ input classroomDateScalarWhereInput {
   durationInMin_lte: Int
   durationInMin_gt: Int
   durationInMin_gte: Int
+  videoUrl: String
+  videoUrl_not: String
+  videoUrl_in: [String!]
+  videoUrl_not_in: [String!]
+  videoUrl_lt: String
+  videoUrl_lte: String
+  videoUrl_gt: String
+  videoUrl_gte: String
+  videoUrl_contains: String
+  videoUrl_not_contains: String
+  videoUrl_starts_with: String
+  videoUrl_not_starts_with: String
+  videoUrl_ends_with: String
+  videoUrl_not_ends_with: String
+  encoding: String
+  encoding_not: String
+  encoding_in: [String!]
+  encoding_not_in: [String!]
+  encoding_lt: String
+  encoding_lte: String
+  encoding_gt: String
+  encoding_gte: String
+  encoding_contains: String
+  encoding_not_contains: String
+  encoding_starts_with: String
+  encoding_not_starts_with: String
+  encoding_ends_with: String
+  encoding_not_ends_with: String
   AND: [classroomDateScalarWhereInput!]
   OR: [classroomDateScalarWhereInput!]
   NOT: [classroomDateScalarWhereInput!]
@@ -174,6 +234,8 @@ input classroomDateUpdateDataInput {
   endTime: DateTime
   date: DateTime
   durationInMin: Int
+  videoUrl: String
+  encoding: String
 }
 
 input classroomDateUpdateManyDataInput {
@@ -181,6 +243,8 @@ input classroomDateUpdateManyDataInput {
   endTime: DateTime
   date: DateTime
   durationInMin: Int
+  videoUrl: String
+  encoding: String
 }
 
 input classroomDateUpdateManyInput {
@@ -255,6 +319,34 @@ input classroomDateWhereInput {
   durationInMin_lte: Int
   durationInMin_gt: Int
   durationInMin_gte: Int
+  videoUrl: String
+  videoUrl_not: String
+  videoUrl_in: [String!]
+  videoUrl_not_in: [String!]
+  videoUrl_lt: String
+  videoUrl_lte: String
+  videoUrl_gt: String
+  videoUrl_gte: String
+  videoUrl_contains: String
+  videoUrl_not_contains: String
+  videoUrl_starts_with: String
+  videoUrl_not_starts_with: String
+  videoUrl_ends_with: String
+  videoUrl_not_ends_with: String
+  encoding: String
+  encoding_not: String
+  encoding_in: [String!]
+  encoding_not_in: [String!]
+  encoding_lt: String
+  encoding_lte: String
+  encoding_gt: String
+  encoding_gte: String
+  encoding_contains: String
+  encoding_not_contains: String
+  encoding_starts_with: String
+  encoding_not_starts_with: String
+  encoding_ends_with: String
+  encoding_not_ends_with: String
   AND: [classroomDateWhereInput!]
 }
 

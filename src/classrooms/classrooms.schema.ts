@@ -2,14 +2,15 @@ import { gql } from "apollo-server";
 
 export const classroomsTypeDef = gql`
 input CreateClassroomDate {
-    startTime: DateTime!
-    endTime: DateTime!
-    date: DateTime
+    startTime: String! @date(format: "h:mm a")
+    endTime: String! @date(format: "h:mm a")
+    date: String @date
     durationInMin: Int
+    video: Upload
 }
 
 input CreateClassroomInput {
-    teacher: ID
+    teacher: ID!
     students: [ID!]
     subject: ID
     cost: Float
@@ -42,15 +43,27 @@ input ClassroomUpdateInput {
 
 type classroomDate {
     _id: ID!
-    startTime: DateTime
-    endTime: DateTime
-    date: DateTime
+
+    # classroom startTime in format hour:minutes AM/PM h:M TT
+    startTime: String @date(format: "h:mm a")
+    
+    endTime: String @date(format: "h:mm a")
+
+    # this the date of this classroom and it should be in format (yyyy-mm-dd) "1999-01-30" 
+    date: String @date
+
     durationInMin: Int
+    videoUrl: String
+    encoding: String
+}
+
+type ClassroomStream {
+    streamUrl: String!
 }
 
 type Classroom {
     _id: ID!
-    teacher: User
+    teacher: User!
     students: [User]!
     subject: Subject
     cost: Float
@@ -60,12 +73,14 @@ type Classroom {
 extend type Query {
     getClassrooms(teacher: ID, first:Int, subject: ID,grade: String): [Classroom]!
     getClassroom(classroom: ID!): Classroom!
-    getStudentClassrooms: [Classroom]!
+    getStudentClassrooms(today: Boolean): [Classroom]!
+    getClassroomStreamUrl(scheduleId: ID) :ClassroomStream!
 }
 
 extend type Mutation {
     createClassroom(data: CreateClassroomInput!): Classroom!
     updateClassroom(data: ClassroomUpdateInput!, classroom: ID): Classroom
-    addStudentInClassroom(classroom: ID!): Boolean
+    addStudentInClassroom(classroom: ID!): [User!]!
+    uploadClassroomVideo(file: Upload!): File!
 }
 `;

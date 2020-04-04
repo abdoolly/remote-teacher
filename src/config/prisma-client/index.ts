@@ -472,6 +472,34 @@ export interface classroomDateWhereInput {
   durationInMin_lte?: Maybe<Int>;
   durationInMin_gt?: Maybe<Int>;
   durationInMin_gte?: Maybe<Int>;
+  videoUrl?: Maybe<String>;
+  videoUrl_not?: Maybe<String>;
+  videoUrl_in?: Maybe<String[] | String>;
+  videoUrl_not_in?: Maybe<String[] | String>;
+  videoUrl_lt?: Maybe<String>;
+  videoUrl_lte?: Maybe<String>;
+  videoUrl_gt?: Maybe<String>;
+  videoUrl_gte?: Maybe<String>;
+  videoUrl_contains?: Maybe<String>;
+  videoUrl_not_contains?: Maybe<String>;
+  videoUrl_starts_with?: Maybe<String>;
+  videoUrl_not_starts_with?: Maybe<String>;
+  videoUrl_ends_with?: Maybe<String>;
+  videoUrl_not_ends_with?: Maybe<String>;
+  encoding?: Maybe<String>;
+  encoding_not?: Maybe<String>;
+  encoding_in?: Maybe<String[] | String>;
+  encoding_not_in?: Maybe<String[] | String>;
+  encoding_lt?: Maybe<String>;
+  encoding_lte?: Maybe<String>;
+  encoding_gt?: Maybe<String>;
+  encoding_gte?: Maybe<String>;
+  encoding_contains?: Maybe<String>;
+  encoding_not_contains?: Maybe<String>;
+  encoding_starts_with?: Maybe<String>;
+  encoding_not_starts_with?: Maybe<String>;
+  encoding_ends_with?: Maybe<String>;
+  encoding_not_ends_with?: Maybe<String>;
   AND?: Maybe<classroomDateWhereInput[] | classroomDateWhereInput>;
 }
 
@@ -522,6 +550,34 @@ export interface classroomDateRestrictedWhereInput {
   durationInMin_lte?: Maybe<Int>;
   durationInMin_gt?: Maybe<Int>;
   durationInMin_gte?: Maybe<Int>;
+  videoUrl?: Maybe<String>;
+  videoUrl_not?: Maybe<String>;
+  videoUrl_in?: Maybe<String[] | String>;
+  videoUrl_not_in?: Maybe<String[] | String>;
+  videoUrl_lt?: Maybe<String>;
+  videoUrl_lte?: Maybe<String>;
+  videoUrl_gt?: Maybe<String>;
+  videoUrl_gte?: Maybe<String>;
+  videoUrl_contains?: Maybe<String>;
+  videoUrl_not_contains?: Maybe<String>;
+  videoUrl_starts_with?: Maybe<String>;
+  videoUrl_not_starts_with?: Maybe<String>;
+  videoUrl_ends_with?: Maybe<String>;
+  videoUrl_not_ends_with?: Maybe<String>;
+  encoding?: Maybe<String>;
+  encoding_not?: Maybe<String>;
+  encoding_in?: Maybe<String[] | String>;
+  encoding_not_in?: Maybe<String[] | String>;
+  encoding_lt?: Maybe<String>;
+  encoding_lte?: Maybe<String>;
+  encoding_gt?: Maybe<String>;
+  encoding_gte?: Maybe<String>;
+  encoding_contains?: Maybe<String>;
+  encoding_not_contains?: Maybe<String>;
+  encoding_starts_with?: Maybe<String>;
+  encoding_not_starts_with?: Maybe<String>;
+  encoding_ends_with?: Maybe<String>;
+  encoding_not_ends_with?: Maybe<String>;
   AND?: Maybe<
     classroomDateRestrictedWhereInput[] | classroomDateRestrictedWhereInput
   >;
@@ -599,6 +655,8 @@ export interface classroomDateCreateInput {
   endTime?: Maybe<DateTimeInput>;
   date?: Maybe<DateTimeInput>;
   durationInMin?: Maybe<Int>;
+  videoUrl?: Maybe<String>;
+  encoding?: Maybe<String>;
 }
 
 export interface ClassroomUpdateInput {
@@ -979,6 +1037,8 @@ export interface classroomDateUpdateDataInput {
   endTime?: Maybe<DateTimeInput>;
   date?: Maybe<DateTimeInput>;
   durationInMin?: Maybe<Int>;
+  videoUrl?: Maybe<String>;
+  encoding?: Maybe<String>;
 }
 
 export interface classroomDateUpsertWithWhereUniqueNestedInput {
@@ -1034,6 +1094,34 @@ export interface classroomDateScalarWhereInput {
   durationInMin_lte?: Maybe<Int>;
   durationInMin_gt?: Maybe<Int>;
   durationInMin_gte?: Maybe<Int>;
+  videoUrl?: Maybe<String>;
+  videoUrl_not?: Maybe<String>;
+  videoUrl_in?: Maybe<String[] | String>;
+  videoUrl_not_in?: Maybe<String[] | String>;
+  videoUrl_lt?: Maybe<String>;
+  videoUrl_lte?: Maybe<String>;
+  videoUrl_gt?: Maybe<String>;
+  videoUrl_gte?: Maybe<String>;
+  videoUrl_contains?: Maybe<String>;
+  videoUrl_not_contains?: Maybe<String>;
+  videoUrl_starts_with?: Maybe<String>;
+  videoUrl_not_starts_with?: Maybe<String>;
+  videoUrl_ends_with?: Maybe<String>;
+  videoUrl_not_ends_with?: Maybe<String>;
+  encoding?: Maybe<String>;
+  encoding_not?: Maybe<String>;
+  encoding_in?: Maybe<String[] | String>;
+  encoding_not_in?: Maybe<String[] | String>;
+  encoding_lt?: Maybe<String>;
+  encoding_lte?: Maybe<String>;
+  encoding_gt?: Maybe<String>;
+  encoding_gte?: Maybe<String>;
+  encoding_contains?: Maybe<String>;
+  encoding_not_contains?: Maybe<String>;
+  encoding_starts_with?: Maybe<String>;
+  encoding_not_starts_with?: Maybe<String>;
+  encoding_ends_with?: Maybe<String>;
+  encoding_not_ends_with?: Maybe<String>;
   AND?: Maybe<classroomDateScalarWhereInput[] | classroomDateScalarWhereInput>;
   OR?: Maybe<classroomDateScalarWhereInput[] | classroomDateScalarWhereInput>;
   NOT?: Maybe<classroomDateScalarWhereInput[] | classroomDateScalarWhereInput>;
@@ -1049,6 +1137,8 @@ export interface classroomDateUpdateManyDataInput {
   endTime?: Maybe<DateTimeInput>;
   date?: Maybe<DateTimeInput>;
   durationInMin?: Maybe<Int>;
+  videoUrl?: Maybe<String>;
+  encoding?: Maybe<String>;
 }
 
 export interface ClassroomUpsertWithWhereUniqueNestedInput {
@@ -1375,6 +1465,8 @@ export interface classroomDate {
   endTime?: DateTimeOutput;
   date?: DateTimeOutput;
   durationInMin?: Int;
+  videoUrl?: String;
+  encoding?: String;
 }
 
 export interface classroomDatePromise
@@ -1385,6 +1477,8 @@ export interface classroomDatePromise
   endTime: () => Promise<DateTimeOutput>;
   date: () => Promise<DateTimeOutput>;
   durationInMin: () => Promise<Int>;
+  videoUrl: () => Promise<String>;
+  encoding: () => Promise<String>;
 }
 
 export interface classroomDateSubscription
@@ -1395,6 +1489,8 @@ export interface classroomDateSubscription
   endTime: () => Promise<AsyncIterator<DateTimeOutput>>;
   date: () => Promise<AsyncIterator<DateTimeOutput>>;
   durationInMin: () => Promise<AsyncIterator<Int>>;
+  videoUrl: () => Promise<AsyncIterator<String>>;
+  encoding: () => Promise<AsyncIterator<String>>;
 }
 
 export interface classroomDateNullablePromise
@@ -1405,6 +1501,8 @@ export interface classroomDateNullablePromise
   endTime: () => Promise<DateTimeOutput>;
   date: () => Promise<DateTimeOutput>;
   durationInMin: () => Promise<Int>;
+  videoUrl: () => Promise<String>;
+  encoding: () => Promise<String>;
 }
 
 export interface ClassroomConnection {
@@ -1815,6 +1913,10 @@ export const models: Model[] = [
   {
     name: "Subject",
     embedded: false
+  },
+  {
+    name: "Video",
+    embedded: true
   },
   {
     name: "classroomDate",

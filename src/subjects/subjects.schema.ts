@@ -10,10 +10,22 @@ type Subject {
     name: String!
     photoUrl: String
     grade: String 
+    ar_name: String
+}
+
+input CreateSubjectInput {
+    name: String!
+    photoUrl: String
+    grade: String 
+    ar_name: String
 }
 
 extend type Query {
     getGrades : [Grades]!
     getSubjects(grade: String) : [Subject]!
+}
+
+extend type Mutation {
+    createSubject(subject: CreateSubjectInput!) : Subject!
 }
 `;

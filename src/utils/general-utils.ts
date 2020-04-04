@@ -1,13 +1,15 @@
-import { ForbiddenError, ValidationError } from 'apollo-server-express';
+import { ForbiddenError, ValidationError, AuthenticationError } from 'apollo-server-express';
 import * as _ from 'ramda';
 import { Prisma, User } from '../config/prisma-client';
 import { PipeInterface, pipeP, tapP } from './functional-utils';
 import { FieldNode, GraphQLOutputType, GraphQLObjectType, GraphQLSchema, FragmentDefinitionNode, OperationDefinitionNode } from 'graphql';
 import { Path } from 'graphql/jsutils/Path';
+import { Response } from 'express';
 
 export interface GraphQlContext {
     prisma: Prisma;
-    user: User
+    user: User;
+    res: Response;
 }
 
 export type ObjMap<T> = { [key: string]: T };
@@ -91,6 +93,15 @@ export const isAuthenticated: GQLResolver<{}> = _.tap(({ context }) => {
         throw new ForbiddenError('You are not authenticated');
 });
 
+export const isTeacher: GQLResolver<{}> = _.tap(({ context: { user } }) => {
+    if (user.userType !== 'TEACHER')
+        throw new AuthenticationError('Only teachers are allowed to this action');
+});
+
+export const isStudent: GQLResolver<{}> = _.tap(({ context: { user } }) => {
+    if (user.userType !== 'STUDENT')
+        throw new AuthenticationError('Only students are allowed to this action');
+});
 
 /**
  * @description graphql middleware that will make sure that a certain field is unique
@@ -114,3 +125,7 @@ export const checkPhoneUnique = shouldBeUnique('user', _.lensPath(['data', 'phon
 
 
 export const toIdsObject = (arrIds?: any) => arrIds ? arrIds.map((_id) => ({ _id })) : undefined;
+
+export const OnlyTime = (time: string) => new Date(`1970-01-01 ${time}`);
+
+export const OnlyDate = (date: string) => new Date(`${date} 00:00`); 

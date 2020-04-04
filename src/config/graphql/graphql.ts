@@ -1,11 +1,7 @@
 import { PubSub } from 'apollo-server';
 import { ApolloServer, gql } from 'apollo-server-express';
 import casual from 'casual';
-import {
-    DateTimeResolver,
-    EmailAddressResolver,
-    ObjectIDResolver, URLResolver
-} from 'graphql-scalars';
+import { DateTimeResolver, EmailAddressResolver, ObjectIDResolver, URLResolver } from 'graphql-scalars';
 import { classroomResolvers } from '../../classrooms/classrooms.resolvers';
 import { classroomsTypeDef } from '../../classrooms/classrooms.schema';
 import { subjectResolvers } from '../../subjects/subjects.resolvers';
@@ -17,8 +13,6 @@ import { userTypeDef } from '../../users/users.schema';
 import { fromHeaderOrQuerystring, verifyJWT } from '../jwt';
 import { prisma } from '../prisma-client';
 import { UpperCaseDirective } from './directives/auth.directive';
-import { classroomVideotypeDefs } from '../../classroom-video/classroom-video.schema';
-import { classroomVideoResolvers } from '../../classroom-video/classroom-video.resolvers';
 import { DateFormatDirective } from './directives/date.directive';
 
 export const pubsub = new PubSub();
@@ -92,7 +86,6 @@ const apolloServer = new ApolloServer({
         userTypeDef,
         classroomsTypeDef,
         streamTypeDef,
-        classroomVideotypeDefs
     ],
     // mocks,
     resolvers: [

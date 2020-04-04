@@ -5,6 +5,7 @@ import { PipeInterface, pipeP, tapP } from './functional-utils';
 import { FieldNode, GraphQLOutputType, GraphQLObjectType, GraphQLSchema, FragmentDefinitionNode, OperationDefinitionNode } from 'graphql';
 import { Path } from 'graphql/jsutils/Path';
 import { Response } from 'express';
+import * as crypto from 'crypto';
 
 export interface GraphQlContext {
     prisma: Prisma;
@@ -128,4 +129,11 @@ export const toIdsObject = (arrIds?: any) => arrIds ? arrIds.map((_id) => ({ _id
 
 export const OnlyTime = (time: string) => new Date(`1970-01-01 ${time}`);
 
-export const OnlyDate = (date: string) => new Date(`${date} 00:00`); 
+export const OnlyDate = (date: string) => new Date(`${date} 00:00`);
+
+/**
+ * @description extract extension from file name 
+ */
+export const getExtensionFromFileName = _.pipe(_.split('.'), _.last);
+
+export const randomString = () => crypto.randomBytes(8).toString('hex');

@@ -81,6 +81,6 @@ extend type Mutation {
     createClassroom(data: CreateClassroomInput!): Classroom!
     updateClassroom(data: ClassroomUpdateInput!, classroom: ID): Classroom
     addStudentInClassroom(classroom: ID!): [User!]!
-    uploadClassroomVideo(file: Upload!): File!
+    uploadClassroomVideo(scheduleId:ID!, video: Upload!): File!
 }
 `;

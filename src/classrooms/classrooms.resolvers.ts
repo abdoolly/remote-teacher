@@ -6,9 +6,22 @@ import * as _ from 'ramda';
 import { promisify } from 'util';
 import { VIDEO_UPLOAD_LOCATION } from '../config/upload';
 import { pipeP } from "../utils/functional-utils";
-import { convertToResolverPipes, GQLResolver, isAuthenticated, isTeacher, OnlyDate, OnlyTime, resolverPipe, toIdsObject } from "../utils/general-utils";
+import {
+    convertToResolverPipes,
+    GQLResolver,
+    isAuthenticated,
+    isTeacher,
+    OnlyDate,
+    OnlyTime,
+    resolverPipe,
+    toIdsObject,
+    randomString,
+    getExtensionFromFileName
+} from "../utils/general-utils";
 import * as i from "./classrooms.interfaces";
 import { makeVideoStreamKey } from '../utils/protection';
+import * as casual from 'casual';
+import { prisma } from '../config/prisma-client';
 
 const getClassrooms: GQLResolver<i.QueryGetClassroomsArgs> = ({
     args: { first, subject, teacher, grade } = {},
@@ -203,26 +216,62 @@ const subject: GQLResolver<any> = ({ root, context: { prisma } }) =>
 const teacher: GQLResolver<any> = ({ root, context: { prisma } }) =>
     prisma.classroom({ _id: root._id }).teacher();
 
-const uploadClassroomVideo: GQLResolver<{ file: Promise<FileUpload> }> = async ({
-    args: { file },
-    context
+const uploadClassroomVideo: GQLResolver<i.UploadClassroomVideoArgs> = async ({
+    args: { video, scheduleId },
+    context: { user }
 }) => {
+    const uploadedFile = await video;
+    const mimeType = uploadedFile.mimetype;
+    const fileName = randomString();
+    const extension = getExtensionFromFileName(uploadedFile.filename);
+    const fullFileName = `${fileName}.${extension}`;
 
-    const uploadedFile = await file;
-
-    const stream = uploadedFile.createReadStream();
-    const fwrite = fs.createWriteStream(`${VIDEO_UPLOAD_LOCATION}/${uploadedFile?.filename}`);
+    const uploadStream = uploadedFile.createReadStream();
+    const fwrite = fs.createWriteStream(`${VIDEO_UPLOAD_LOCATION}/${fullFileName}`);
 
     // promisifying and rebinding the function to it's main object cause promisify happen to 
     // change the function context
     const writeOn = promisify(fwrite.on).bind(fwrite);
-
-    stream.pipe(fwrite);
+    uploadStream.pipe(fwrite);
 
     // wating for the close event 
     await writeOn('close');
 
-    return uploadedFile;
+    // make sure that this classroom belongs to that teacher
+    const classrooms = await prisma.classrooms({
+        where: {
+            teacher: {
+                _id: user._id
+            },
+            schedule_some: { _id: scheduleId }
+        }
+    });
+
+    if (!classrooms.length)
+        throw new UserInputError('No schedule with that id');
+
+    // get the first classroom as we are selecting by unique things after all
+    const classroom = classrooms[0];
+
+    // update classroom schedule here
+    await prisma.updateClassroom({
+        data: {
+            schedule: {
+                update: {
+                    data: {
+                        videoUrl: fullFileName,
+                        encoding: mimeType
+                    },
+                    where: { _id: scheduleId }
+                }
+            }
+        },
+        where: {
+            _id: classroom._id
+        }
+    });
+
+    return { ...uploadedFile, filename: fullFileName };
 }
 
 export const classroomResolvers = convertToResolverPipes({
@@ -236,7 +285,7 @@ export const classroomResolvers = convertToResolverPipes({
         createClassroom: pipeP([isAuthenticated, isTeacher, createClassroom]),
         updateClassroom: pipeP([isAuthenticated, isTeacher, updateClassroom]),
         addStudentInClassroom: pipeP([isAuthenticated, addStudentInClassroom]),
-        uploadClassroomVideo
+        uploadClassroomVideo: pipeP([isAuthenticated, isTeacher, uploadClassroomVideo]),
     },
     Classroom: {
         students: resolverPipe(students),

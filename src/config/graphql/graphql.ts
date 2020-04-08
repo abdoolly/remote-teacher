@@ -7,7 +7,6 @@ import { classroomsTypeDef } from '../../classrooms/classrooms.schema';
 import { subjectResolvers } from '../../subjects/subjects.resolvers';
 import { subjectsTypeDef } from '../../subjects/subjects.schema';
 import { streamResolvers } from '../../test-stream/stream.resolvers';
-import { streamTypeDef } from '../../test-stream/stream.schema';
 import userResolvers from '../../users/users.resolvers';
 import { userTypeDef } from '../../users/users.schema';
 import { fromHeaderOrQuerystring, verifyJWT } from '../jwt';
@@ -85,7 +84,6 @@ const apolloServer = new ApolloServer({
         subjectsTypeDef,
         userTypeDef,
         classroomsTypeDef,
-        streamTypeDef,
     ],
     // mocks,
     resolvers: [
@@ -94,7 +92,6 @@ const apolloServer = new ApolloServer({
         scalarResolvers,
         classroomResolvers,
         streamResolvers,
-        // classroomVideoResolvers
     ],
     context: ({ req, res }) => {
         if (!req) {

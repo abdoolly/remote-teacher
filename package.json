@@ -6,6 +6,7 @@
     "start": "node ./bin/www",
     "dev": "nodemon ./build/bin/www",
     "watch": "tsc --watch",
+    "build": "tsc",
     "prisma": "docker-compose -f ./docker-composes/prisma-compose.yaml up -d",
     "prisma:stop": "docker-compose -f ./docker-composes/prisma-compose.yaml stop",
     "deploy:prisma": "prisma deploy && prisma generate"

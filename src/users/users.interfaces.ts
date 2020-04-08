@@ -11,6 +11,9 @@ export interface CreateTeacherArgs {
         phone: string;
         password: Maybe<string>;
         confirmPassword: Maybe<string>;
+        grade: Maybe<string>;
+        subjects: Maybe<string[]>;
+        userType: string;
     }
 }
 

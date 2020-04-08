@@ -31,6 +31,15 @@ input UserInput {
     confirmPassword: String!
 }
 
+input RegisterTeacherInput {
+    fullName: String!
+    phone: String!
+    password: String!
+    confirmPassword: String!
+    grade: String
+    subjects: [ID!]
+}
+
 type LoginResult {
     user: User!
     token: String!
@@ -43,7 +52,7 @@ type Query {
 }
 
 type Mutation {
-    registerTeacher(data: UserInput!) : RegisterOutput!
+    registerTeacher(data: RegisterTeacherInput!) : RegisterOutput!
     registerStudent(data: UserInput!) : RegisterOutput!
 }
 `;

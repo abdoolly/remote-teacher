@@ -23,14 +23,29 @@ const login: GQLResolver<LoginArgs> = async ({
     }
 }
 
-const registerUser = async ({
+const registerUser: GQLResolver<CreateTeacherArgs> = async ({
     args: { data },
     context: { prisma }
 }) => {
     if (data.password !== data.confirmPassword)
         throw new UserInputError('Password and confirm password does not match');
 
-    const user = await prisma.createUser(_.omit(['confirmPassword'], { ...data, userType: data.userType }));
+    const mainUserData = _.omit(['confirmPassword', 'subjects'], {
+        ...data,
+        userType: data.userType,
+    }) as any;
+
+    const user = await prisma.createUser({
+        ...mainUserData,
+
+        // connecting the subjects incase they exist 
+        ...(
+            data.subjects ? {
+                subjects: {
+                    connect: data.subjects.map((_id) => ({ _id }))
+                }
+            } : undefined)
+    });
 
     return {
         user,

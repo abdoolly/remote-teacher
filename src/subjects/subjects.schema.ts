@@ -7,6 +7,7 @@ type Grades {
 }
 
 type Subject {
+    _id: ID!
     name: String!
     photoUrl: String
     grade: String 

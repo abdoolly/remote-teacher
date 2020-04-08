@@ -1,27 +1,14 @@
 import { UserInputError } from 'apollo-server';
 import * as fs from 'fs';
-import { FileUpload } from 'graphql-upload';
 import moment from 'moment';
 import * as _ from 'ramda';
 import { promisify } from 'util';
+import { prisma } from '../config/prisma-client';
 import { VIDEO_UPLOAD_LOCATION } from '../config/upload';
 import { pipeP } from "../utils/functional-utils";
-import {
-    convertToResolverPipes,
-    GQLResolver,
-    isAuthenticated,
-    isTeacher,
-    OnlyDate,
-    OnlyTime,
-    resolverPipe,
-    toIdsObject,
-    randomString,
-    getExtensionFromFileName
-} from "../utils/general-utils";
-import * as i from "./classrooms.interfaces";
+import { convertToResolverPipes, getExtensionFromFileName, GQLResolver, isAuthenticated, isTeacher, OnlyDate, OnlyTime, randomString, resolverPipe, toIdsObject } from "../utils/general-utils";
 import { makeVideoStreamKey } from '../utils/protection';
-import * as casual from 'casual';
-import { prisma } from '../config/prisma-client';
+import * as i from "./classrooms.interfaces";
 
 const getClassrooms: GQLResolver<i.QueryGetClassroomsArgs> = ({
     args: { first, subject, teacher, grade } = {},

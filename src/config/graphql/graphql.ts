@@ -91,7 +91,6 @@ const apolloServer = new ApolloServer({
         subjectResolvers,
         scalarResolvers,
         classroomResolvers,
-        streamResolvers,
     ],
     context: ({ req, res }) => {
         if (!req) {

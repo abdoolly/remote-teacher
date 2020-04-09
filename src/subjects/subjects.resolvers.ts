@@ -15,18 +15,18 @@ const getSubjects: GQLResolver<{ grade?: string }> = async ({
 
 const getGrades: GQLResolver<{}> = async () => {
     return [
-        { en_name: '3rd secondry', ar_name: 'تالتة ثانوى' },
-        { en_name: '2nd secondry', ar_name: 'تانية ثانوى' },
-        { en_name: '1st secondry', ar_name: 'أول ثانوي' },
-        { en_name: '3rd prep', ar_name: 'تالتة اعدادي' },
-        { en_name: '2nd prep', ar_name: 'تانية اعدادي' },
-        { en_name: '1st prep', ar_name: 'أولي اعدادي' },
-        { en_name: 'Primary 6', ar_name: 'ستة ابتدائي' },
-        { en_name: 'Primary 5', ar_name: 'خامسة ابتدائي' },
-        { en_name: 'Primary 4', ar_name: 'رابعة ابتدائي' },
-        { en_name: 'Primary 3', ar_name: 'تالتة ابتدائي' },
-        { en_name: 'Primary 2', ar_name: 'تانية ابتدائي' },
-        { en_name: 'Primary 1', ar_name: 'أول ابتدائي' },
+        { _id: '1', en_name: '3rd secondry', ar_name: 'تالتة ثانوى' },
+        { _id: '2', en_name: '2nd secondry', ar_name: 'تانية ثانوى' },
+        { _id: '3', en_name: '1st secondry', ar_name: 'أول ثانوي' },
+        { _id: '4', en_name: '3rd prep', ar_name: 'تالتة اعدادي' },
+        { _id: '5', en_name: '2nd prep', ar_name: 'تانية اعدادي' },
+        { _id: '6', en_name: '1st prep', ar_name: 'أولي اعدادي' },
+        { _id: '7', en_name: 'Primary 6', ar_name: 'ستة ابتدائي' },
+        { _id: '8', en_name: 'Primary 5', ar_name: 'خامسة ابتدائي' },
+        { _id: '9', en_name: 'Primary 4', ar_name: 'رابعة ابتدائي' },
+        { _id: '10', en_name: 'Primary 3', ar_name: 'تالتة ابتدائي' },
+        { _id: '11', en_name: 'Primary 2', ar_name: 'تانية ابتدائي' },
+        { _id: '12', en_name: 'Primary 1', ar_name: 'أول ابتدائي' },
     ];
 }
 

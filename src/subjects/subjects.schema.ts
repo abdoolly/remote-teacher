@@ -2,6 +2,7 @@ import { gql } from "apollo-server";
 
 export const subjectsTypeDef = gql`
 type Grades {
+    _id: ID!
     en_name: String!
     ar_name: String
 }

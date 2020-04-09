@@ -115,7 +115,12 @@ const apolloServer = new ApolloServer({
         date: DateFormatDirective
     },
     formatError: (err) => {
+
+        if (err.name === 'ValidationError')
+            return err;
+
         console.log('\x1b[41m', 'Error:', err.message);
+
         if (err.extensions)
             console.log('\x1b[41m', err.extensions.exception.stacktrace.join('\n'));
 

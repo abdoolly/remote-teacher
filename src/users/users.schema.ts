@@ -29,6 +29,7 @@ input UserInput {
     phone: String!
     password: String!
     confirmPassword: String!
+    grade: String
 }
 
 input RegisterTeacherInput {

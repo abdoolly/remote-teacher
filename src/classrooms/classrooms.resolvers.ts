@@ -9,12 +9,13 @@ import { pipeP } from "../utils/functional-utils";
 import { convertToResolverPipes, getExtensionFromFileName, GQLResolver, isAuthenticated, isTeacher, OnlyDate, OnlyTime, randomString, resolverPipe, toIdsObject } from "../utils/general-utils";
 import { makeVideoStreamKey } from '../utils/protection';
 import * as i from "./classrooms.interfaces";
+import { classroomTransformer } from './classrooms.utils';
 
-const getClassrooms: GQLResolver<i.QueryGetClassroomsArgs> = ({
+const getClassrooms: GQLResolver<i.QueryGetClassroomsArgs> = async ({
     args: { first, subject, teacher, grade } = {},
     context: { prisma }
 }) => {
-    return prisma.classrooms({
+    const classrooms = await prisma.classrooms({
         first: first || undefined,
         where: {
             // handling case user did not send subject 
@@ -29,6 +30,8 @@ const getClassrooms: GQLResolver<i.QueryGetClassroomsArgs> = ({
             } : undefined
         }
     });
+
+    return classrooms.map((classroom) => classroomTransformer(classroom));
 };
 
 const getClassroom: GQLResolver<i.QueryGetClassroomArgs> = async ({
@@ -39,7 +42,7 @@ const getClassroom: GQLResolver<i.QueryGetClassroomArgs> = async ({
     if (!classroom)
         throw new UserInputError('Classroom not found');
 
-    return classroom;
+    return classroomTransformer(classroom);
 };
 
 const getStudentClassrooms: GQLResolver<i.QueryGetStudentClassroomsArgs> = async ({
@@ -74,7 +77,7 @@ const getStudentClassrooms: GQLResolver<i.QueryGetStudentClassroomsArgs> = async
         }
     }
 
-    return studentClassrooms;
+    return studentClassrooms.map((classroom) => classroomTransformer(classroom));
 };
 
 const createClassroom: GQLResolver<i.MutationCreateClassroomArgs> = ({
@@ -203,6 +206,14 @@ const subject: GQLResolver<any> = ({ root, context: { prisma } }) =>
 const teacher: GQLResolver<any> = ({ root, context: { prisma } }) =>
     prisma.classroom({ _id: root._id }).teacher();
 
+const schedule: GQLResolver<any> = async ({ root, context: { prisma } }) => {
+    let classroom = await prisma.classroom({ _id: root._id });
+    if (!classroom)
+        return [];
+
+    return classroomTransformer(classroom).schedule;
+};
+
 const uploadClassroomVideo: GQLResolver<i.UploadClassroomVideoArgs> = async ({
     args: { video, scheduleId },
     context: { user }
@@ -278,5 +289,6 @@ export const classroomResolvers = convertToResolverPipes({
         students: resolverPipe(students),
         subject: resolverPipe(subject),
         teacher: resolverPipe(teacher),
+        schedule: resolverPipe(schedule),
     }
 });

@@ -4,7 +4,7 @@ export const classroomsTypeDef = gql`
 input CreateClassroomDate {
     startTime: String! @date(format: "h:mm a")
     endTime: String! @date(format: "h:mm a")
-    date: String @date
+    date: String! @date
     durationInMin: Int
     video: Upload
 }
@@ -15,6 +15,9 @@ input CreateClassroomInput {
     subject: ID
     cost: Float
     schedule: [CreateClassroomDate!]
+
+    # this is something like Group A or Group B and it's totally optional
+    tag: [String]
 }
 
 input ClassroomUpdateStudents {
@@ -41,13 +44,18 @@ input ClassroomUpdateInput {
     cost: Float
 }
 
-type classroomDate {
-    _id: ID!
-
+type Times {
     # classroom startTime in format hour:minutes AM/PM h:M TT
     startTime: String @date(format: "h:mm a")
     
     endTime: String @date(format: "h:mm a")
+}
+
+type classroomDate {
+    _id: ID!
+
+    # startTime and endTime of the classrooms 
+    times: [Times!]
 
     # this the date of this classroom and it should be in format (yyyy-mm-dd) "1999-01-30" 
     date: String @date

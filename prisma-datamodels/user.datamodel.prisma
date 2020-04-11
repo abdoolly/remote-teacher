@@ -12,6 +12,7 @@ type User @db(name: "users") {
   grade: String
   subjects: [Subject] @relation(link: INLINE)
   studentClassrooms: [Classroom] @relation(name: "StudentClassrooms", link: INLINE)
+  teacherClassrooms: [Classroom] @relation(name: "TeacherClassrooms", link: INLINE)
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }

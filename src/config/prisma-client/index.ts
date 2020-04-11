@@ -406,6 +406,7 @@ export interface UserWhereInput {
   grade_not_ends_with?: Maybe<String>;
   subjects_some?: Maybe<SubjectWhereInput>;
   studentClassrooms_some?: Maybe<ClassroomWhereInput>;
+  teacherClassrooms_some?: Maybe<ClassroomWhereInput>;
   createdAt?: Maybe<DateTimeInput>;
   createdAt_not?: Maybe<DateTimeInput>;
   createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -615,6 +616,7 @@ export interface UserCreateInput {
   grade?: Maybe<String>;
   subjects?: Maybe<SubjectCreateManyInput>;
   studentClassrooms?: Maybe<ClassroomCreateManyInput>;
+  teacherClassrooms?: Maybe<ClassroomCreateManyInput>;
 }
 
 export interface SubjectCreateManyInput {
@@ -684,6 +686,7 @@ export interface UserUpdateDataInput {
   grade?: Maybe<String>;
   subjects?: Maybe<SubjectUpdateManyInput>;
   studentClassrooms?: Maybe<ClassroomUpdateManyInput>;
+  teacherClassrooms?: Maybe<ClassroomUpdateManyInput>;
 }
 
 export interface SubjectUpdateManyInput {
@@ -1215,6 +1218,7 @@ export interface UserUpdateInput {
   grade?: Maybe<String>;
   subjects?: Maybe<SubjectUpdateManyInput>;
   studentClassrooms?: Maybe<ClassroomUpdateManyInput>;
+  teacherClassrooms?: Maybe<ClassroomUpdateManyInput>;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -1355,6 +1359,15 @@ export interface UserPromise extends Promise<User>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  teacherClassrooms: <T = FragmentableArray<Classroom>>(args?: {
+    where?: ClassroomWhereInput;
+    orderBy?: ClassroomOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }
@@ -1388,6 +1401,17 @@ export interface UserSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  teacherClassrooms: <
+    T = Promise<AsyncIterator<ClassroomSubscription>>
+  >(args?: {
+    where?: ClassroomWhereInput;
+    orderBy?: ClassroomOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
@@ -1411,6 +1435,15 @@ export interface UserNullablePromise
     last?: Int;
   }) => T;
   studentClassrooms: <T = FragmentableArray<Classroom>>(args?: {
+    where?: ClassroomWhereInput;
+    orderBy?: ClassroomOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  teacherClassrooms: <T = FragmentableArray<Classroom>>(args?: {
     where?: ClassroomWhereInput;
     orderBy?: ClassroomOrderByInput;
     skip?: Int;
@@ -1913,10 +1946,6 @@ export const models: Model[] = [
   {
     name: "Subject",
     embedded: false
-  },
-  {
-    name: "Video",
-    embedded: true
   },
   {
     name: "classroomDate",

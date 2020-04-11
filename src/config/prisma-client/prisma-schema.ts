@@ -871,6 +871,7 @@ type User {
   grade: String
   subjects(where: SubjectWhereInput, orderBy: SubjectOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Subject!]
   studentClassrooms(where: ClassroomWhereInput, orderBy: ClassroomOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Classroom!]
+  teacherClassrooms(where: ClassroomWhereInput, orderBy: ClassroomOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Classroom!]
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -890,6 +891,7 @@ input UserCreateInput {
   grade: String
   subjects: SubjectCreateManyInput
   studentClassrooms: ClassroomCreateManyInput
+  teacherClassrooms: ClassroomCreateManyInput
 }
 
 input UserCreateManyInput {
@@ -1062,6 +1064,7 @@ input UserUpdateDataInput {
   grade: String
   subjects: SubjectUpdateManyInput
   studentClassrooms: ClassroomUpdateManyInput
+  teacherClassrooms: ClassroomUpdateManyInput
 }
 
 input UserUpdateInput {
@@ -1072,6 +1075,7 @@ input UserUpdateInput {
   grade: String
   subjects: SubjectUpdateManyInput
   studentClassrooms: ClassroomUpdateManyInput
+  teacherClassrooms: ClassroomUpdateManyInput
 }
 
 input UserUpdateManyDataInput {
@@ -1209,6 +1213,7 @@ input UserWhereInput {
   grade_not_ends_with: String
   subjects_some: SubjectWhereInput
   studentClassrooms_some: ClassroomWhereInput
+  teacherClassrooms_some: ClassroomWhereInput
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]

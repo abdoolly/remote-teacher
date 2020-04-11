@@ -80,11 +80,11 @@ const getStudentClassrooms: GQLResolver<i.QueryGetStudentClassroomsArgs> = async
     return studentClassrooms.map((classroom) => classroomTransformer(classroom));
 };
 
-const createClassroom: GQLResolver<i.MutationCreateClassroomArgs> = ({
+const createClassroom: GQLResolver<i.MutationCreateClassroomArgs> = async ({
     args: { data },
     context: { prisma, user }
 }) => {
-    return prisma.createClassroom({
+    const classroom = await prisma.createClassroom({
         teacher: { connect: { _id: user._id } },
         cost: data.cost,
         students: data.students && data.students.length ? {
@@ -108,6 +108,18 @@ const createClassroom: GQLResolver<i.MutationCreateClassroomArgs> = ({
             ]
         } : undefined
     });
+
+    // updating the user object to connect the newly created classroom
+    await prisma.updateUser({
+        data: {
+            teacherClassrooms: {
+                connect: { _id: classroom._id }
+            }
+        },
+        where: { _id: user._id }
+    });
+
+    return classroom;
 };
 
 const updateClassroom: GQLResolver<i.MutationUpdateClassroomArgs> = async ({

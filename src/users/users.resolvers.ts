@@ -92,6 +92,10 @@ const studentClassrooms: GQLResolver<any> = ({ root, context: { prisma } }) => {
     return prisma.user({ _id: root._id }).studentClassrooms();
 };
 
+const teacherClassrooms: GQLResolver<any> = ({ root, context: { prisma } }) => {
+    return prisma.user({ _id: root._id }).teacherClassrooms();
+};
+
 const userResolvers = convertToResolverPipes({
     Query: {
         login,
@@ -104,7 +108,8 @@ const userResolvers = convertToResolverPipes({
     },
     User: {
         subjects: resolverPipe(subjects),
-        studentClassrooms: resolverPipe(studentClassrooms)
+        studentClassrooms: resolverPipe(studentClassrooms),
+        teacherClassrooms: resolverPipe(teacherClassrooms)
     }
 });
 

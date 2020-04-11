@@ -15,6 +15,7 @@ type User {
     grade: String
     subjects: [Subject]
     studentClassrooms: [Classroom]
+    teacherClassrooms: [Classroom]
     createdAt: DateTime! 
     updatedAt: DateTime! 
 }

@@ -4,13 +4,14 @@ import { Prisma, User } from '../config/prisma-client';
 import { PipeInterface, pipeP, tapP } from './functional-utils';
 import { FieldNode, GraphQLOutputType, GraphQLObjectType, GraphQLSchema, FragmentDefinitionNode, OperationDefinitionNode } from 'graphql';
 import { Path } from 'graphql/jsutils/Path';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import * as crypto from 'crypto';
 
 export interface GraphQlContext {
     prisma: Prisma;
     user: User;
     res: Response;
+    req: Request;
 }
 
 export type ObjMap<T> = { [key: string]: T };

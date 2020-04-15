@@ -3,3 +3,5 @@ build/
 .env
 uploads/**/*
 !uploads/.gitkeep
+public/profileImgs/**/*
+!public/profileImgs/.gitkeep

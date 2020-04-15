@@ -94,7 +94,7 @@ const apolloServer = new ApolloServer({
     ],
     context: ({ req, res }) => {
         if (!req) {
-            return { prisma, res }
+            return { prisma, res, req }
         }
 
         // JWT authentication
@@ -106,7 +106,8 @@ const apolloServer = new ApolloServer({
         return {
             prisma,
             user,
-            res
+            res,
+            req
         };
     },
     schemaDirectives: {

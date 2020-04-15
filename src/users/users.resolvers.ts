@@ -1,11 +1,11 @@
-import { AuthenticationError, UserInputError, } from "apollo-server-express";
+import { AuthenticationError, toApolloError, UserInputError } from "apollo-server-express";
 import * as _ from 'ramda';
 import { signJWT } from "../config/jwt";
+import { IMG_UPLOAD_LOCATION } from "../config/upload";
 import { pipeP } from "../utils/functional-utils";
 import { checkPhoneUnique, convertToResolverPipes, GQLResolver, resolverPipe } from "../utils/general-utils";
-import { CreateStudentArgs, CreateTeacherArgs, LoginArgs, GetTeachersArgs } from "./users.interfaces";
-import { addUserType, uploadProfileImg } from "./users.utils";
-import { IMG_UPLOAD_LOCATION } from "../config/upload";
+import { CreateStudentArgs, CreateTeacherArgs, GetTeachersArgs, LoginArgs } from "./users.interfaces";
+import { addUserType, uploadFile } from "./users.utils";
 
 const login: GQLResolver<LoginArgs> = async ({
     args: { phone, password },
@@ -31,16 +31,21 @@ const registerUser: GQLResolver<CreateTeacherArgs> = async ({
     if (data.password !== data.confirmPassword)
         throw new UserInputError('Password and confirm password does not match');
 
-    const mainUserData = _.omit(['confirmPassword', 'subjects'], {
+    const mainUserData = _.omit(['confirmPassword', 'subjects', 'profileImg'], {
         ...data,
         userType: data.userType,
     }) as any;
 
-    // let {} = await uploadProfileImg(data.profileImg, IMG_UPLOAD_LOCATION);
+    let downloadPath = null;
+    try {
+        ({ downloadPath } = await uploadFile(data.profileImg, IMG_UPLOAD_LOCATION) as any);
+    } catch (err) {
+        throw toApolloError(err);
+    }
 
     const user = await prisma.createUser({
         ...mainUserData,
-
+        profileImg: downloadPath || null,
         // connecting the subjects incase they exist 
         ...(
             data.subjects ? {
@@ -99,6 +104,11 @@ const teacherClassrooms: GQLResolver<any> = ({ root, context: { prisma } }) => {
     return prisma.user({ _id: root._id }).teacherClassrooms();
 };
 
+const profileImg: GQLResolver<any> = ({ root, context: { req } }) => {
+    const hostUrl = `http://${req.get('host')}`;
+    return `${hostUrl}/${root.profileImg}`;
+};
+
 const userResolvers = convertToResolverPipes({
     Query: {
         login,
@@ -112,7 +122,8 @@ const userResolvers = convertToResolverPipes({
     User: {
         subjects: resolverPipe(subjects),
         studentClassrooms: resolverPipe(studentClassrooms),
-        teacherClassrooms: resolverPipe(teacherClassrooms)
+        teacherClassrooms: resolverPipe(teacherClassrooms),
+        profileImg: resolverPipe(profileImg),
     }
 });
 

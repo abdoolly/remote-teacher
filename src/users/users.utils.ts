@@ -1,16 +1,18 @@
-import { UserType, Maybe } from "../config/prisma-client";
-import { ResolverArgs, randomString, getExtensionFromFileName } from "../utils/general-utils";
-import * as _ from 'ramda';
-import { FileUpload } from "graphql-upload";
-import { IMG_UPLOAD_LOCATION } from "../config/upload";
 import * as fs from 'fs';
+import { FileUpload } from "graphql-upload";
+import * as _ from 'ramda';
 import { promisify } from "util";
+import { Maybe, UserType } from "../config/prisma-client";
+import { IMG_LOCATION, IMG_UPLOAD_LOCATION } from "../config/upload";
+import { getExtensionFromFileName, randomString, ResolverArgs } from "../utils/general-utils";
+const existsP = promisify(fs.exists);
+const mkdirP = promisify(fs.mkdir);
 
 export const addUserType = _.curry((userType: UserType, args: ResolverArgs<any>) =>
     _.set(_.lensPath(['args', 'data', 'userType']), userType, args));
 
 
-export let uploadProfileImg = async (fileUploaded: Maybe<Promise<FileUpload>>, uploadPath: string) => {
+export let uploadFile = async (fileUploaded: Maybe<Promise<FileUpload>>, uploadPath: string) => {
     if (!fileUploaded)
         return null;
 
@@ -19,6 +21,10 @@ export let uploadProfileImg = async (fileUploaded: Maybe<Promise<FileUpload>>, u
     const mimeType = file.mimetype;
     const extension = getExtensionFromFileName(file.filename);
     const fullFileName = `${fileName}.${extension}`;
+
+    // check if a file exists and if does not exist then just make that directory for it
+    if (!(await existsP(uploadPath)))
+        await mkdirP(uploadPath);
 
     const imgStream = file.createReadStream();
     const fwrite = fs.createWriteStream(`${uploadPath}/${fullFileName}`);
@@ -36,5 +42,6 @@ export let uploadProfileImg = async (fileUploaded: Maybe<Promise<FileUpload>>, u
         extension,
         fileName,
         fullFileName,
+        downloadPath: `${IMG_LOCATION}/${fullFileName}`
     };
 };

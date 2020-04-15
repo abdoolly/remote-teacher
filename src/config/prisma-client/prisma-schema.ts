@@ -884,6 +884,7 @@ type User {
   phone: String!
   userType: UserType
   password: String
+  profileImg: String
   grade: String
   subjects(where: SubjectWhereInput, orderBy: SubjectOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Subject!]
   studentClassrooms(where: ClassroomWhereInput, orderBy: ClassroomOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Classroom!]
@@ -904,6 +905,7 @@ input UserCreateInput {
   phone: String!
   userType: UserType
   password: String
+  profileImg: String
   grade: String
   subjects: SubjectCreateManyInput
   studentClassrooms: ClassroomCreateManyInput
@@ -936,6 +938,8 @@ enum UserOrderByInput {
   userType_DESC
   password_ASC
   password_DESC
+  profileImg_ASC
+  profileImg_DESC
   grade_ASC
   grade_DESC
   createdAt_ASC
@@ -950,6 +954,7 @@ type UserPreviousValues {
   phone: String!
   userType: UserType
   password: String
+  profileImg: String
   grade: String
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -1016,6 +1021,20 @@ input UserScalarWhereInput {
   password_not_starts_with: String
   password_ends_with: String
   password_not_ends_with: String
+  profileImg: String
+  profileImg_not: String
+  profileImg_in: [String!]
+  profileImg_not_in: [String!]
+  profileImg_lt: String
+  profileImg_lte: String
+  profileImg_gt: String
+  profileImg_gte: String
+  profileImg_contains: String
+  profileImg_not_contains: String
+  profileImg_starts_with: String
+  profileImg_not_starts_with: String
+  profileImg_ends_with: String
+  profileImg_not_ends_with: String
   grade: String
   grade_not: String
   grade_in: [String!]
@@ -1077,6 +1096,7 @@ input UserUpdateDataInput {
   phone: String
   userType: UserType
   password: String
+  profileImg: String
   grade: String
   subjects: SubjectUpdateManyInput
   studentClassrooms: ClassroomUpdateManyInput
@@ -1088,6 +1108,7 @@ input UserUpdateInput {
   phone: String
   userType: UserType
   password: String
+  profileImg: String
   grade: String
   subjects: SubjectUpdateManyInput
   studentClassrooms: ClassroomUpdateManyInput
@@ -1099,6 +1120,7 @@ input UserUpdateManyDataInput {
   phone: String
   userType: UserType
   password: String
+  profileImg: String
   grade: String
 }
 
@@ -1119,6 +1141,7 @@ input UserUpdateManyMutationInput {
   phone: String
   userType: UserType
   password: String
+  profileImg: String
   grade: String
 }
 
@@ -1213,6 +1236,20 @@ input UserWhereInput {
   password_not_starts_with: String
   password_ends_with: String
   password_not_ends_with: String
+  profileImg: String
+  profileImg_not: String
+  profileImg_in: [String!]
+  profileImg_not_in: [String!]
+  profileImg_lt: String
+  profileImg_lte: String
+  profileImg_gt: String
+  profileImg_gte: String
+  profileImg_contains: String
+  profileImg_not_contains: String
+  profileImg_starts_with: String
+  profileImg_not_starts_with: String
+  profileImg_ends_with: String
+  profileImg_not_ends_with: String
   grade: String
   grade_not: String
   grade_in: [String!]

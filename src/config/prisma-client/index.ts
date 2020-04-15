@@ -219,6 +219,8 @@ export type UserOrderByInput =
   | "userType_DESC"
   | "password_ASC"
   | "password_DESC"
+  | "profileImg_ASC"
+  | "profileImg_DESC"
   | "grade_ASC"
   | "grade_DESC"
   | "createdAt_ASC"
@@ -399,6 +401,20 @@ export interface UserWhereInput {
   password_not_starts_with?: Maybe<String>;
   password_ends_with?: Maybe<String>;
   password_not_ends_with?: Maybe<String>;
+  profileImg?: Maybe<String>;
+  profileImg_not?: Maybe<String>;
+  profileImg_in?: Maybe<String[] | String>;
+  profileImg_not_in?: Maybe<String[] | String>;
+  profileImg_lt?: Maybe<String>;
+  profileImg_lte?: Maybe<String>;
+  profileImg_gt?: Maybe<String>;
+  profileImg_gte?: Maybe<String>;
+  profileImg_contains?: Maybe<String>;
+  profileImg_not_contains?: Maybe<String>;
+  profileImg_starts_with?: Maybe<String>;
+  profileImg_not_starts_with?: Maybe<String>;
+  profileImg_ends_with?: Maybe<String>;
+  profileImg_not_ends_with?: Maybe<String>;
   grade?: Maybe<String>;
   grade_not?: Maybe<String>;
   grade_in?: Maybe<String[] | String>;
@@ -630,6 +646,7 @@ export interface UserCreateInput {
   phone: String;
   userType?: Maybe<UserType>;
   password?: Maybe<String>;
+  profileImg?: Maybe<String>;
   grade?: Maybe<String>;
   subjects?: Maybe<SubjectCreateManyInput>;
   studentClassrooms?: Maybe<ClassroomCreateManyInput>;
@@ -701,6 +718,7 @@ export interface UserUpdateDataInput {
   phone?: Maybe<String>;
   userType?: Maybe<UserType>;
   password?: Maybe<String>;
+  profileImg?: Maybe<String>;
   grade?: Maybe<String>;
   subjects?: Maybe<SubjectUpdateManyInput>;
   studentClassrooms?: Maybe<ClassroomUpdateManyInput>;
@@ -960,6 +978,20 @@ export interface UserScalarWhereInput {
   password_not_starts_with?: Maybe<String>;
   password_ends_with?: Maybe<String>;
   password_not_ends_with?: Maybe<String>;
+  profileImg?: Maybe<String>;
+  profileImg_not?: Maybe<String>;
+  profileImg_in?: Maybe<String[] | String>;
+  profileImg_not_in?: Maybe<String[] | String>;
+  profileImg_lt?: Maybe<String>;
+  profileImg_lte?: Maybe<String>;
+  profileImg_gt?: Maybe<String>;
+  profileImg_gte?: Maybe<String>;
+  profileImg_contains?: Maybe<String>;
+  profileImg_not_contains?: Maybe<String>;
+  profileImg_starts_with?: Maybe<String>;
+  profileImg_not_starts_with?: Maybe<String>;
+  profileImg_ends_with?: Maybe<String>;
+  profileImg_not_ends_with?: Maybe<String>;
   grade?: Maybe<String>;
   grade_not?: Maybe<String>;
   grade_in?: Maybe<String[] | String>;
@@ -1005,6 +1037,7 @@ export interface UserUpdateManyDataInput {
   phone?: Maybe<String>;
   userType?: Maybe<UserType>;
   password?: Maybe<String>;
+  profileImg?: Maybe<String>;
   grade?: Maybe<String>;
 }
 
@@ -1239,6 +1272,7 @@ export interface UserUpdateInput {
   phone?: Maybe<String>;
   userType?: Maybe<UserType>;
   password?: Maybe<String>;
+  profileImg?: Maybe<String>;
   grade?: Maybe<String>;
   subjects?: Maybe<SubjectUpdateManyInput>;
   studentClassrooms?: Maybe<ClassroomUpdateManyInput>;
@@ -1250,6 +1284,7 @@ export interface UserUpdateManyMutationInput {
   phone?: Maybe<String>;
   userType?: Maybe<UserType>;
   password?: Maybe<String>;
+  profileImg?: Maybe<String>;
   grade?: Maybe<String>;
 }
 
@@ -1353,6 +1388,7 @@ export interface User {
   phone: String;
   userType?: UserType;
   password?: String;
+  profileImg?: String;
   grade?: String;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
@@ -1364,6 +1400,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   phone: () => Promise<String>;
   userType: () => Promise<UserType>;
   password: () => Promise<String>;
+  profileImg: () => Promise<String>;
   grade: () => Promise<String>;
   subjects: <T = FragmentableArray<Subject>>(args?: {
     where?: SubjectWhereInput;
@@ -1404,6 +1441,7 @@ export interface UserSubscription
   phone: () => Promise<AsyncIterator<String>>;
   userType: () => Promise<AsyncIterator<UserType>>;
   password: () => Promise<AsyncIterator<String>>;
+  profileImg: () => Promise<AsyncIterator<String>>;
   grade: () => Promise<AsyncIterator<String>>;
   subjects: <T = Promise<AsyncIterator<SubjectSubscription>>>(args?: {
     where?: SubjectWhereInput;
@@ -1448,6 +1486,7 @@ export interface UserNullablePromise
   phone: () => Promise<String>;
   userType: () => Promise<UserType>;
   password: () => Promise<String>;
+  profileImg: () => Promise<String>;
   grade: () => Promise<String>;
   subjects: <T = FragmentableArray<Subject>>(args?: {
     where?: SubjectWhereInput;
@@ -1897,6 +1936,7 @@ export interface UserPreviousValues {
   phone: String;
   userType?: UserType;
   password?: String;
+  profileImg?: String;
   grade?: String;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
@@ -1910,6 +1950,7 @@ export interface UserPreviousValuesPromise
   phone: () => Promise<String>;
   userType: () => Promise<UserType>;
   password: () => Promise<String>;
+  profileImg: () => Promise<String>;
   grade: () => Promise<String>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
@@ -1923,6 +1964,7 @@ export interface UserPreviousValuesSubscription
   phone: () => Promise<AsyncIterator<String>>;
   userType: () => Promise<AsyncIterator<UserType>>;
   password: () => Promise<AsyncIterator<String>>;
+  profileImg: () => Promise<AsyncIterator<String>>;
   grade: () => Promise<AsyncIterator<String>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;

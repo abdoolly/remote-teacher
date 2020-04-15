@@ -42,6 +42,7 @@ input RegisterTeacherInput {
     confirmPassword: String!
     grade: String
     subjects: [ID!]
+    profileImg: Upload
 }
 
 type LoginResult {

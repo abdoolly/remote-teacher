@@ -226,7 +226,7 @@ const schedule: GQLResolver<any> = async ({ root, context: { prisma } }) => {
     return classroomTransformer(classroom).schedule;
 };
 
-const date: GQLResolver<any> = async ({ root, context: { prisma } }) => {
+const date: GQLResolver<any> = async ({ root }) => {
     const classroomDate = root as classroomDate;
     if (!classroomDate.weekday)
         return null;

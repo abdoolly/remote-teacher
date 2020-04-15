@@ -15,7 +15,6 @@ enum WeekDays {
 input CreateClassroomDate {
     startTime: String! @date(format: "h:mm a")
     endTime: String! @date(format: "h:mm a")
-    date: String @date
     weekday: WeekDays
     durationInMin: Int
     video: Upload

@@ -52,6 +52,7 @@ type classroomDate {
   startTime: DateTime
   endTime: DateTime
   date: DateTime
+  weekday: WeekDays
   durationInMin: Int
   videoUrl: String
   encoding: String
@@ -62,6 +63,7 @@ input classroomDateCreateInput {
   startTime: DateTime
   endTime: DateTime
   date: DateTime
+  weekday: WeekDays
   durationInMin: Int
   videoUrl: String
   encoding: String
@@ -110,6 +112,10 @@ input classroomDateRestrictedWhereInput {
   date_lte: DateTime
   date_gt: DateTime
   date_gte: DateTime
+  weekday: WeekDays
+  weekday_not: WeekDays
+  weekday_in: [WeekDays!]
+  weekday_not_in: [WeekDays!]
   durationInMin: Int
   durationInMin_not: Int
   durationInMin_in: [Int!]
@@ -188,6 +194,10 @@ input classroomDateScalarWhereInput {
   date_lte: DateTime
   date_gt: DateTime
   date_gte: DateTime
+  weekday: WeekDays
+  weekday_not: WeekDays
+  weekday_in: [WeekDays!]
+  weekday_not_in: [WeekDays!]
   durationInMin: Int
   durationInMin_not: Int
   durationInMin_in: [Int!]
@@ -233,6 +243,7 @@ input classroomDateUpdateDataInput {
   startTime: DateTime
   endTime: DateTime
   date: DateTime
+  weekday: WeekDays
   durationInMin: Int
   videoUrl: String
   encoding: String
@@ -242,6 +253,7 @@ input classroomDateUpdateManyDataInput {
   startTime: DateTime
   endTime: DateTime
   date: DateTime
+  weekday: WeekDays
   durationInMin: Int
   videoUrl: String
   encoding: String
@@ -311,6 +323,10 @@ input classroomDateWhereInput {
   date_lte: DateTime
   date_gt: DateTime
   date_gte: DateTime
+  weekday: WeekDays
+  weekday_not: WeekDays
+  weekday_in: [WeekDays!]
+  weekday_not_in: [WeekDays!]
   durationInMin: Int
   durationInMin_not: Int
   durationInMin_in: [Int!]
@@ -1236,5 +1252,15 @@ input UserWhereInput {
 input UserWhereUniqueInput {
   _id: ID
   phone: String
+}
+
+enum WeekDays {
+  Sunday
+  Monday
+  Tuesday
+  Wednesday
+  Thursday
+  Friday
+  Saturday
 }
 `

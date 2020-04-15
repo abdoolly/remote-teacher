@@ -9,6 +9,7 @@ type User @db(name: "users") {
   phone: String! @unique
   userType: UserType
   password: String
+  profileImg: String
   grade: String
   subjects: [Subject] @relation(link: INLINE)
   studentClassrooms: [Classroom] @relation(name: "StudentClassrooms", link: INLINE)

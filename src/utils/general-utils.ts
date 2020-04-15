@@ -137,3 +137,23 @@ export const OnlyDate = (date: string) => new Date(`${date} 00:00`);
 export const getExtensionFromFileName = _.pipe(_.split('.'), _.last);
 
 export const randomString = () => crypto.randomBytes(8).toString('hex');
+
+
+// sunday(0) saturday(6)
+export const nextDate = (day: string): Date => {
+    const days = {
+        "Sunday": 0,
+        "Monday": 1,
+        "Tuesday": 2,
+        "Wednesday": 3,
+        "Thursday": 4,
+        "Friday": 5,
+        "Saturday": 6,
+    };
+
+    let dayIndex = days[day];
+
+    var today = new Date();
+    today.setDate(today.getDate() + (dayIndex - 1 - today.getDay() + 7) % 7 + 1);
+    return today;
+}

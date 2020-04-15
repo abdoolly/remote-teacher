@@ -1,4 +1,5 @@
 import { Maybe } from '../config/prisma-client/index';
+import { FileUpload } from 'graphql-upload';
 
 export interface LoginArgs {
     phone: Maybe<string>;
@@ -14,6 +15,7 @@ export interface CreateTeacherArgs {
         grade: Maybe<string>;
         subjects: Maybe<string[]>;
         userType: string;
+        profileImg: Maybe<Promise<FileUpload>>;
     }
 }
 

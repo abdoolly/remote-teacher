@@ -3,10 +3,10 @@ import * as fs from 'fs';
 import moment from 'moment';
 import * as _ from 'ramda';
 import { promisify } from 'util';
-import { prisma } from '../config/prisma-client';
+import { prisma, classroomDate } from '../config/prisma-client';
 import { VIDEO_UPLOAD_LOCATION } from '../config/upload';
 import { pipeP } from "../utils/functional-utils";
-import { convertToResolverPipes, getExtensionFromFileName, GQLResolver, isAuthenticated, isTeacher, OnlyDate, OnlyTime, randomString, resolverPipe, toIdsObject } from "../utils/general-utils";
+import { convertToResolverPipes, getExtensionFromFileName, GQLResolver, isAuthenticated, isTeacher, OnlyDate, OnlyTime, randomString, resolverPipe, toIdsObject, nextDate } from "../utils/general-utils";
 import { makeVideoStreamKey } from '../utils/protection';
 import * as i from "./classrooms.interfaces";
 import { classroomTransformer } from './classrooms.utils';
@@ -226,6 +226,14 @@ const schedule: GQLResolver<any> = async ({ root, context: { prisma } }) => {
     return classroomTransformer(classroom).schedule;
 };
 
+const date: GQLResolver<any> = async ({ root, context: { prisma } }) => {
+    const classroomDate = root as classroomDate;
+    if (!classroomDate.weekday)
+        return null;
+
+    return nextDate(classroomDate.weekday);
+};
+
 const uploadClassroomVideo: GQLResolver<i.UploadClassroomVideoArgs> = async ({
     args: { video, scheduleId },
     context: { user }
@@ -302,5 +310,8 @@ export const classroomResolvers = convertToResolverPipes({
         subject: resolverPipe(subject),
         teacher: resolverPipe(teacher),
         schedule: resolverPipe(schedule),
+    },
+    classroomDate: {
+        date: resolverPipe(date),
     }
 });

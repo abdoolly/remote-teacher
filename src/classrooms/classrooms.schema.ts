@@ -1,10 +1,22 @@
 import { gql } from "apollo-server";
 
 export const classroomsTypeDef = gql`
+
+enum WeekDays {
+    Sunday
+    Monday
+    Tuesday
+    Wednesday
+    Thursday
+    Friday
+    Saturday
+}
+
 input CreateClassroomDate {
     startTime: String! @date(format: "h:mm a")
     endTime: String! @date(format: "h:mm a")
-    date: String! @date
+    date: String @date
+    weekday: WeekDays
     durationInMin: Int
     video: Upload
 }
@@ -59,6 +71,8 @@ type classroomDate {
 
     # this the date of this classroom and it should be in format (yyyy-mm-dd) "1999-01-30" 
     date: String @date
+    
+    weekday: WeekDays
 
     durationInMin: Int
     videoUrl: String

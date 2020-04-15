@@ -23,7 +23,8 @@ app.use(cookieParser());
 // app.get('/stream/classroom', isAuth,  streamClassroomVideo);
 app.get('/classroom/:streamKey', streamClassroomVideo);
 
-app.use(express.static(path.join(__dirname, 'public')));
+// serving static files in express
+app.use(express.static('public'));
 
 // applying middleware
 apolloServer.applyMiddleware({

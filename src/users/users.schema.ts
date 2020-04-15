@@ -13,6 +13,7 @@ type User {
     userType: UserType!
     password: String
     grade: String
+    profileImg: String
     subjects: [Subject]
     studentClassrooms: [Classroom]
     teacherClassrooms: [Classroom]
@@ -31,6 +32,7 @@ input UserInput {
     password: String!
     confirmPassword: String!
     grade: String
+    profileImg: Upload
 }
 
 input RegisterTeacherInput {

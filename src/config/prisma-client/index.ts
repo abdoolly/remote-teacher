@@ -193,6 +193,15 @@ export type SubjectOrderByInput =
   | "grade_ASC"
   | "grade_DESC";
 
+export type WeekDays =
+  | "Sunday"
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday";
+
 export type ClassroomOrderByInput =
   | "_id_ASC"
   | "_id_DESC"
@@ -465,6 +474,10 @@ export interface classroomDateWhereInput {
   date_lte?: Maybe<DateTimeInput>;
   date_gt?: Maybe<DateTimeInput>;
   date_gte?: Maybe<DateTimeInput>;
+  weekday?: Maybe<WeekDays>;
+  weekday_not?: Maybe<WeekDays>;
+  weekday_in?: Maybe<WeekDays[] | WeekDays>;
+  weekday_not_in?: Maybe<WeekDays[] | WeekDays>;
   durationInMin?: Maybe<Int>;
   durationInMin_not?: Maybe<Int>;
   durationInMin_in?: Maybe<Int[] | Int>;
@@ -543,6 +556,10 @@ export interface classroomDateRestrictedWhereInput {
   date_lte?: Maybe<DateTimeInput>;
   date_gt?: Maybe<DateTimeInput>;
   date_gte?: Maybe<DateTimeInput>;
+  weekday?: Maybe<WeekDays>;
+  weekday_not?: Maybe<WeekDays>;
+  weekday_in?: Maybe<WeekDays[] | WeekDays>;
+  weekday_not_in?: Maybe<WeekDays[] | WeekDays>;
   durationInMin?: Maybe<Int>;
   durationInMin_not?: Maybe<Int>;
   durationInMin_in?: Maybe<Int[] | Int>;
@@ -656,6 +673,7 @@ export interface classroomDateCreateInput {
   startTime?: Maybe<DateTimeInput>;
   endTime?: Maybe<DateTimeInput>;
   date?: Maybe<DateTimeInput>;
+  weekday?: Maybe<WeekDays>;
   durationInMin?: Maybe<Int>;
   videoUrl?: Maybe<String>;
   encoding?: Maybe<String>;
@@ -1039,6 +1057,7 @@ export interface classroomDateUpdateDataInput {
   startTime?: Maybe<DateTimeInput>;
   endTime?: Maybe<DateTimeInput>;
   date?: Maybe<DateTimeInput>;
+  weekday?: Maybe<WeekDays>;
   durationInMin?: Maybe<Int>;
   videoUrl?: Maybe<String>;
   encoding?: Maybe<String>;
@@ -1089,6 +1108,10 @@ export interface classroomDateScalarWhereInput {
   date_lte?: Maybe<DateTimeInput>;
   date_gt?: Maybe<DateTimeInput>;
   date_gte?: Maybe<DateTimeInput>;
+  weekday?: Maybe<WeekDays>;
+  weekday_not?: Maybe<WeekDays>;
+  weekday_in?: Maybe<WeekDays[] | WeekDays>;
+  weekday_not_in?: Maybe<WeekDays[] | WeekDays>;
   durationInMin?: Maybe<Int>;
   durationInMin_not?: Maybe<Int>;
   durationInMin_in?: Maybe<Int[] | Int>;
@@ -1139,6 +1162,7 @@ export interface classroomDateUpdateManyDataInput {
   startTime?: Maybe<DateTimeInput>;
   endTime?: Maybe<DateTimeInput>;
   date?: Maybe<DateTimeInput>;
+  weekday?: Maybe<WeekDays>;
   durationInMin?: Maybe<Int>;
   videoUrl?: Maybe<String>;
   encoding?: Maybe<String>;
@@ -1497,6 +1521,7 @@ export interface classroomDate {
   startTime?: DateTimeOutput;
   endTime?: DateTimeOutput;
   date?: DateTimeOutput;
+  weekday?: WeekDays;
   durationInMin?: Int;
   videoUrl?: String;
   encoding?: String;
@@ -1509,6 +1534,7 @@ export interface classroomDatePromise
   startTime: () => Promise<DateTimeOutput>;
   endTime: () => Promise<DateTimeOutput>;
   date: () => Promise<DateTimeOutput>;
+  weekday: () => Promise<WeekDays>;
   durationInMin: () => Promise<Int>;
   videoUrl: () => Promise<String>;
   encoding: () => Promise<String>;
@@ -1521,6 +1547,7 @@ export interface classroomDateSubscription
   startTime: () => Promise<AsyncIterator<DateTimeOutput>>;
   endTime: () => Promise<AsyncIterator<DateTimeOutput>>;
   date: () => Promise<AsyncIterator<DateTimeOutput>>;
+  weekday: () => Promise<AsyncIterator<WeekDays>>;
   durationInMin: () => Promise<AsyncIterator<Int>>;
   videoUrl: () => Promise<AsyncIterator<String>>;
   encoding: () => Promise<AsyncIterator<String>>;
@@ -1533,6 +1560,7 @@ export interface classroomDateNullablePromise
   startTime: () => Promise<DateTimeOutput>;
   endTime: () => Promise<DateTimeOutput>;
   date: () => Promise<DateTimeOutput>;
+  weekday: () => Promise<WeekDays>;
   durationInMin: () => Promise<Int>;
   videoUrl: () => Promise<String>;
   encoding: () => Promise<String>;
@@ -1945,6 +1973,10 @@ export type Long = string;
 export const models: Model[] = [
   {
     name: "Subject",
+    embedded: false
+  },
+  {
+    name: "WeekDays",
     embedded: false
   },
   {

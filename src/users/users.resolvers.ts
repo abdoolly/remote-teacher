@@ -4,7 +4,8 @@ import { signJWT } from "../config/jwt";
 import { pipeP } from "../utils/functional-utils";
 import { checkPhoneUnique, convertToResolverPipes, GQLResolver, resolverPipe } from "../utils/general-utils";
 import { CreateStudentArgs, CreateTeacherArgs, LoginArgs, GetTeachersArgs } from "./users.interfaces";
-import { addUserType } from "./users.utils";
+import { addUserType, uploadProfileImg } from "./users.utils";
+import { IMG_UPLOAD_LOCATION } from "../config/upload";
 
 const login: GQLResolver<LoginArgs> = async ({
     args: { phone, password },
@@ -34,6 +35,8 @@ const registerUser: GQLResolver<CreateTeacherArgs> = async ({
         ...data,
         userType: data.userType,
     }) as any;
+
+    await uploadProfileImg(data.profileImg, IMG_UPLOAD_LOCATION);
 
     const user = await prisma.createUser({
         ...mainUserData,

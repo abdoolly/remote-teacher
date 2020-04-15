@@ -105,6 +105,9 @@ const teacherClassrooms: GQLResolver<any> = ({ root, context: { prisma } }) => {
 };
 
 const profileImg: GQLResolver<any> = ({ root, context: { req } }) => {
+    if (!root.profileImg)
+        return null;
+
     const hostUrl = `http://${req.get('host')}`;
     return `${hostUrl}/${root.profileImg}`;
 };

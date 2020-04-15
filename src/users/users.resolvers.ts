@@ -36,7 +36,7 @@ const registerUser: GQLResolver<CreateTeacherArgs> = async ({
         userType: data.userType,
     }) as any;
 
-    await uploadProfileImg(data.profileImg, IMG_UPLOAD_LOCATION);
+    // let {} = await uploadProfileImg(data.profileImg, IMG_UPLOAD_LOCATION);
 
     const user = await prisma.createUser({
         ...mainUserData,

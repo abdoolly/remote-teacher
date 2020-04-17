@@ -1,5 +1,5 @@
 import { gql } from "apollo-server-express";
-// hello world 123
+
 export const userTypeDef = gql`
 enum UserType {
     TEACHER

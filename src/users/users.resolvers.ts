@@ -28,6 +28,7 @@ const registerUser: GQLResolver<CreateTeacherArgs> = async ({
     args: { data },
     context: { prisma }
 }) => {
+    console.log('koko1123');
     if (data.password !== data.confirmPassword)
         throw new UserInputError('Password and confirm password does not match');
 

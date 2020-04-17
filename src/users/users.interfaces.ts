@@ -15,7 +15,11 @@ export interface CreateTeacherArgs {
         grade: Maybe<string>;
         subjects: Maybe<string[]>;
         userType: string;
+        email: Maybe<string>;
         profileImg: Maybe<Promise<FileUpload>>;
+        device_token: Maybe<string>;
+        facebook_id: Maybe<string>;
+        google_id: Maybe<string>;
     }
 }
 

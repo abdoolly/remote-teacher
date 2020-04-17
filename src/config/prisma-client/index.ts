@@ -223,6 +223,14 @@ export type UserOrderByInput =
   | "profileImg_DESC"
   | "grade_ASC"
   | "grade_DESC"
+  | "email_ASC"
+  | "email_DESC"
+  | "device_token_ASC"
+  | "device_token_DESC"
+  | "facebook_id_ASC"
+  | "facebook_id_DESC"
+  | "google_id_ASC"
+  | "google_id_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -432,6 +440,62 @@ export interface UserWhereInput {
   subjects_some?: Maybe<SubjectWhereInput>;
   studentClassrooms_some?: Maybe<ClassroomWhereInput>;
   teacherClassrooms_some?: Maybe<ClassroomWhereInput>;
+  email?: Maybe<String>;
+  email_not?: Maybe<String>;
+  email_in?: Maybe<String[] | String>;
+  email_not_in?: Maybe<String[] | String>;
+  email_lt?: Maybe<String>;
+  email_lte?: Maybe<String>;
+  email_gt?: Maybe<String>;
+  email_gte?: Maybe<String>;
+  email_contains?: Maybe<String>;
+  email_not_contains?: Maybe<String>;
+  email_starts_with?: Maybe<String>;
+  email_not_starts_with?: Maybe<String>;
+  email_ends_with?: Maybe<String>;
+  email_not_ends_with?: Maybe<String>;
+  device_token?: Maybe<String>;
+  device_token_not?: Maybe<String>;
+  device_token_in?: Maybe<String[] | String>;
+  device_token_not_in?: Maybe<String[] | String>;
+  device_token_lt?: Maybe<String>;
+  device_token_lte?: Maybe<String>;
+  device_token_gt?: Maybe<String>;
+  device_token_gte?: Maybe<String>;
+  device_token_contains?: Maybe<String>;
+  device_token_not_contains?: Maybe<String>;
+  device_token_starts_with?: Maybe<String>;
+  device_token_not_starts_with?: Maybe<String>;
+  device_token_ends_with?: Maybe<String>;
+  device_token_not_ends_with?: Maybe<String>;
+  facebook_id?: Maybe<String>;
+  facebook_id_not?: Maybe<String>;
+  facebook_id_in?: Maybe<String[] | String>;
+  facebook_id_not_in?: Maybe<String[] | String>;
+  facebook_id_lt?: Maybe<String>;
+  facebook_id_lte?: Maybe<String>;
+  facebook_id_gt?: Maybe<String>;
+  facebook_id_gte?: Maybe<String>;
+  facebook_id_contains?: Maybe<String>;
+  facebook_id_not_contains?: Maybe<String>;
+  facebook_id_starts_with?: Maybe<String>;
+  facebook_id_not_starts_with?: Maybe<String>;
+  facebook_id_ends_with?: Maybe<String>;
+  facebook_id_not_ends_with?: Maybe<String>;
+  google_id?: Maybe<String>;
+  google_id_not?: Maybe<String>;
+  google_id_in?: Maybe<String[] | String>;
+  google_id_not_in?: Maybe<String[] | String>;
+  google_id_lt?: Maybe<String>;
+  google_id_lte?: Maybe<String>;
+  google_id_gt?: Maybe<String>;
+  google_id_gte?: Maybe<String>;
+  google_id_contains?: Maybe<String>;
+  google_id_not_contains?: Maybe<String>;
+  google_id_starts_with?: Maybe<String>;
+  google_id_not_starts_with?: Maybe<String>;
+  google_id_ends_with?: Maybe<String>;
+  google_id_not_ends_with?: Maybe<String>;
   createdAt?: Maybe<DateTimeInput>;
   createdAt_not?: Maybe<DateTimeInput>;
   createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -651,6 +715,10 @@ export interface UserCreateInput {
   subjects?: Maybe<SubjectCreateManyInput>;
   studentClassrooms?: Maybe<ClassroomCreateManyInput>;
   teacherClassrooms?: Maybe<ClassroomCreateManyInput>;
+  email?: Maybe<String>;
+  device_token?: Maybe<String>;
+  facebook_id?: Maybe<String>;
+  google_id?: Maybe<String>;
 }
 
 export interface SubjectCreateManyInput {
@@ -723,6 +791,10 @@ export interface UserUpdateDataInput {
   subjects?: Maybe<SubjectUpdateManyInput>;
   studentClassrooms?: Maybe<ClassroomUpdateManyInput>;
   teacherClassrooms?: Maybe<ClassroomUpdateManyInput>;
+  email?: Maybe<String>;
+  device_token?: Maybe<String>;
+  facebook_id?: Maybe<String>;
+  google_id?: Maybe<String>;
 }
 
 export interface SubjectUpdateManyInput {
@@ -1006,6 +1078,62 @@ export interface UserScalarWhereInput {
   grade_not_starts_with?: Maybe<String>;
   grade_ends_with?: Maybe<String>;
   grade_not_ends_with?: Maybe<String>;
+  email?: Maybe<String>;
+  email_not?: Maybe<String>;
+  email_in?: Maybe<String[] | String>;
+  email_not_in?: Maybe<String[] | String>;
+  email_lt?: Maybe<String>;
+  email_lte?: Maybe<String>;
+  email_gt?: Maybe<String>;
+  email_gte?: Maybe<String>;
+  email_contains?: Maybe<String>;
+  email_not_contains?: Maybe<String>;
+  email_starts_with?: Maybe<String>;
+  email_not_starts_with?: Maybe<String>;
+  email_ends_with?: Maybe<String>;
+  email_not_ends_with?: Maybe<String>;
+  device_token?: Maybe<String>;
+  device_token_not?: Maybe<String>;
+  device_token_in?: Maybe<String[] | String>;
+  device_token_not_in?: Maybe<String[] | String>;
+  device_token_lt?: Maybe<String>;
+  device_token_lte?: Maybe<String>;
+  device_token_gt?: Maybe<String>;
+  device_token_gte?: Maybe<String>;
+  device_token_contains?: Maybe<String>;
+  device_token_not_contains?: Maybe<String>;
+  device_token_starts_with?: Maybe<String>;
+  device_token_not_starts_with?: Maybe<String>;
+  device_token_ends_with?: Maybe<String>;
+  device_token_not_ends_with?: Maybe<String>;
+  facebook_id?: Maybe<String>;
+  facebook_id_not?: Maybe<String>;
+  facebook_id_in?: Maybe<String[] | String>;
+  facebook_id_not_in?: Maybe<String[] | String>;
+  facebook_id_lt?: Maybe<String>;
+  facebook_id_lte?: Maybe<String>;
+  facebook_id_gt?: Maybe<String>;
+  facebook_id_gte?: Maybe<String>;
+  facebook_id_contains?: Maybe<String>;
+  facebook_id_not_contains?: Maybe<String>;
+  facebook_id_starts_with?: Maybe<String>;
+  facebook_id_not_starts_with?: Maybe<String>;
+  facebook_id_ends_with?: Maybe<String>;
+  facebook_id_not_ends_with?: Maybe<String>;
+  google_id?: Maybe<String>;
+  google_id_not?: Maybe<String>;
+  google_id_in?: Maybe<String[] | String>;
+  google_id_not_in?: Maybe<String[] | String>;
+  google_id_lt?: Maybe<String>;
+  google_id_lte?: Maybe<String>;
+  google_id_gt?: Maybe<String>;
+  google_id_gte?: Maybe<String>;
+  google_id_contains?: Maybe<String>;
+  google_id_not_contains?: Maybe<String>;
+  google_id_starts_with?: Maybe<String>;
+  google_id_not_starts_with?: Maybe<String>;
+  google_id_ends_with?: Maybe<String>;
+  google_id_not_ends_with?: Maybe<String>;
   createdAt?: Maybe<DateTimeInput>;
   createdAt_not?: Maybe<DateTimeInput>;
   createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -1039,6 +1167,10 @@ export interface UserUpdateManyDataInput {
   password?: Maybe<String>;
   profileImg?: Maybe<String>;
   grade?: Maybe<String>;
+  email?: Maybe<String>;
+  device_token?: Maybe<String>;
+  facebook_id?: Maybe<String>;
+  google_id?: Maybe<String>;
 }
 
 export interface SubjectUpdateOneInput {
@@ -1277,6 +1409,10 @@ export interface UserUpdateInput {
   subjects?: Maybe<SubjectUpdateManyInput>;
   studentClassrooms?: Maybe<ClassroomUpdateManyInput>;
   teacherClassrooms?: Maybe<ClassroomUpdateManyInput>;
+  email?: Maybe<String>;
+  device_token?: Maybe<String>;
+  facebook_id?: Maybe<String>;
+  google_id?: Maybe<String>;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -1286,6 +1422,10 @@ export interface UserUpdateManyMutationInput {
   password?: Maybe<String>;
   profileImg?: Maybe<String>;
   grade?: Maybe<String>;
+  email?: Maybe<String>;
+  device_token?: Maybe<String>;
+  facebook_id?: Maybe<String>;
+  google_id?: Maybe<String>;
 }
 
 export interface ClassroomSubscriptionWhereInput {
@@ -1390,6 +1530,10 @@ export interface User {
   password?: String;
   profileImg?: String;
   grade?: String;
+  email?: String;
+  device_token?: String;
+  facebook_id?: String;
+  google_id?: String;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
 }
@@ -1429,6 +1573,10 @@ export interface UserPromise extends Promise<User>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  email: () => Promise<String>;
+  device_token: () => Promise<String>;
+  facebook_id: () => Promise<String>;
+  google_id: () => Promise<String>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }
@@ -1474,6 +1622,10 @@ export interface UserSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  email: () => Promise<AsyncIterator<String>>;
+  device_token: () => Promise<AsyncIterator<String>>;
+  facebook_id: () => Promise<AsyncIterator<String>>;
+  google_id: () => Promise<AsyncIterator<String>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
@@ -1515,6 +1667,10 @@ export interface UserNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
+  email: () => Promise<String>;
+  device_token: () => Promise<String>;
+  facebook_id: () => Promise<String>;
+  google_id: () => Promise<String>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }
@@ -1938,6 +2094,10 @@ export interface UserPreviousValues {
   password?: String;
   profileImg?: String;
   grade?: String;
+  email?: String;
+  device_token?: String;
+  facebook_id?: String;
+  google_id?: String;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
 }
@@ -1952,6 +2112,10 @@ export interface UserPreviousValuesPromise
   password: () => Promise<String>;
   profileImg: () => Promise<String>;
   grade: () => Promise<String>;
+  email: () => Promise<String>;
+  device_token: () => Promise<String>;
+  facebook_id: () => Promise<String>;
+  google_id: () => Promise<String>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }
@@ -1966,6 +2130,10 @@ export interface UserPreviousValuesSubscription
   password: () => Promise<AsyncIterator<String>>;
   profileImg: () => Promise<AsyncIterator<String>>;
   grade: () => Promise<AsyncIterator<String>>;
+  email: () => Promise<AsyncIterator<String>>;
+  device_token: () => Promise<AsyncIterator<String>>;
+  facebook_id: () => Promise<AsyncIterator<String>>;
+  google_id: () => Promise<AsyncIterator<String>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }

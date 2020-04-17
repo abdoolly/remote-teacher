@@ -889,6 +889,10 @@ type User {
   subjects(where: SubjectWhereInput, orderBy: SubjectOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Subject!]
   studentClassrooms(where: ClassroomWhereInput, orderBy: ClassroomOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Classroom!]
   teacherClassrooms(where: ClassroomWhereInput, orderBy: ClassroomOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Classroom!]
+  email: String
+  device_token: String
+  facebook_id: String
+  google_id: String
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -910,6 +914,10 @@ input UserCreateInput {
   subjects: SubjectCreateManyInput
   studentClassrooms: ClassroomCreateManyInput
   teacherClassrooms: ClassroomCreateManyInput
+  email: String
+  device_token: String
+  facebook_id: String
+  google_id: String
 }
 
 input UserCreateManyInput {
@@ -942,6 +950,14 @@ enum UserOrderByInput {
   profileImg_DESC
   grade_ASC
   grade_DESC
+  email_ASC
+  email_DESC
+  device_token_ASC
+  device_token_DESC
+  facebook_id_ASC
+  facebook_id_DESC
+  google_id_ASC
+  google_id_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -956,6 +972,10 @@ type UserPreviousValues {
   password: String
   profileImg: String
   grade: String
+  email: String
+  device_token: String
+  facebook_id: String
+  google_id: String
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -1049,6 +1069,62 @@ input UserScalarWhereInput {
   grade_not_starts_with: String
   grade_ends_with: String
   grade_not_ends_with: String
+  email: String
+  email_not: String
+  email_in: [String!]
+  email_not_in: [String!]
+  email_lt: String
+  email_lte: String
+  email_gt: String
+  email_gte: String
+  email_contains: String
+  email_not_contains: String
+  email_starts_with: String
+  email_not_starts_with: String
+  email_ends_with: String
+  email_not_ends_with: String
+  device_token: String
+  device_token_not: String
+  device_token_in: [String!]
+  device_token_not_in: [String!]
+  device_token_lt: String
+  device_token_lte: String
+  device_token_gt: String
+  device_token_gte: String
+  device_token_contains: String
+  device_token_not_contains: String
+  device_token_starts_with: String
+  device_token_not_starts_with: String
+  device_token_ends_with: String
+  device_token_not_ends_with: String
+  facebook_id: String
+  facebook_id_not: String
+  facebook_id_in: [String!]
+  facebook_id_not_in: [String!]
+  facebook_id_lt: String
+  facebook_id_lte: String
+  facebook_id_gt: String
+  facebook_id_gte: String
+  facebook_id_contains: String
+  facebook_id_not_contains: String
+  facebook_id_starts_with: String
+  facebook_id_not_starts_with: String
+  facebook_id_ends_with: String
+  facebook_id_not_ends_with: String
+  google_id: String
+  google_id_not: String
+  google_id_in: [String!]
+  google_id_not_in: [String!]
+  google_id_lt: String
+  google_id_lte: String
+  google_id_gt: String
+  google_id_gte: String
+  google_id_contains: String
+  google_id_not_contains: String
+  google_id_starts_with: String
+  google_id_not_starts_with: String
+  google_id_ends_with: String
+  google_id_not_ends_with: String
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]
@@ -1101,6 +1177,10 @@ input UserUpdateDataInput {
   subjects: SubjectUpdateManyInput
   studentClassrooms: ClassroomUpdateManyInput
   teacherClassrooms: ClassroomUpdateManyInput
+  email: String
+  device_token: String
+  facebook_id: String
+  google_id: String
 }
 
 input UserUpdateInput {
@@ -1113,6 +1193,10 @@ input UserUpdateInput {
   subjects: SubjectUpdateManyInput
   studentClassrooms: ClassroomUpdateManyInput
   teacherClassrooms: ClassroomUpdateManyInput
+  email: String
+  device_token: String
+  facebook_id: String
+  google_id: String
 }
 
 input UserUpdateManyDataInput {
@@ -1122,6 +1206,10 @@ input UserUpdateManyDataInput {
   password: String
   profileImg: String
   grade: String
+  email: String
+  device_token: String
+  facebook_id: String
+  google_id: String
 }
 
 input UserUpdateManyInput {
@@ -1143,6 +1231,10 @@ input UserUpdateManyMutationInput {
   password: String
   profileImg: String
   grade: String
+  email: String
+  device_token: String
+  facebook_id: String
+  google_id: String
 }
 
 input UserUpdateManyWithWhereNestedInput {
@@ -1267,6 +1359,62 @@ input UserWhereInput {
   subjects_some: SubjectWhereInput
   studentClassrooms_some: ClassroomWhereInput
   teacherClassrooms_some: ClassroomWhereInput
+  email: String
+  email_not: String
+  email_in: [String!]
+  email_not_in: [String!]
+  email_lt: String
+  email_lte: String
+  email_gt: String
+  email_gte: String
+  email_contains: String
+  email_not_contains: String
+  email_starts_with: String
+  email_not_starts_with: String
+  email_ends_with: String
+  email_not_ends_with: String
+  device_token: String
+  device_token_not: String
+  device_token_in: [String!]
+  device_token_not_in: [String!]
+  device_token_lt: String
+  device_token_lte: String
+  device_token_gt: String
+  device_token_gte: String
+  device_token_contains: String
+  device_token_not_contains: String
+  device_token_starts_with: String
+  device_token_not_starts_with: String
+  device_token_ends_with: String
+  device_token_not_ends_with: String
+  facebook_id: String
+  facebook_id_not: String
+  facebook_id_in: [String!]
+  facebook_id_not_in: [String!]
+  facebook_id_lt: String
+  facebook_id_lte: String
+  facebook_id_gt: String
+  facebook_id_gte: String
+  facebook_id_contains: String
+  facebook_id_not_contains: String
+  facebook_id_starts_with: String
+  facebook_id_not_starts_with: String
+  facebook_id_ends_with: String
+  facebook_id_not_ends_with: String
+  google_id: String
+  google_id_not: String
+  google_id_in: [String!]
+  google_id_not_in: [String!]
+  google_id_lt: String
+  google_id_lte: String
+  google_id_gt: String
+  google_id_gte: String
+  google_id_contains: String
+  google_id_not_contains: String
+  google_id_starts_with: String
+  google_id_not_starts_with: String
+  google_id_ends_with: String
+  google_id_not_ends_with: String
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]

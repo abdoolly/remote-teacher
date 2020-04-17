@@ -3,7 +3,7 @@ import * as _ from 'ramda';
 import { signJWT } from "../config/jwt";
 import { IMG_UPLOAD_LOCATION } from "../config/upload";
 import { pipeP } from "../utils/functional-utils";
-import { checkPhoneUnique, convertToResolverPipes, GQLResolver, resolverPipe } from "../utils/general-utils";
+import { checkAllUnique, convertToResolverPipes, GQLResolver, resolverPipe } from "../utils/general-utils";
 import { CreateStudentArgs, CreateTeacherArgs, GetTeachersArgs, LoginArgs } from "./users.interfaces";
 import { addUserType, uploadFile } from "./users.utils";
 
@@ -28,11 +28,8 @@ const registerUser: GQLResolver<CreateTeacherArgs> = async ({
     args: { data },
     context: { prisma }
 }) => {
-    console.log('koko1123');
     if (data.password !== data.confirmPassword)
         throw new UserInputError('Password and confirm password does not match');
-
-    console.log('kokokoko');
 
     const mainUserData = _.omit(['confirmPassword', 'subjects', 'profileImg'], {
         ...data,
@@ -46,8 +43,6 @@ const registerUser: GQLResolver<CreateTeacherArgs> = async ({
     } catch (err) {
         throw toApolloError(err);
     }
-
-    console.log('mainUserData', mainUserData);
 
     const user = await prisma.createUser({
         ...mainUserData,
@@ -125,8 +120,8 @@ const userResolvers = convertToResolverPipes({
         getTeacher
     },
     Mutation: {
-        registerTeacher: pipeP([checkPhoneUnique, registerTeacher]),
-        registerStudent: pipeP([checkPhoneUnique, registerStudent]),
+        registerTeacher: pipeP([...checkAllUnique, registerTeacher]),
+        registerStudent: pipeP([...checkAllUnique, registerStudent]),
     },
     User: {
         subjects: resolverPipe(subjects),

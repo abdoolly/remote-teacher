@@ -115,7 +115,10 @@ const _SBU = (modelName: string | 'user', pathLensInArgs: _.Lens, dbFieldName: s
         context: { prisma }
     }: ResolverArgs<any>) => {
         const fieldToCheck = _.view(pathLensInArgs, args);
-        const found = await prisma[modelName]({ [dbFieldName]: fieldToCheck });
+        let found = null;
+        if (fieldToCheck)
+            found = await prisma[modelName]({ [dbFieldName]: fieldToCheck });
+
         if (found) {
             throw new ValidationError(`${dbFieldName} already exists`);
         }
@@ -123,8 +126,15 @@ const _SBU = (modelName: string | 'user', pathLensInArgs: _.Lens, dbFieldName: s
 // curried version of the above function just made it in another line for more readability 
 export const shouldBeUnique = _.curry(_SBU);
 export const checkPhoneUnique = shouldBeUnique('user', _.lensPath(['data', 'phone']), 'phone');
-
-
+export const checkEmailUnique = shouldBeUnique('user', _.lensPath(['data', 'email']), 'email');
+export const checkFacebookIDUnique = shouldBeUnique('user', _.lensPath(['data', 'facebook_id']), 'facebook_id');
+export const checkGoogleIDUnique = shouldBeUnique('user', _.lensPath(['data', 'google_id']), 'google_id');
+export const checkAllUnique = [
+    checkPhoneUnique,
+    checkEmailUnique,
+    checkFacebookIDUnique,
+    checkGoogleIDUnique
+];
 
 export const toIdsObject = (arrIds?: any) => arrIds ? arrIds.map((_id) => ({ _id })) : undefined;
 

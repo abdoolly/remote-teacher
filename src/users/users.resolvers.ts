@@ -31,6 +31,8 @@ const registerUser: GQLResolver<CreateTeacherArgs> = async ({
     if (data.password !== data.confirmPassword)
         throw new UserInputError('Password and confirm password does not match');
 
+    console.log('kokokoko');
+
     const mainUserData = _.omit(['confirmPassword', 'subjects', 'profileImg'], {
         ...data,
         userType: data.userType,
@@ -43,6 +45,8 @@ const registerUser: GQLResolver<CreateTeacherArgs> = async ({
     } catch (err) {
         throw toApolloError(err);
     }
+
+    console.log('mainUserData', mainUserData);
 
     const user = await prisma.createUser({
         ...mainUserData,

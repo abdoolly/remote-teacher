@@ -6,7 +6,7 @@ enum UserType {
 type User @db(name: "users") {
   _id: ID! @id
   fullName: String
-  phone: String! @unique
+  phone: String @unique
   userType: UserType
   password: String
   profileImg: String

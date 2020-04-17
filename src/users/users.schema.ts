@@ -32,7 +32,7 @@ type RegisterOutput {
 
 input UserInput {
     fullName: String!
-    phone: String!
+    phone: String
     password: String
     confirmPassword: String
     grade: String
@@ -45,7 +45,7 @@ input UserInput {
 
 input RegisterTeacherInput {
     fullName: String!
-    phone: String!
+    phone: String
     password: String
     confirmPassword: String
     grade: String

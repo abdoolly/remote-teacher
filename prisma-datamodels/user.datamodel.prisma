@@ -14,10 +14,10 @@ type User @db(name: "users") {
   subjects: [Subject] @relation(link: INLINE)
   studentClassrooms: [Classroom] @relation(name: "StudentClassrooms", link: INLINE)
   teacherClassrooms: [Classroom] @relation(name: "TeacherClassrooms", link: INLINE)
-  email: String
-  device_token: String
-  facebook_id: String
-  google_id: String
+  email: String @unique
+  device_token: String @unique
+  facebook_id: String @unique
+  google_id: String @unique
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }

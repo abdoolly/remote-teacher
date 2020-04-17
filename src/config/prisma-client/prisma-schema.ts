@@ -881,7 +881,7 @@ type Subscription {
 type User {
   _id: ID!
   fullName: String
-  phone: String!
+  phone: String
   userType: UserType
   password: String
   profileImg: String
@@ -906,7 +906,7 @@ type UserConnection {
 input UserCreateInput {
   _id: ID
   fullName: String
-  phone: String!
+  phone: String
   userType: UserType
   password: String
   profileImg: String
@@ -967,7 +967,7 @@ enum UserOrderByInput {
 type UserPreviousValues {
   _id: ID!
   fullName: String
-  phone: String!
+  phone: String
   userType: UserType
   password: String
   profileImg: String
@@ -1437,6 +1437,10 @@ input UserWhereInput {
 input UserWhereUniqueInput {
   _id: ID
   phone: String
+  email: String
+  device_token: String
+  facebook_id: String
+  google_id: String
 }
 
 enum WeekDays {

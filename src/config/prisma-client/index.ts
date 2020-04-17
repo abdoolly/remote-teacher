@@ -688,6 +688,10 @@ export type SubjectWhereUniqueInput = AtLeastOne<{
 export type UserWhereUniqueInput = AtLeastOne<{
   _id: Maybe<ID_Input>;
   phone?: Maybe<String>;
+  email?: Maybe<String>;
+  device_token?: Maybe<String>;
+  facebook_id?: Maybe<String>;
+  google_id?: Maybe<String>;
 }>;
 
 export interface ClassroomCreateInput {
@@ -707,7 +711,7 @@ export interface UserCreateOneInput {
 export interface UserCreateInput {
   _id?: Maybe<ID_Input>;
   fullName?: Maybe<String>;
-  phone: String;
+  phone?: Maybe<String>;
   userType?: Maybe<UserType>;
   password?: Maybe<String>;
   profileImg?: Maybe<String>;
@@ -1525,7 +1529,7 @@ export interface ClassroomNullablePromise
 export interface User {
   _id: ID_Output;
   fullName?: String;
-  phone: String;
+  phone?: String;
   userType?: UserType;
   password?: String;
   profileImg?: String;
@@ -2089,7 +2093,7 @@ export interface UserSubscriptionPayloadSubscription
 export interface UserPreviousValues {
   _id: ID_Output;
   fullName?: String;
-  phone: String;
+  phone?: String;
   userType?: UserType;
   password?: String;
   profileImg?: String;

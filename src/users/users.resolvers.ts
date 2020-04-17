@@ -38,7 +38,8 @@ const registerUser: GQLResolver<CreateTeacherArgs> = async ({
 
     let downloadPath = null;
     try {
-        ({ downloadPath } = await uploadFile(data.profileImg, IMG_UPLOAD_LOCATION) as any);
+        if (data.profileImg)
+            ({ downloadPath } = await uploadFile(data.profileImg, IMG_UPLOAD_LOCATION) as any);
     } catch (err) {
         throw toApolloError(err);
     }

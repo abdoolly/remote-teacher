@@ -9,7 +9,7 @@ enum UserType {
 type User {
     _id: ID!
     fullName: String! 
-    phone: String!
+    phone: String
     userType: UserType!
     password: String
     grade: String

@@ -10,7 +10,8 @@
     "build": "tsc",
     "prisma": "docker-compose -f ./docker-composes/prisma-compose.yaml up -d",
     "prisma:stop": "docker-compose -f ./docker-composes/prisma-compose.yaml stop",
-    "prisma:deploy": "prisma deploy && prisma generate"
+    "prisma:deploy": "prisma deploy",
+    "prisma:generate": "prisma generate"
   },
   "dependencies": {
     "apollo-server": "^2.11.0",

@@ -14,7 +14,7 @@
     "prisma:generate": "prisma generate"
   },
   "dependencies": {
-    "apollo-server": "^2.11.0",
+    "apollo-server": "^2.14.2",
     "apollo-server-express": "^2.11.0",
     "casual": "^1.6.2",
     "cookie-parser": "~1.4.4",
